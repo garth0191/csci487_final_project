@@ -1,1 +1,13 @@
+GARTH MCCLURE
 
+SPONSOR:    KRISTI DAVIDSON
+            LECTURER, COMPUTER SCIENCE DEPARTMENT
+            WEIR (OFFICE NUMBER)
+
+My senior project will further develop an initial idea implemented last semester in my CSCI 387 course. That project
+involved creating a simple application to hold uploaded student notes, and its functionality was limited to user
+authentication, course management, and note feedback. For this project, I would like to expand on that idea to create 
+an application/website that acts as a course management tool as well as a fully functioning gradebook for instructors.
+Functionality would encompass user authentication (for instructors, assistants, students, and administrators), course 
+creation and management, assignment and grade management, and (if time allows) a means of communicating directly with 
+students via the application.
