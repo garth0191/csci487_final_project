@@ -1,0 +1,1 @@
+//JavaScript file for login/signup (index) page.

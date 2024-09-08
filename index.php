@@ -32,7 +32,7 @@
             </div>
 
             <!-- Form div. -->
-             <div class="form-section">
+            <div class="form-section">
                 <!-- Login form. -->
                  <form action="index.php" method="post">
                     <div class="login-container">
@@ -53,11 +53,18 @@
                         Account type: <select name="type">
                             <option value="" disabled selected>Select desired account type.</option>
                             <?php 
-                                //Code to pull usertypes from database goes here.
+                                $user_types = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` IN (1, 3)");
+                                $user_types->execute();
+                                while ($row = $user_types->fetch(PDO::FETCH_ASSOC)){
+                                    echo "<option value='".$row['type_id']."'>".$row["type_description"]."</option>";
+                                }
                             ?>
+                        </select>
+                        <input type="submit" name="submit" class="click_button"></input>
                     </div>
-                  </form>
-             </div>
+                </form>
+            </div>
         </div>
+        <script src="index.js"></script>
     </body>
 </html>
