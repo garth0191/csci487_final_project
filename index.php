@@ -36,8 +36,8 @@
                 <!-- Login form. -->
                  <form action="index.php" method="post">
                     <div class="login-container">
-                        E-mail: <input type="email" class="email" placeholder="Input registered e-mail." name="login_email">
-                        Password: <input type="password" class="password" placeholder="Input password." name="login_password">
+                        E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email">
+                        Password: <input type="password" class="password element" placeholder="Input password." name="login_password">
                         <?php if($empty) {echo "<div class='error'>".$message."</div>";} ?>
                         <button class="click_button">Login</button>
                     </div>
@@ -46,9 +46,9 @@
                  <!-- Sign-up form. -->
                   <form action="index.php" method="post">
                     <div class="signup-container">
-                        E-mail: <input type="email" class="email" placeholder="Input desired e-mail address." name="signup_email">
-                        Password: <input type="password" class="password" placeholder="Input desired password." name="signup_password">
-                        Confirm password: <input type="password" class="password" placeholder="" name="signup_password_confirm">
+                        E-mail: <input type="email" class="email element" placeholder="Input desired e-mail address." name="signup_email">
+                        Password: <input type="password" class="password element" placeholder="Input desired password." name="signup_password">
+                        Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm">
                         <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
                         Account type: <select name="type">
                             <option value="" disabled selected>Select desired account type.</option>
