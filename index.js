@@ -45,12 +45,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     });
 
-    /*
-        Original contained these lines, but unnecessary...?
-            const loginButton = document.querySelector('.login-slider-button');
-            const signupButton = document.querySelector('.signup-slider-button');
-    */
-
     loginSlider.addEventListener("click", function() {
         setTimeout(function() {
             loginSlider.classList.add("active");
