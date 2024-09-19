@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //Slide back to original login options.
     loginSlider.addEventListener("click", () => {
         slider.classList.remove("move-slider");
-        slider.classList.remove("form-section-move");
+        formSection.classList.remove("form-section-move");
     });
 
     loginSubmit.addEventListener("click", () => {
