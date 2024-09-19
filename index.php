@@ -27,8 +27,8 @@
             <!-- Login/Sign-up buttons. -->
             <div class="slider"></div>
             <div class="button">
-                <button class="login">Login</button>
-                <button class="signup">Sign-up</button>
+                <button class="login-slider-button">Login</button>
+                <button class="signup-slider-button">Sign-up</button>
             </div>
 
             <!-- Form div. -->
@@ -39,7 +39,7 @@
                         E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email">
                         Password: <input type="password" class="password element" placeholder="Input password." name="login_password">
                         <?php if($empty) {echo "<div class='error'>".$message."</div>";} ?>
-                        <button class="click_button">Login</button>
+                        <button class="login-submit">Login</button>
                     </div>
                  </form>
 
@@ -60,7 +60,7 @@
                                 }
                             ?>
                         </select>
-                        <input type="submit" name="submit" class="click_button"></input>
+                        <input type="submit" name="submit" class="signup-submit"></input>
                     </div>
                 </form>
             </div>
