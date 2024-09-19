@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let signupSlider = document.querySelector(".signup-slider-button");
     let loginSlider = document.querySelector(".login-slider-button");
     let slider = document.querySelector(".slider");
-    let formSection = document.querySelector("form-section");
+    let formSection = document.querySelector(".form-section");
     let loginSubmit = document.querySelector(".login-submit");
     let signupSubmit = document.querySelector(".signup-submit");
 
