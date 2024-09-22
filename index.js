@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const isSignup = loginSubmit.innerText === "Signup";
         if (isSignup) {
             //Display response to user.
+            const notification = document.querySelector(".notification");
             notification.innerText = "Thank you for signing up! Please log in."
             notification.style.display = "block";
             setTimeout(() => {
