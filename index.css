@@ -1,4 +1,4 @@
-/* Stylesheet for login/logout/signup page (index). */
+/* Stylesheet for login (index) page. */
 
 * {
     margin: 0;
@@ -53,46 +53,6 @@ header{
 	border-radius: 20px;
 }
 
-.button {
-    height: 60px;
-    width: 300px;
-    margin: 20px auto;
-    box-shadow: none;
-    border-radius: 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.login-slider-button, .signup-slider-button {
-    font-size: 22px;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    position: relative;
-    cursor: pointer;
-    color: rgb(249, 157, 243);
-}
-
-.login-slider-button.active, .signup-slider-button.active {
-    color: white;
-}
-
-.slider {
-    height: 60px;
-    width: 150px;
-    border-radius: 50px;
-    background-image: linear-gradient(to right, rgb(33, 169, 237), rgb(12, 27, 183));
-    position: absolute;
-    top: 20px;
-    left: 100px;
-    transition: all 0.5s ease-in-out;
-}
-
-.move-slider {
-    left: 250px;
-}
-
 .form-section {
     height: 500px;
     width: 1000px;
@@ -103,11 +63,7 @@ header{
     left: 0px;
 }
 
-.form-section-move {
-    left: -500px;
-}
-
-.login-container, .signup-container {
+.login-container {
     height: 100%;
     width: 500px;
     display: flex;
@@ -119,10 +75,6 @@ header{
 
 .login-container {
     gap: 50px;
-}
-
-.signup-container {
-    gap: 30px;
 }
 
 .element {
@@ -137,7 +89,7 @@ header{
     font-size: 18px;
 }
 
-.login-submit, .signup-submit {
+.login-submit {
     height: 60px;
     width: 150px;
     border-radius: 50px;
@@ -162,36 +114,12 @@ header{
 		font-size: 10px;
 	}
 
-	.button {
-		height: 50px;
-		width: 200px;
-		margin: 20px auto;
-	}
-
-	.login-slider-button, .signup-slider-button {
-		font-size: 19px;
-	}
-
-	.slider {
-		height: 50px;
-		width: 100px;
-		left: 27px;
-	}
-
-	.move-slider {
-		left: 127px;
-	}
-
 	.form-section {
 		height: 500px;
 		width: 500px;
 	}
 
-	.form-section-move {
-		left: -250px;
-	}
-
-	.login-container, .signup-container {
+	.login-container {
 		height: 100%;
 		width: 250px;
 	}
@@ -202,7 +130,7 @@ header{
 		font-size: 15px;
 	}
 
-	.login-submit, .signup-submit {
+	.login-submit {
 		height: 50px;
 		width: 130px;
 		font-size: 19px;
