@@ -74,27 +74,7 @@
                         <button class="login-submit">Login</button>
                     </div>
                  </form>
-
-                 <!-- Sign-up form. -->
-                  <form action="index.php" method="post">
-                    <div class="signup-container">
-                        E-mail: <input type="email" class="email element" placeholder="Input desired e-mail address." name="signup_email">
-                        Password: <input type="password" class="password element" placeholder="Input desired password." name="signup_password">
-                        Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm">
-                        <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
-                        Account type: <select name="type">
-                            <option value="" disabled selected>Select desired account type.</option>
-                            <?php 
-                                $user_types = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` IN (1, 3)");
-                                $user_types->execute();
-                                while ($row = $user_types->fetch(PDO::FETCH_ASSOC)){
-                                    echo "<option value='".$row['type_id']."'>".$row["type_description"]."</option>";
-                                }
-                            ?>
-                        </select>
-                        <input type="submit" name="submit" class="signup-submit"></input>
-                    </div>
-                </form>
+                To sign-up with a new account, <a href="signup.php">click here.</a>
             </div>
         </div>
         <script src="index.js"></script>

@@ -93,6 +93,7 @@
                 <input type="submit" name="submit" class="signup-submit"></input>
             </div>
         </form>
+        To log in with your credentials, <a href="index.php">click here.</a>
     </div>
 </div>
 <script src="signup.js"></script>
