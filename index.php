@@ -39,53 +39,6 @@
             } catch (PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
-        } elseif ((isset($_POST["signup_email"]) && $_POST["signup_email"] !== "") && (isset($_POST["signup_password"]) && $_POST["signup_password"] !== "")) {
-            try {
-                $stmt = $conn->prepare("SELECT * FROM USER WHERE user_email = ?");
-                $stmt->execute([$_POST["signup_email"]]);
-
-                //Check that e-mail is not already taken.
-                if ($rowNum = $stmt->rowCount() >= 1) {
-                    $error = true;
-                    $message = "This e-mail is already taken. Please choose a different e-mail, or login.";
-                    header("Location: index.php");
-                }
-
-                $desiredEmail = $_POST["signup_email"];
-                $desiredPassword = $_POST["signup_password"];
-                $desiredUserType = $_POST["type"];
-
-                //Check that submitted passwords match.
-                if ($_POST["signup_password"] !== $_POST["signup_password_confirm"]) {
-                    //Passwords do not match.
-                    $error = true;
-                    $message = "Submitted passwords do not match.";
-                    header("Location: index.php");
-                } else {
-                    $error = false;
-                    $message = "";
-
-                    try {
-                        //Prepare to add user to the database.
-                        $addUserStmt = "INSERT INTO USER (user_email, user_password, user_type) VALUES (?, ?, ?)";
-                        $addUser = $conn->prepare($addUserStmt);
-
-                        //Encrypt password.
-                        $hash = password_hash($desiredPassword, PASSWORD_DEFAULT);
-                        $addUser->execute([$desiredEmail, $hash, $desiredUserType]);
-
-                        $error = false;
-                        $empty = false;
-                        $message = "Registration successful! Please log in.";
-                    } catch (PDOException $e) {
-                        $error = true;
-                        $message = $e->getMessage();
-                        echo "Could not add user to database: " . $e->getMessage();
-                    }
-                }
-            } catch (PDOException $e) {
-                echo "Error retrieving e-mail from database: " . $e->getMessage();
-            }
         } else {
             $error = true;
             $message = "Fields cannot be blank.";
@@ -105,18 +58,11 @@
         <header>
             <!-- Placeholder. Might use custom logo. -->
             <h1 class="heading">CanvasCourse</h1>
-            <h3 class="title">Login or sign-up below!</h3>
+            <h3 class="title">Login below!</h3>
         </header>
 
         <!-- Container div. -->
         <div class="container">
-            <!-- Login/Sign-up buttons. -->
-            <div class="slider"></div>
-            <div class="button">
-                <button class="login-slider-button">Login</button>
-                <button class="signup-slider-button">Sign-up</button>
-            </div>
-
             <!-- Form div. -->
             <div class="form-section">
                 <!-- Login form. -->
