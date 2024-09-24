@@ -104,7 +104,9 @@
     <body>
         <header>
             <!-- Placeholder. Might use custom logo. -->
-            <h1 class="heading">CanvasCourse</h1>
+            <h1 class="heading">
+                <div class="anton-sc-regular">Course</div> <div class="arsenal-sc-regular">Canvas</div>
+            </h1>
             <h3 class="title">Login or sign-up below!</h3>
         </header>
 
