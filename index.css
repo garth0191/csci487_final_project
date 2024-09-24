@@ -1,4 +1,4 @@
-/* Stylesheet for login/logout/signup page (index). */
+/* Stylesheet for login/signup page (index). */
 
 * {
     margin: 0;
@@ -14,7 +14,7 @@ body {
     align-items: center;
     flex-direction: column;
     gap: 30px;
-    background-image: linear-gradient(to right, rgb(33, 169, 237), rgb(12, 27, 183));
+    background-image: radial-gradient(rgb(159, 164, 166), rgb(110, 115, 166));
     padding-bottom: 100px;
 }
 
@@ -71,7 +71,7 @@ header{
     background-color: transparent;
     position: relative;
     cursor: pointer;
-    color: rgb(249, 157, 243);
+    color: black;
 }
 
 .login-slider-button.active, .signup-slider-button.active {
@@ -80,17 +80,17 @@ header{
 
 .slider {
     height: 60px;
-    width: 150px;
-    border-radius: 50px;
-    background-image: linear-gradient(to right, rgb(33, 169, 237), rgb(12, 27, 183));
+    width: 100px;
+    border-radius: 7px;
+    background-image: repeating-linear-gradient(to top, rgb(109, 108, 108), rgb(0, 0, 0));
     position: absolute;
     top: 20px;
-    left: 100px;
+    left: 117px;
     transition: all 0.5s ease-in-out;
 }
 
 .move-slider {
-    left: 250px;
+    left: 268px;
 }
 
 .form-section {
@@ -132,16 +132,16 @@ header{
     border: none;
     color: rgb(77, 77, 77);
     background-color: rgb(240, 240, 240);
-    border-radius: 50px;
+    border-radius: 5px;
     padding-left: 30px;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .login-submit, .signup-submit {
     height: 60px;
     width: 150px;
-    border-radius: 50px;
-    background-image: linear-gradient(to right, rgb(33, 169, 237), rgb(12, 27, 183));
+    border-radius: 7px;
+    background-image: repeating-linear-gradient(to top, rgb(109, 108, 108), rgb(0, 0, 0));
     font-size: 22px;
     border: none;
     cursor: pointer;
