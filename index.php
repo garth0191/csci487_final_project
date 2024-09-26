@@ -105,7 +105,7 @@
         <header>
             <!-- Placeholder. Might use custom logo. -->
             <h1 class="heading">
-                Course Canvas
+            <center><img src="./images/logo.png" width="50%" height="50%" alt="CourseCanvas logo"></center>
             </h1>
             <h3 class="title">Login or sign-up below!</h3>
         </header>
@@ -115,7 +115,7 @@
             <!-- Login/Sign-up buttons. -->
             <div class="slider"></div>
             <div class="button">
-                <button class="login-slider-button">Login</button>
+                <button class="login-slider-button active">Login</button>
                 <button class="signup-slider-button">Sign-up</button>
             </div>
 
