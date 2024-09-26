@@ -73,10 +73,9 @@
 }
 
 body {
-    height: auto;
+    height: 100vw;
     width: 100vw;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 30px;
