@@ -105,7 +105,7 @@
         <header>
             <!-- Placeholder. Might use custom logo. -->
             <h1 class="heading">
-                Course Canvas
+            <img src="./images/logo.png" alt="CourseCanvas logo">
             </h1>
             <h3 class="title">Login or sign-up below!</h3>
         </header>
