@@ -115,7 +115,7 @@
             <!-- Login/Sign-up buttons. -->
             <div class="slider"></div>
             <div class="button">
-                <button class="login-slider-button">Login</button>
+                <button class="login-slider-button active">Login</button>
                 <button class="signup-slider-button">Sign-up</button>
             </div>
 
