@@ -9,7 +9,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-    <link rel="stylesheet" href="mainstyle.css">
+    <link rel="stylesheet" href="home.css">
 </head>
 
 <body>
@@ -27,6 +27,7 @@ session_start();
     </div>
     <center><div class="button logout" id="logout-button">Now try to use the logout button.</div></center>
 </section>
+<script src="home.js"></script>
 
 <footer class="footer">
     <p>© Garth McClure. All rights reserved.</p>
