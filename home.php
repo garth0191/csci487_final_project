@@ -22,10 +22,14 @@ session_start();
 <section class="main-section">
     <div>
         <center>
-            You did it! You successfully signed it! That means the login functionality is working!
+            <br><br>
+            <img src="./images/pikachu.gif" alt="Pikachu!" style="width:75%;height:75%;">
+            <br><br><br>
+            You did it! You successfully signed in! That means the login functionality is working!<br><br>
+            More functionality is coming soon (I promise)!<br><br>
         </center>
     </div>
-    <center><div class="button logout" id="logout-button">Now try to use the logout button.</div></center>
+    <center><div class="button logout" id="logout-button">>> Now try to use the logout button. <<</div></center>
 </section>
 <script src="home.js"></script>
 
