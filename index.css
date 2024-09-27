@@ -13,9 +13,9 @@
 }
 
 .anton-regular {
-    font-family: "Anton", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .anton-sc-regular {
@@ -29,19 +29,19 @@
     font-weight: 400;
     font-style: normal;
 }
-
+  
 .arsenal-bold {
     font-family: "Arsenal", sans-serif;
     font-weight: 700;
     font-style: normal;
 }
-
+  
 .arsenal-regular-italic {
     font-family: "Arsenal", sans-serif;
     font-weight: 400;
     font-style: italic;
 }
-
+  
 .arsenal-bold-italic {
     font-family: "Arsenal", sans-serif;
     font-weight: 700;
@@ -73,7 +73,7 @@
 }
 
 body {
-    height: 100vw;
+    height: auto;
     width: 100vw;
     display: flex;
     align-items: center;
@@ -81,28 +81,30 @@ body {
     gap: 30px;
     background-image: radial-gradient(rgb(159, 164, 166), rgb(110, 115, 166));
     padding-bottom: 100px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 header{
     padding-top: 25px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
 }
 
 .heading {
-    color: rgb(255, 255, 255);
-    font-size: 2rem;
+	color: rgb(255, 255, 255);
+	font-size: 2rem;
 }
 
 .title {
-    font-weight: 400;
-    letter-spacing: 1.5px;
-    color: white;
-    font-size: 1.4rem;
+	font-weight: 400;
+	letter-spacing: 1.5px;
+	color: white;
+	font-size: 1.4rem;
     font-family: "Arsenal", sans-serif;
 }
 
@@ -111,12 +113,12 @@ header{
 }
 
 .container {
-    height: 600px;
-    width: 500px;
-    background-color: white;
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
+	height: 600px;
+	width: 500px;
+	background-color: white;
+	position: relative;
+	overflow: hidden;
+	border-radius: 20px;
 }
 
 .button {
@@ -216,62 +218,62 @@ header{
 }
 
 @media screen and (max-width: 320px) {
-    .container {
-        height: 600px;
-        width: 250px;
-    }
+	.container {
+		height: 600px;
+		width: 250px;
+	}
 
-    .heading {
-        font-size: 30px;
-    }
+	.heading {
+		font-size: 30px;
+	}
 
-    .title {
-        font-size: 10px;
-    }
+	.title {
+		font-size: 10px;
+	}
 
-    .button {
-        height: 50px;
-        width: 200px;
-        margin: 20px auto;
-    }
+	.button {
+		height: 50px;
+		width: 200px;
+		margin: 20px auto;
+	}
 
-    .login-slider-button, .signup-slider-button {
-        font-size: 19px;
-    }
+	.login-slider-button, .signup-slider-button {
+		font-size: 19px;
+	}
 
-    .slider {
-        height: 50px;
-        width: 100px;
-        left: 27px;
-    }
+	.slider {
+		height: 50px;
+		width: 100px;
+		left: 27px;
+	}
 
-    .move-slider {
-        left: 127px;
-    }
+	.move-slider {
+		left: 127px;
+	}
 
-    .form-section {
-        height: 500px;
-        width: 500px;
-    }
+	.form-section {
+		height: 500px;
+		width: 500px;
+	}
 
-    .form-section-move {
-        left: -250px;
-    }
+	.form-section-move {
+		left: -250px;
+	}
 
-    .login-container, .signup-container {
-        height: 100%;
-        width: 250px;
-    }
+	.login-container, .signup-container {
+		height: 100%;
+		width: 250px;
+	}
 
-    .element {
-        height: 50px;
-        width: 220px;
-        font-size: 15px;
-    }
+	.element {
+		height: 50px;
+		width: 220px;
+		font-size: 15px;
+	}
 
-    .login-submit, .signup-submit {
-        height: 50px;
-        width: 130px;
-        font-size: 19px;
-    }
+	.login-submit, .signup-submit {
+		height: 50px;
+		width: 130px;
+		font-size: 19px;
+	}
 }

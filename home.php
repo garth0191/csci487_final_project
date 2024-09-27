@@ -13,11 +13,11 @@ session_start();
 </head>
 
 <body>
-<header>
-    <h1>
-        <center><img src="./images/logo.png" width="50%" height="50%" alt="CourseCanvas logo"></center>
-    </h1>
-</header>
+    <header>
+        <h1>
+            <center><img src="./images/logo.png" width="50%" height="50%" alt="CourseCanvas logo"></center>
+        </h1>
+    </header>
 
 <section class="main-section">
     <div>

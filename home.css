@@ -73,7 +73,7 @@
 }
 
 body {
-    height: 100vw;
+    height: auto;
     width: 100vw;
     display: flex;
     align-items: center;
@@ -81,6 +81,8 @@ body {
     gap: 30px;
     background-image: radial-gradient(rgb(159, 164, 166), rgb(110, 115, 166));
     padding-bottom: 100px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 header{
@@ -120,76 +122,14 @@ header{
 }
 
 .button {
-    height: 60px;
-    width: 300px;
-    margin: 20px auto;
-    box-shadow: none;
+    padding: 20px;
+    margin: 0 10px;
     border-radius: 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.login-slider-button, .signup-slider-button {
-    font-size: 22px;
-    border: none;
-    outline: none;
-    background-color: transparent;
-    position: relative;
     cursor: pointer;
-    color: black;
-    font-family: "Anton SC", sans-serif;
 }
 
-.login-slider-button.active, .signup-slider-button.active {
-    color: white;
-}
-
-.slider {
-    height: 60px;
-    width: 100px;
-    border-radius: 7px;
-    background-image: repeating-linear-gradient(to top, rgb(109, 108, 108), rgb(0, 0, 0));
-    position: absolute;
-    top: 20px;
-    left: 117px;
-    transition: all 0.5s ease-in-out;
-}
-
-.move-slider {
-    left: 268px;
-}
-
-.form-section {
-    height: 500px;
-    width: 1000px;
-    padding: 20px 0;
-    display: flex;
-    position: relative;
-    transition: all 0.5s ease-in-out;
-    left: 0px;
-}
-
-.form-section-move {
-    left: -500px;
-}
-
-.login-container, .signup-container {
-    height: 100%;
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 40px;
-}
-
-.login-container {
-    gap: 50px;
-}
-
-.signup-container {
-    gap: 30px;
+.button:hover {
+    font-weight: bold;
 }
 
 .element {
@@ -204,16 +144,6 @@ header{
     font-size: 15px;
 }
 
-.login-submit, .signup-submit {
-    height: 60px;
-    width: 150px;
-    border-radius: 7px;
-    background-image: repeating-linear-gradient(to top, rgb(109, 108, 108), rgb(0, 0, 0));
-    font-size: 22px;
-    border: none;
-    cursor: pointer;
-    color: white;
-}
 
 @media screen and (max-width: 320px) {
     .container {
@@ -235,33 +165,6 @@ header{
         margin: 20px auto;
     }
 
-    .login-slider-button, .signup-slider-button {
-        font-size: 19px;
-    }
-
-    .slider {
-        height: 50px;
-        width: 100px;
-        left: 27px;
-    }
-
-    .move-slider {
-        left: 127px;
-    }
-
-    .form-section {
-        height: 500px;
-        width: 500px;
-    }
-
-    .form-section-move {
-        left: -250px;
-    }
-
-    .login-container, .signup-container {
-        height: 100%;
-        width: 250px;
-    }
 
     .element {
         height: 50px;
@@ -269,9 +172,4 @@ header{
         font-size: 15px;
     }
 
-    .login-submit, .signup-submit {
-        height: 50px;
-        width: 130px;
-        font-size: 19px;
-    }
 }
