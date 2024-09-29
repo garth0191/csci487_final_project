@@ -1,9 +1,17 @@
 <?php
-require '/home/gnmcclur/connections/connect.php';
 session_start();
+require '/home/gnmcclur/connections/connect.php';
 
-// GRAB COURSE DATA AND HOLD ONTO IT.
+if(!isset($_SESSION['user_id'])){
+    header('Location: index.php');
+}
 
+$user_id = $_SESSION['user_id'];
+
+// Grab course ID that has been passed.
+if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
+    $course_id = $_GET["course_id"];
+}
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +57,9 @@ session_start();
         <!-- Sidebar. -->
         <section class="sidebar">
             <!-- Course edit options, etc., will go here. -->
+            <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
+            <a href="course_edit.php?course_id=<?php echo $course_id; ?>">DELETE COURSE</a>
+            <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
         </section>
     </div>
 

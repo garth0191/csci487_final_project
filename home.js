@@ -10,13 +10,4 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error('You have not yet created a LOGOUT button.');
     }
-
-    //TEMPORARY NAVIGATION TO COURSE.
-    if (courseButton) {
-        courseButton.addEventListener('click', function() {
-            window.location.href = 'course.php';
-        });
-    } else {
-        console.error('OOPS.');
-    }
 });

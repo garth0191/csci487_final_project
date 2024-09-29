@@ -1,6 +1,8 @@
 <?php
 require '/home/gnmcclur/connections/connect.php';
 session_start();
+
+$course_id = 1;
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +33,7 @@ session_start();
     <div class="container">
         <section class="main-section">
             <!-- Temporary link to main course page. -->
-            <div class="button course" id="course-button">To temporary course page.</div>
+            <a href="course.php?course_id=<?php echo $course_id; ?>">Go to course page.</a>
         </section>
     </div>
 

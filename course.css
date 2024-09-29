@@ -141,15 +141,22 @@ tr:hover {
 }
 
 .main-section {
+    display: flex;
     flex: 1;
     overflow: hidden;
     /* Should there be a max width? Try first without. */
 }
 
 .sidebar {
+    display: flex;
+    flex-direction: column;
     width: 200px; /* Can be adjusted. */
+    padding: 5px;
     flex-shrink: 0;
     overflow: hidden;
+    background-color: #dddddd;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
 }
 
 .button {
