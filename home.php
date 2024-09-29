@@ -24,7 +24,7 @@ session_start();
         </div>
         <!-- Will appear on right side of nav bar. -->
         <div class="navbar-logo">
-            <img src="./images/logo.png" width="30%" height="30%" alt="CourseCanvas logo">
+            <img src="./images/logo.png" height="35%" alt="CourseCanvas logo">
         </div>
     </nav>
 
