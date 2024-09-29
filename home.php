@@ -28,10 +28,12 @@ session_start();
         </div>
     </nav>
 
-    <section class="main-section">
-        <!-- Temporary link to main course page. -->
-        <div class="button course" id="course-button">To temporary course page.</div>
-    </section>
+    <div class="container">
+        <section class="main-section">
+            <!-- Temporary link to main course page. -->
+            <div class="button course" id="course-button">To temporary course page.</div>
+        </section>
+    </div>
 
     <footer class="footer">
         <p>© Garth McClure. All rights reserved.</p>

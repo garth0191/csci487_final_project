@@ -1,6 +1,9 @@
 <?php
 require '/home/gnmcclur/connections/connect.php';
 session_start();
+
+// GRAB COURSE DATA AND HOLD ONTO IT.
+
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +16,7 @@ session_start();
 </head>
 
 <body>
-<!-- Nav bar at top of page. -->
+    <!-- Nav bar at top of page. -->
     <nav class="navbar">
         <!-- Will appear on left side of nav bar. -->
         <div class="navbar-buttons">
@@ -24,15 +27,30 @@ session_start();
         </div>
         <!-- Will appear on right side of nav bar. -->
         <div class="navbar-logo">
-            <img src="./images/logo.png" width="30%" height="30%" alt="CourseCanvas logo">
+            <img src="./images/logo.png" height="35%" alt="CourseCanvas logo">
         </div>
     </nav>
 
-    <section class="main-section">
+    <div class="container">
+        <section class="main-section">
+            <!-- Upcoming assessments section. -->
+            <section class="upcoming">
+                <table>
+                    <tr>
+                        <th>Assessment Name</th>
+                        <th>Assessment Type</th>
+                        <th>Due Date</th>
+                    </tr>
+                        <!-- PHP code to grab assessment items. -->
+                </table>
+            </section>
+        </section>
 
-
-
-    </section>
+        <!-- Sidebar. -->
+        <section class="sidebar">
+            <!-- Course edit options, etc., will go here. -->
+        </section>
+    </div>
 
     <footer class="footer">
         <p>© Garth McClure. All rights reserved.</p>
