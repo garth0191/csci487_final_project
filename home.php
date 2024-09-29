@@ -13,28 +13,36 @@ session_start();
 </head>
 
 <body>
+
     <header>
         <h1>
-            <center><img src="./images/logo.png" width="50%" height="50%" alt="CourseCanvas logo"></center>
+            <img src="./images/logo.png" width="50%" height="50%" alt="CourseCanvas logo">
         </h1>
     </header>
 
-<section class="main-section">
-    <div>
-        <center>
-            <br><br>
-            <img src="./images/pikachu.gif" alt="Pikachu!" style="width:75%;height:75%;">
-            <br><br><br>
-            You did it! You successfully signed in! That means the login functionality is working!<br><br>
-            More functionality is coming soon (I promise)!<br><br>
-        </center>
-    </div>
-    <center><div class="button logout" id="logout-button">>> Now try to use the logout button. <<</div></center>
-</section>
-<script src="home.js"></script>
+    <!-- Nav bar at top of page. -->
+    <nav class="navbar">
+        <!-- Will appear on left side of nav bar. -->
+        <div class="navbar-buttons">
+            <div class="button" id="Button1">Button1</div>
+            <div class="button" id="Button2">Button2</div>
+            <div class="button" id="Button3">Button3</div>
+            <div class="button logout" id="logout-button">Logout</div>
+        </div>
+        <!-- Will appear on right side of nav bar. -->
+        <div class="navbar-logo">
+            <img src="./images/logo.png" width="30%" height="30%" alt="CourseCanvas logo">
+        </div>
+    </nav>
 
-<footer class="footer">
-    <p>© Garth McClure. All rights reserved.</p>
-</footer>
+    <section class="main-section">
+        <!-- Temporary link to main course page. -->
+    </section>
+
+    <footer class="footer">
+        <p>© Garth McClure. All rights reserved.</p>
+    </footer>
+
+<script src="home.js"></script>
 </body>
 </html>
