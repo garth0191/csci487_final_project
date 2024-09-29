@@ -87,6 +87,8 @@ body {
 .navbar {
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    padding: 0 20px;
 }
 
 .navbar-buttons {
@@ -96,9 +98,10 @@ body {
 
 .navbar-logo {
     display: flex;
-    gap: 20px;
-    justify-content: right;
+    justify-content: flex-end;
     padding: 14px;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .button {
