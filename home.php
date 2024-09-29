@@ -13,13 +13,6 @@ session_start();
 </head>
 
 <body>
-
-    <header>
-        <h1>
-            <img src="./images/logo.png" width="50%" height="50%" alt="CourseCanvas logo">
-        </h1>
-    </header>
-
     <!-- Nav bar at top of page. -->
     <nav class="navbar">
         <!-- Will appear on left side of nav bar. -->
@@ -37,6 +30,7 @@ session_start();
 
     <section class="main-section">
         <!-- Temporary link to main course page. -->
+        <div class="button course" id="course-button">To temporary course page.</div>
     </section>
 
     <footer class="footer">
