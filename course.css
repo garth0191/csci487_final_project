@@ -143,12 +143,16 @@ tr:hover {
 .main-section {
     display: flex;
     flex: 1;
+    margin: 0 auto;
+    order: 2;
+    justify-content: center;
     overflow: hidden;
     /* Should there be a max width? Try first without. */
 }
 
 .sidebar {
     display: flex;
+    order: 1;
     flex-direction: column;
     width: 200px; /* Can be adjusted. */
     padding: 5px;
