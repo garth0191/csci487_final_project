@@ -6,6 +6,9 @@ if(!isset($_SESSION['user_id'])){
     header('Location: index.php');
 }
 
+$currentTime = new DateTime();
+$assessmentCounter = 0;
+$assessmentsReadyToGrade = 0;
 $user_id = $_SESSION['user_id'];
 
 // Grab course ID that has been passed to this page.
@@ -50,11 +53,8 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                         <th>Due Date</th>
                     </tr>
                         <!-- Grab all pending assessment items for course. 
-                         NOTE: They should only be listed if the current date is 
-                         not past the assessment's due date. -->
+                         NOTE: They should only be listed if the current date is not past the assessment's due date. -->
                         <?php
-                            $currentTime = new DateTime();
-
                             try {
                                 $assessmentGrab = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `course_id` = ?");
                                 $assessmentGrab->execute([$course_id]);
@@ -101,12 +101,33 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                             if ($readyToGrade->rowCount() < 1) {
                                 echo "<tr><td colspan='3'><i><b>No assessments require grading at this time.</b></i></td></tr>";
                             } else {
-                                while ($oneItem = $readyToGrade->fetch(PDOException::FETCH_ASSOC)) {
+                                while ($oneItem = $readyToGrade->fetch(PDO::FETCH_ASSOC)) {
+                                    $dueDate = new DateTime($oneItem["due_date"]);
+                                    if ($dueDate <= $currentTime) {
+                                        // Check to see if there are any USER_ASSESSMENT items to grade for
+                                        // each ASSESSMENT item.
+                                        $pullAssessments = $conn->prepare("SELECT * FROM USER_ASSESSMENT WHERE `course_id` = ? AND `assessment_id` = ?");
+                                        $pullAssessments->execute([$course_id, $oneItem["assessment_id"]]);
+                                        if ($pullAssessments->rowCount() >= 1) {
+                                            $assessmentCounter++;
+                                            $assessmentsReadyToGrade = $pullAssessments->rowCount();
+                                            echo "<tr>";
+                                            echo "<td>".$oneItem["assessment_description"]."</td>";
 
+                                            //Grab assessment types.
+                                            $typeStmt2 = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
+                                            $typeStmt2->execute([$oneItem["assessment_type"]]);
+                                            $assessmentType2 = $typeStmt2->fetch(PDO::FETCH_ASSOC);
+                                            echo "<td>".$assessmentType2["type_description"]."</td>";
 
-                                /* CONTINUE HERE. */
+                                            echo "<td>".$assessmentsReadyToGrade."</td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                }
 
-
+                                if ($assessmentCounter < 1) {
+                                    echo "<tr><td colspan='3'><i><b>No assessments require grading at this time.</b></i></td></tr>";
                                 }
                             }
                         } catch (PDOException $e) {
