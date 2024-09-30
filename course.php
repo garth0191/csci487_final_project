@@ -43,7 +43,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
     </nav>
 
     <div class="container">
-        <section class="main-section">
+        <div class="main-section">
             <!-- Upcoming assessments section. -->
             <section class="upcoming">
                 <table>
@@ -87,7 +87,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
             </section>
 
             <!-- Section for assessments ready to be graded. -->
-            <section>
+            <section class="ready-to-grade">
                 <table>
                     <tr>
                         <th>Assessment Name</th>
@@ -136,15 +136,15 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     ?>
                 </table>
             </section>
-        </section>
+        </div>
 
         <!-- Sidebar. -->
-        <section class="sidebar">
+        <div class="sidebar">
             <!-- Course edit options, etc., will go here. -->
             <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
             <a href="course_edit.php?course_id=<?php echo $course_id; ?>">DELETE COURSE</a>
             <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
-        </section>
+        </div>
     </div>
 
     <footer class="footer">

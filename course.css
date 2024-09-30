@@ -86,7 +86,7 @@ html, body {
 
 .container {
     display: flex;
-    flex: 1;
+    flex-direction: row;
     width: 100%;
     padding: 5px;
 }
@@ -144,16 +144,23 @@ tr:hover {
 .main-section {
     display: flex;
     flex: 1;
-    margin: 0 auto;
-    order: 2;
     justify-content: center;
     overflow: hidden;
+    padding-left: 20px;
     /* Should there be a max width? Try first without. */
+}
+
+.upcoming, .ready-to-grade {
+    margin-bottom: 20px;
+}
+
+.upcoming table, .ready-to-grade table {
+    width: 100%;
+    margin-top: 10px;
 }
 
 .sidebar {
     display: flex;
-    order: 1;
     flex-direction: column;
     width: 200px; /* Can be adjusted. */
     padding: 5px;
