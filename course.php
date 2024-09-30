@@ -8,7 +8,7 @@ if(!isset($_SESSION['user_id'])){
 
 $user_id = $_SESSION['user_id'];
 
-// Grab course ID that has been passed.
+// Grab course ID that has been passed to this page.
 if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
     $course_id = $_GET["course_id"];
 }
@@ -49,7 +49,70 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                         <th>Assessment Type</th>
                         <th>Due Date</th>
                     </tr>
-                        <!-- PHP code to grab assessment items. -->
+                        <!-- Grab all pending assessment items for course. 
+                         NOTE: They should only be listed if the current date is 
+                         not past the assessment's due date. -->
+                        <?php
+                            $currentTime = new DateTime();
+
+                            try {
+                                $assessmentGrab = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `course_id` = ?");
+                                $assessmentGrab->execute([$course_id]);
+
+                                if ($assessmentGrab->rowCount() < 1) {
+                                    echo "<tr><td colspan='3'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
+                                } else {
+                                    while ($oneAssessment = $assessmentGrab->fetch(PDO::FETCH_ASSOC)) {
+                                        $assessmentDueDate = new DateTime($oneAssessment["due_date"]);
+                                        if ($assessmentDueDate > $currentTime) {
+                                            echo "<tr>";
+                                            echo "<td>".$oneAssessment["assessment_description"]."</td>";
+
+                                            //Grab assessment types.
+                                            $typeStmt = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
+                                            $typeStmt->execute([$oneAssessment["assessment_type"]]);
+                                            $assessmentType = $typeStmt->fetch(PDO::FETCH_ASSOC);
+                                            echo "<td>".$assessmentType["type_description"]."</td>";
+
+                                            echo "<td>".$oneAssessment["due_date"]."</td>";
+                                            echo "</tr>";
+                                        }
+                                    }
+                                }
+                            } catch (PDOException $e) {
+                                echo "ERROR: Could not grab assessment data.\n".$e->getMessage();
+                            }
+                        ?>
+                </table>
+            </section>
+
+            <!-- Section for assessments ready to be graded. -->
+            <section>
+                <table>
+                    <tr>
+                        <th>Assessment Name</th>
+                        <th>Assessment Type</th>
+                        <th>Total Items</th>
+                    </tr>
+                    <?php
+                        try {
+                            $readyToGrade = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `course_id` = ?");
+                            $readyToGrade->execute([$course_id]);
+                            if ($readyToGrade->rowCount() < 1) {
+                                echo "<tr><td colspan='3'><i><b>No assessments require grading at this time.</b></i></td></tr>";
+                            } else {
+                                while ($oneItem = $readyToGrade->fetch(PDOException::FETCH_ASSOC)) {
+
+
+                                /* CONTINUE HERE. */
+
+
+                                }
+                            }
+                        } catch (PDOException $e) {
+                            echo "ERROR: Could not grab data for items ready to be graded.\n".$e->getMessage();
+                        }
+                    ?>
                 </table>
             </section>
         </section>
