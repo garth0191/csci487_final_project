@@ -102,6 +102,7 @@ th {
     padding: 5px;
     font-weight: bold;
     text-align: center;
+    border: 1px solid;
 }
 
 td {
@@ -143,10 +144,12 @@ tr:hover {
 
 .main-section {
     display: flex;
+    flex-direction: column;
     flex: 1;
     justify-content: center;
     overflow: hidden;
     padding-left: 20px;
+    order: 2;
     /* Should there be a max width? Try first without. */
 }
 
@@ -167,8 +170,9 @@ tr:hover {
     flex-shrink: 0;
     overflow: hidden;
     background-color: #dddddd;
-    border: 1px solid #dddddd;
+    border: 1px solid;
     border-radius: 10px;
+    order: 1;
 }
 
 .button {

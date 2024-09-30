@@ -65,6 +65,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                     while ($oneAssessment = $assessmentGrab->fetch(PDO::FETCH_ASSOC)) {
                                         $assessmentDueDate = new DateTime($oneAssessment["due_date"]);
                                         if ($assessmentDueDate > $currentTime) {
+                                            $assessmentCounter++;
                                             echo "<tr>";
                                             echo "<td>".$oneAssessment["assessment_description"]."</td>";
 
@@ -79,6 +80,11 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                         }
                                     }
                                 }
+
+                                if ($assessmentCounter < 1) {
+                                    echo "<tr><td colspan='3'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
+                                }
+                                $assessmentCounter = 0;
                             } catch (PDOException $e) {
                                 echo "ERROR: Could not grab assessment data.\n".$e->getMessage();
                             }
@@ -130,6 +136,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                     echo "<tr><td colspan='3'><i><b>No assessments require grading at this time.</b></i></td></tr>";
                                 }
                             }
+                            $assessmentCounter = 0;
                         } catch (PDOException $e) {
                             echo "ERROR: Could not grab data for items ready to be graded.\n".$e->getMessage();
                         }
