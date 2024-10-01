@@ -9,6 +9,7 @@ if(!isset($_SESSION['user_id'])){
 $currentTime = new DateTime();
 $assessmentCounter = 0;
 $assessmentsReadyToGrade = 0;
+$itemCounter = 0;
 $user_id = $_SESSION['user_id'];
 
 // Grab course ID that has been passed to this page.
@@ -143,24 +144,6 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     ?>
                 </table>
             </section>
-
-            <section class="uploaded-items">
-                    <!-- Pull all uploaded course items. -->
-                     <?php
-                        //Pull all sidebar "sections" for the course.
-                        try {
-                            $sectionQuery = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
-                            $sectionQuery->execute([$course_id]);
-
-                            while ($oneSection = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
-                                //Pull all uploaded items for the given section.
-                                
-                            }
-                        } catch (PDOException $e) {
-                            echo "ERROR: Could not pull uploaded course materials. ".$e->getMessage();
-                        }
-                     ?>
-            </section>
         </div>
 
         <!-- Sidebar. -->
@@ -169,8 +152,24 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
             <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
             <a href="course_edit.php?course_id=<?php echo $course_id; ?>">DELETE COURSE</a>
             <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
+            <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE ITEMS</a>
+            <?php
+                // Pull all sections created by instructor.
+                try {
+                    $sectionQuery = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
+                    $sectionQuery->execute([$course_id]);
+
+                    while ($sectionRow = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<button class='button section' id='".$sectionRow["section_id"]."'>".$sectionRow["section_name"]."</button>";
+                    }
+                } catch (PDOException $e) {
+                    echo "ERROR: Could not retrieve sections from database. ".$e->getMessage();
+                }
+            ?>
         </div>
     </div>
+
+    <script>const allCourseMaterials = <?php echo json_encode($courseMaterials) ?>;</script>
 
     <footer class="footer">
         <p>© Garth McClure. All rights reserved.</p>
