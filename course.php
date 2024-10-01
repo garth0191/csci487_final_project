@@ -160,6 +160,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     $sectionQuery->execute([$course_id]);
 
                     while ($sectionRow = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<hr>";
                         echo "<button class='button section' id='".$sectionRow["section_id"]."'>".$sectionRow["section_name"]."</button>";
                     }
                 } catch (PDOException $e) {
