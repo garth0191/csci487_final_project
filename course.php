@@ -166,7 +166,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     }
 
                     while ($sectionRow = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<a href='section_view.php?section_id=".$sectionRow["section_id"].">".$sectionRow["section_name"]."</a>";
+                        echo "<a href='section_view.php?section_id=".$sectionRow["section_id"]."'>".$sectionRow["section_name"]."</a>";
                     }
                 } catch (PDOException $e) {
                     echo "ERROR: Could not retrieve sections from database. ".$e->getMessage();
