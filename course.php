@@ -143,6 +143,24 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     ?>
                 </table>
             </section>
+
+            <section class="uploaded-items">
+                    <!-- Pull all uploaded course items. -->
+                     <?php
+                        //Pull all sidebar "sections" for the course.
+                        try {
+                            $sectionQuery = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
+                            $sectionQuery->execute([$course_id]);
+
+                            while ($oneSection = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
+                                //Pull all uploaded items for the given section.
+                                
+                            }
+                        } catch (PDOException $e) {
+                            echo "ERROR: Could not pull uploaded course materials. ".$e->getMessage();
+                        }
+                     ?>
+            </section>
         </div>
 
         <!-- Sidebar. -->

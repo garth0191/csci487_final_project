@@ -153,11 +153,11 @@ tr:hover {
     /* Should there be a max width? Try first without. */
 }
 
-.upcoming, .ready-to-grade {
+.upcoming, .ready-to-grade, .uploaded-items {
     margin-bottom: 20px;
 }
 
-.upcoming table, .ready-to-grade table {
+.upcoming table, .ready-to-grade table, .uploaded-items table {
     width: 100%;
     margin-top: 10px;
 }
