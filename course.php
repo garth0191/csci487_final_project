@@ -159,9 +159,14 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     $sectionQuery = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
                     $sectionQuery->execute([$course_id]);
 
-                    while ($sectionRow = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
+                    if ($sectionQuery->rowCount() >= 1) {
+                        echo "";
                         echo "<hr>";
-                        echo "<button class='button section' id='".$sectionRow["section_id"]."'>".$sectionRow["section_name"]."</button>";
+                        echo "";
+                    }
+
+                    while ($sectionRow = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<a href='section_view.php?section_id='".$sectionRow["section_id"]."'>".$sectionRow["section_name"]."</a>";
                     }
                 } catch (PDOException $e) {
                     echo "ERROR: Could not retrieve sections from database. ".$e->getMessage();
