@@ -42,14 +42,46 @@ if (isset($_GET["section_id"]) && $_GET["section_id"] !== "") {
     <!-- Container to hold any items assigned to this section. -->
     <div class="container">
         <div class="main-section">
+            <section class="upload-items-form">
+                <h2>Upload Course Items</h2>
+                <form action='section_view.php?id=<?php echo $section_id; ?>' enctype='multipart/form-data' method='post'>
+                    <input type="file" id="course_item" name="course_item" accept=".pdf, .txt"></input>
+                    <input type='hidden' id='user_id' name='user_id' value='<?php echo $user_id; ?>'></input>
+                    Item Title: <input type='text' id='item_name' name='item_name'></input>
+                    <button name="submit">Upload</button>
+                </form>
+            </section>
+    
             <section class="uploaded-items">
                 <!-- Pull any items for the section. -->
-                <?php
-                    $itemQuery = $conn->prepare("SELECT * FROM ITEM WHERE `section_id` = ?");
-                    $itemQuery->execute([$section_id]);
+                 <table>
+                    <tr>
+                        <th>Course Item Name</th>
+                        <th>Uploaded By</th>
+                        <th>Date Uploaded</th>
+                    </tr>
 
-                    
-                ?>
+                    <?php
+                    try {
+                        $itemQuery = $conn->prepare("SELECT * FROM ITEM WHERE `section_id` = ?");
+                        $itemQuery->execute([$section_id]);
+
+                        if ($itemQuery->rowCount() < 1) {
+                            echo "<tr><td colspan='3'><i><b>No course items have been uploaded for this section.</b></i></td></tr>";
+                        } else {
+                            while ($oneItem = $itemQuery->fetch(PDO::FETCH_ASSOC)) {
+                                //CODE TO RETRIEVE COURSE ITEMS HERE.
+
+
+
+
+                            }
+                        }
+                    } catch (PDOException $e) {
+                        echo "ERROR: Could not retrieve course items. ".$e->getMessage();
+                    }
+                    ?>
+                </table>
             </section>
         </div>
 
