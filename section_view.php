@@ -15,7 +15,7 @@ if (isset($_GET["section_id"]) && $_GET["section_id"] !== "") {
 }
 
 //Grab corresponding course ID.
-$courseQuery = $conn->prepare("SELECT * FROM COURSE WHERE `section_id` = ?");
+$courseQuery = $conn->prepare("SELECT * FROM SECTION WHERE `section_id` = ?");
 $courseQuery->execute([$section_id]);
 while ($course = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
     $course_id = $course["course_id"];
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 //Upload course item to server.
                 $temp_filename = $item_filepath['tmp_name'];
                 $file_extension = pathinfo($item_filepath['name'], PATHINFO_EXTENSION);
-                $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section_id."_".time().".".$file_extension;
+                $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section."_".time().".".$file_extension;
                 $upload_path = "course_items/".$new_filename;
                 move_uploaded_file($temp_filename, $upload_path);
 
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                 //Pull uploader name.
                                 $nameQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
-                                $nameQuery->execute([$user_id]);
+                                $nameQuery->execute([$instructor_id]);
                                 while ($nameRow = $nameQuery->fetch(PDO::FETCH_ASSOC)) {
                                     $instructor_email = $nameRow["user_email"];
                                     echo "<td>".$instructor_email."</td>";
