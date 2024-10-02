@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section Page</title>
-    <link rel="stylesheet" href="course_view.css">
+    <link rel="stylesheet" href="section_view.css">
 </head>
 
 <body>
@@ -163,6 +163,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <p>© Garth McClure. All rights reserved.</p>
     </footer>
 
-<script src="course_view.js"></script>
+<script src="section_view.js"></script>
 </body>
 </html>
