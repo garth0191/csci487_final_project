@@ -14,6 +14,13 @@ if (isset($_GET["section_id"]) && $_GET["section_id"] !== "") {
     $section_id = $_GET["section_id"];
 }
 
+//Grab corresponding course ID.
+$courseQuery = $conn->prepare("SELECT * FROM COURSE WHERE `section_id` = ?");
+$courseQuery->execute([$section_id]);
+while ($course = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
+    $course_id = $course["course_id"];
+}
+
 // Check whether an instructor has uploaded a new course item for the section.
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ( (isset($_FILES["course_item"]) && $_FILES["course_item"]["error"] === UPLOAD_ERR_OK ) && (isset($_POST["user_id"]) && $_POST["user_id"] !== "") && (isset($_POST["item_name"]) && $_POST["item_name"] !== "") ) {
