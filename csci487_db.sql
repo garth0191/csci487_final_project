@@ -60,6 +60,7 @@ CREATE TABLE ITEM(
     section_id int NOT NULL,
     item_name varchar(50),
     file_path varchar(200),
+    upload_date date,
     PRIMARY KEY (item_id)
 ) Engine=InnoDB;
 
