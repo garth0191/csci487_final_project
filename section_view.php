@@ -105,11 +105,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             echo "<tr><td colspan='3'><i><b>No course items have been uploaded for this section.</b></i></td></tr>";
                         } else {
                             while ($oneItem = $itemQuery->fetch(PDO::FETCH_ASSOC)) {
-                                //CODE TO RETRIEVE COURSE ITEMS HERE.
+                                $item_path = $oneItem["file_path"];
+                                $name = $oneItem["item_name"];
+                                $upload_date = $oneItem["upload_date"];
+                                
+                                echo "<tr>";
+                                echo "<td>".$name."</td>";
 
-
-
-
+                                //Pull uploader name.
+                                $nameQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
+                                $nameQuery->execute([$user_id]);
+                                while ($nameRow = $nameQuery->fetch(PDO::FETCH_ASSOC)) {
+                                    $instructor_email = $nameRow["user_email"];
+                                    echo "<td>".$instructor_email."</td>";
+                                    echo "</tr>";
+                                }
                             }
                         }
                     } catch (PDOException $e) {
