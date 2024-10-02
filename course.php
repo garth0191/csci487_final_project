@@ -9,7 +9,6 @@ if(!isset($_SESSION['user_id'])){
 $currentTime = new DateTime();
 $assessmentCounter = 0;
 $assessmentsReadyToGrade = 0;
-$itemCounter = 0;
 $user_id = $_SESSION['user_id'];
 
 // Grab course ID that has been passed to this page.
@@ -23,7 +22,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Course Page</title>
     <link rel="stylesheet" href="course.css">
 </head>
 
