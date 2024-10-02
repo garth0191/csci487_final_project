@@ -46,6 +46,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
         <div class="main-section">
             <!-- Upcoming assessments section. -->
             <section class="upcoming">
+            <h2>Upcoming Assessments</h2>
                 <table>
                     <tr>
                         <th>Assessment Name</th>
@@ -94,6 +95,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
 
             <!-- Section for assessments ready to be graded. -->
             <section class="ready-to-grade">
+            <h2>Items Ready to Grade</h2>
                 <table>
                     <tr>
                         <th>Assessment Name</th>
