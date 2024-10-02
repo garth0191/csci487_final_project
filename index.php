@@ -45,7 +45,7 @@
                 $stmt->execute([$_POST["signup_email"]]);
 
                 //Check that e-mail is not already taken.
-                if ($rowNum = $stmt->rowCount() >= 1) {
+                if ($stmt->rowCount() >= 1) {
                     $error = true;
                     $message = "This e-mail is already taken. Please choose a different e-mail, or login.";
                     header("Location: index.php");

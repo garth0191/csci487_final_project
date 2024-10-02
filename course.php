@@ -160,9 +160,9 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     $sectionQuery->execute([$course_id]);
 
                     if ($sectionQuery->rowCount() >= 1) {
-                        echo "";
+                        echo "\n";
                         echo "<hr>";
-                        echo "";
+                        echo "\n";
                     }
 
                     while ($sectionRow = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
@@ -174,8 +174,6 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
             ?>
         </div>
     </div>
-
-    <script>const allCourseMaterials = <?php echo json_encode($courseMaterials) ?>;</script>
 
     <footer class="footer">
         <p>© Garth McClure. All rights reserved.</p>
