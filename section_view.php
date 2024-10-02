@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ( (isset($_FILES["course_item"]) && $_FILES["course_item"]["error"] === UPLOAD_ERR_OK ) && (isset($_POST["user_id"]) && $_POST["user_id"] !== "") && (isset($_POST["item_name"]) && $_POST["item_name"] !== "") ) {
         $item_name = $_POST["item_name"];
         $instructor_id = $_POST["user_id"];
-        $section = $_POST["section_id"];
 
         try {
             $item_filepath = $_FILES["course_item"];
@@ -35,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 //Upload course item to server.
                 $temp_filename = $item_filepath['tmp_name'];
                 $file_extension = pathinfo($item_filepath['name'], PATHINFO_EXTENSION);
-                $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section."_".time().".".$file_extension;
+                $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section_id."_".time().".".$file_extension;
                 $upload_path = "course_items/".$new_filename;
                 move_uploaded_file($temp_filename, $upload_path);
 
@@ -44,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 try {
                     //Add course item to database.
                     $itemAddQuery = $conn->prepare("INSERT INTO ITEM (section_id, item_name, file_path, upload_date) VALUES (?, ?, ?, ?)");
-                    $itemAddQuery->execute([$section, $item_name, $upload_path, $date]);
+                    $itemAddQuery->execute([$section_id, $item_name, $upload_path, $date]);
                 } catch (PDOException $e) {
                     echo "ERROR: Could not add item to database. ".$e->getMessage();
                 }
@@ -87,12 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <!-- INSTRUCTORS ONLY: upload new course materials. -->
             <section class="upload-items-form">
                 <h2>Upload Course Items</h2>
-                <form action='section_view.php?id=<?php echo $section_id; ?>' enctype='multipart/form-data' method='post'>
+                <form action='section_view.php?section_id=<?php echo $section_id; ?>' enctype='multipart/form-data' method='post'>
                     <input type="file" id="course_item" name="course_item" accept=".pdf, .txt"></input>
                     <input type='hidden' id='user_id' name='user_id' value='<?php echo $user_id; ?>'></input>
                     <input type='hidden' id='section_id' name='section_id' value='<?php echo $section_id; ?>'></input>
                     Item Title: <input type='text' id='item_name' name='item_name'></input>
-                    <button name="submit">Upload</button>
+                    <button type="submit" name="submit">Upload</button>
                 </form>
             </section>
     
