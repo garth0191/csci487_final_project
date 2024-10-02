@@ -160,9 +160,9 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     $sectionQuery->execute([$course_id]);
 
                     if ($sectionQuery->rowCount() >= 1) {
-                        echo "\n";
+                        echo "<br>";
                         echo "<hr>";
-                        echo "\n";
+                        echo "<br>";
                     }
 
                     while ($sectionRow = $sectionQuery->fetch(PDO::FETCH_ASSOC)) {
