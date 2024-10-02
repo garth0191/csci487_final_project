@@ -123,9 +123,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 //Pull uploader name.
                                 $nameQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
                                 $nameQuery->execute([$instructor_id]);
+                                //MUST ADD USER_ID COLUMN IN 'ITEM' TABLE AND RE-DO THIS CODE AND RE-INPUT DATABASE INFO.
                                 while ($nameRow = $nameQuery->fetch(PDO::FETCH_ASSOC)) {
                                     $instructor_email = $nameRow["user_email"];
                                     echo "<td>".$instructor_email."</td>";
+                                    echo "<td>".$upload_date."</td>";
                                     echo "</tr>";
                                 }
                             }
