@@ -42,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 try {
                     //Add course item to database.
-                    $itemAddQuery = $conn->prepare("INSERT INTO ITEM (section_id, item_name, file_path, upload_date) VALUES (?, ?, ?, ?)");
-                    $itemAddQuery->execute([$section_id, $item_name, $upload_path, $date]);
+                    $itemAddQuery = $conn->prepare("INSERT INTO ITEM (section_id, user_id, item_name, file_path, upload_date) VALUES (?, ?, ?, ?, ?)");
+                    $itemAddQuery->execute([$section_id, $instructor_id, $item_name, $upload_path, $date]);
                 } catch (PDOException $e) {
                     echo "ERROR: Could not add item to database. ".$e->getMessage();
                 }
