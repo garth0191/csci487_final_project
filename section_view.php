@@ -116,20 +116,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $item_path = $oneItem["file_path"];
                                 $name = $oneItem["item_name"];
                                 $upload_date = $oneItem["upload_date"];
+                                $instructor = $oneItem["user_id"];
                                 
                                 echo "<tr>";
                                 echo "<td>".$name."</td>";
 
                                 //Pull uploader name.
                                 $nameQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
-                                $nameQuery->execute([$instructor_id]);
-                                //MUST ADD USER_ID COLUMN IN 'ITEM' TABLE AND RE-DO THIS CODE AND RE-INPUT DATABASE INFO.
+                                $nameQuery->execute([$instructor]);
                                 while ($nameRow = $nameQuery->fetch(PDO::FETCH_ASSOC)) {
                                     $instructor_email = $nameRow["user_email"];
-                                    echo "<td>".$instructor_email."</td>";
-                                    echo "<td>".$upload_date."</td>";
-                                    echo "</tr>";
                                 }
+                                echo "<td>".$instructor_email."</td>";
+                                echo "<td>".$upload_date."</td>";
+                                echo "</tr>";
                             }
                         }
                     } catch (PDOException $e) {
