@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="course_create.php" method="post">
                     <div class="create-container">
                         Course Name: <input type="text" class="text element" placeholder="Input course name." name="course_name"></input><br>
-                        Course Description: <textarea placeholder='Input course description.' name='course_description' rows='5' cols='50' style='width: 400px; height: 60px; border: 2px solid #000;'></textarea><br>
+                        Course Description: <input type="text" placeholder='Input course description.' name='course_description'></input><br>
                         Instructor Name: <input type="text" class="text element" placeholder="Input desired instructor name." name="instructor_name"></input><br>
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
                         <button class="course-creation-submit" type="submit">Submit</button>
