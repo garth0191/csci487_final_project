@@ -67,7 +67,7 @@ CREATE TABLE ITEM(
     PRIMARY KEY (item_id)
 ) Engine=InnoDB;
 
-CREATE TABLE USER_COURSE(
+CREATE TABLE USER_COURSE( -- Should be used for student and assistant users ONLY.
     enrolled_course_id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
     course_id int NOT NULL,

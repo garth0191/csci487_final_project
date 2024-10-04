@@ -91,37 +91,6 @@ html, body {
     padding: 5px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 10px 0;
-    /* Add background colors, etc., later. */
-}
-
-th {
-    padding: 5px;
-    font-weight: bold;
-    text-align: center;
-    border: 1px solid;
-}
-
-td {
-    padding: 5px;
-    border: 1px solid dimgray;
-}
-
-tr:nth-child(even) {
-    background-color: darkgrey;
-}
-
-tr:nth-child(odd) {
-    background-color: #ddd;
-}
-
-tr:hover {
-    background-color: cornflowerblue;
-}
-
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -151,28 +120,6 @@ tr:hover {
     padding-left: 20px;
     order: 2;
     /* Should there be a max width? Try first without. */
-}
-
-.upcoming, .ready-to-grade {
-    margin-bottom: 20px;
-}
-
-.upcoming table, .ready-to-grade table {
-    width: 100%;
-    margin-top: 10px;
-}
-
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    padding: 5px;
-    flex-shrink: 0;
-    overflow: hidden;
-    background-color: #dddddd;
-    border: 1px solid;
-    border-radius: 10px;
-    order: 1;
 }
 
 .button {

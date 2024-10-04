@@ -27,7 +27,7 @@
 
                     //Check if user is an administrator.
                     if ($isUser["user_type"] == 0) {
-                        header("Location: admin.php");
+                        header("Location: admin_home.php");
                     } else {
                         header("Location: home.php");
                     }

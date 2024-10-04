@@ -6,8 +6,28 @@ if(!isset($_SESSION['user_id'])){
     header('Location: index.php');
 }
 
-//Create a new course.
+$user_id = $_SESSION['user_id'];
+$empty = true;
+$message = "";
 
+//Create a new course.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ((isset($_POST["course_name"]) && $_POST["course_name"] !== "") && (isset($_POST["course_description"]) && $_POST["course_description"] !== "") && 
+    (isset($_POST["instructor_name"]) && $_POST["instructor_name"] !== "")) {
+
+        try {
+            $addCourse = $conn->prepare("INSERT INTO COURSE (course_name, instructor_id, assistant_id, course_description, professor_name) VALUES (?, ?, ?, ?, ?)");
+            $addCourse->execute([$_POST["course_name"], $user_id, NULL, $_POST["course_description"], $_POST["instructor_name"]]);
+            header("Location: home.php");
+        } catch (PDOException $e) {
+            echo "ERROR: Could not add course to database. ".$e->getMessage();
+        }
+
+    } else {
+        $empty = false;
+        $message = "Fields cannot be left blank.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,12 +54,27 @@ if(!isset($_SESSION['user_id'])){
         </div>
     </nav>
 
-    
+    <div class="container">
+        <div class="main-section">
+            <section class="course-creation-form">
+                <h2>New Course Details</h2>
+                <form action="course_create.php" method="post">
+                    <div class="create-container">
+                        Course Name: <input type="text" class="text element" placeholder="Input course name." name="course_name"></input>
+                        Course Description: <textarea placeholder='Input course description.' name='course_description' rows='5' cols='50' style='width: 400px; height: 60px; border: 2px solid #000;'></textarea>
+                        Instructor Name: <input type="text" class="text element" placeholder="Input desired instructor name." name="instructor_name"></input>
+                        <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
+                        <button class="course-creation-submit" type="submit">Submit</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
 
     <footer class="footer">
         <p>© Garth McClure. All rights reserved.</p>
     </footer>
 
-    <script src="course.js"></script>
+    <script src="course_create.js"></script>
 </body>
 
