@@ -19,9 +19,9 @@ $course_id = 1;
     <nav class="navbar">
         <!-- Will appear on left side of nav bar. -->
         <div class="navbar-buttons">
-            <div class="button" id="Button1">Button1</div>
-            <div class="button" id="Button2">Button2</div>
-            <div class="button" id="Button3">Button3</div>
+            <div class="button" id="Button1">Home</div>
+            <div class="button" id="Button2">Create Course</div>
+            <div class="button" id="Button3">Account Options</div>
             <div class="button logout" id="logout-button">Logout</div>
         </div>
         <!-- Will appear on right side of nav bar. -->
