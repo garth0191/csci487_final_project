@@ -31,16 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $item_filepath = $_FILES["course_item"];
 
             if ($item_filepath['error'] == 0) {
-                //Upload course item to server.
-                $temp_filename = $item_filepath['tmp_name'];
-                $file_extension = pathinfo($item_filepath['name'], PATHINFO_EXTENSION);
-                $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section_id."_".time().".".$file_extension;
-                $upload_path = "course_items/".$new_filename;
-                move_uploaded_file($temp_filename, $upload_path);
-
-                $date = date('Y-m-d');
-
                 try {
+                    
+                    //Upload course item to server.
+                    $temp_filename = $item_filepath['tmp_name'];
+                    $file_extension = pathinfo($item_filepath['name'], PATHINFO_EXTENSION);
+                    $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section_id."_".time().".".$file_extension;
+                    $upload_path = "course_items/".$new_filename;
+                    move_uploaded_file($temp_filename, $upload_path);
+
+                    $date = date('Y-m-d');
                     //Add course item to database.
                     $itemAddQuery = $conn->prepare("INSERT INTO ITEM (section_id, user_id, item_name, file_path, upload_date) VALUES (?, ?, ?, ?, ?)");
                     $itemAddQuery->execute([$section_id, $instructor_id, $item_name, $upload_path, $date]);
