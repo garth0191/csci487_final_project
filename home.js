@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     const logoutButton = document.querySelector('.logout');
-    //TEMPORARY COURSE BUTTON -- TO BE DELETED LATER.
     const courseButton = document.querySelector('.course');
 
     if (logoutButton) {
@@ -9,5 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     } else {
         console.error('You have not yet created a LOGOUT button.');
+    }
+
+    if (courseCreateButton) {
+        courseCreateButton.addEventListener('click', function () {
+            window.location.href = 'course_create.php';
+        });
+    } else {
+        console.error('Could not redirect to course_create.php');
     }
 });
