@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         Course Description: <input type="text" class="text element" placeholder='Input course description.' name='course_description'></input><br>
                         Instructor Name: <input type="text" class="text element" placeholder="Input desired instructor name." name="instructor_name"></input><br>
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
-                        <button class="course-creation-submit" type="submit">Submit</button>
+                        <button type="submit" name="submit">Submit</button>
                     </div>
                 </form>
             </section>
