@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const logoutButton = document.querySelector('.logout');
-    const courseButton = document.querySelector('.course');
+    const courseCreateButton = document.querySelector('.create');
 
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {
