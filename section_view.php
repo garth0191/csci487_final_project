@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $instructor = $oneItem["user_id"];
                                 
                                 echo "<tr>";
-                                echo "<td>".$name."</td>";
+                                echo "<td><a href='".$item_path."'>".$name."</a></td>";
 
                                 //Pull uploader name.
                                 $nameQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
