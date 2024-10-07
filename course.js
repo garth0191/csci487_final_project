@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const logoutButton = document.querySelector('.logout');
     const courseCreateButton = document.querySelector('.create');
-    const homebutton = document.querySelector('.home');
+    const homeButton = document.querySelector('.home');
+    const accountButton = document.querySelector('.account');
 
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {
@@ -19,7 +20,15 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Could not redirect to course_create.php');
     }
 
-    if (homebutton) {
+    if (accountButton) {
+        accountButton.addEventListener('click', function() {
+            window.location.href = 'account.php';
+        });
+    } else {
+        console.error('Could not redirect to account page.');
+    }
+
+    if (homeButton) {
         homeButton.addEventListener('click', function() {
             window.location.href = 'home.php';
         });

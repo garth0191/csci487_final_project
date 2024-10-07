@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const logoutButton = document.querySelector('.logout');
     const courseCreateButton = document.querySelector('.create');
     const homeButton = document.querySelector('.home');
+    const accountButton = document.querySelector('.account');
     const deleteAccount = document.querySelector('.delete-account');
 
     if (logoutButton) {
@@ -26,6 +27,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     } else {
         console.error('Could not redirect to homepage.');
+    }
+
+    if (accountButton) {
+        accountButton.addEventListener('click', function() {
+            window.location.href = 'account.php';
+        });
+    } else {
+        console.error('Could not redirect to account page.');
     }
 
     if (deleteAccount) {
