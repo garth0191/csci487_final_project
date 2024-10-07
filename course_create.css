@@ -135,7 +135,7 @@ body {
 .button {
     padding: 20px;
     height: 60px;
-    margin: 20px auto;
+    margin: 0 10px;
     border-radius: 50px;
     cursor: pointer;
     display: flex;
