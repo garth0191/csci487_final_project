@@ -1,3 +1,4 @@
+<!-- Delete user's account and redirect them back to the login/signup page. -->
 <?php
 require '/home/gnmcclur/connections/connect.php';
 session_start();
