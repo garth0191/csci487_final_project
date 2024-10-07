@@ -72,10 +72,11 @@
     font-style: italic;
 }
 
-html, body {
+body {
     height: auto;
     width: 100vw;
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 30px;
     background-image: radial-gradient(rgb(159, 164, 166), rgb(110, 115, 166));
@@ -87,8 +88,12 @@ html, body {
 .container {
     display: flex;
     flex-direction: row;
-    width: 100%;
-    padding: 5px;
+    height: 600px;
+    width: 500px;
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
 }
 
 .navbar {
@@ -123,14 +128,38 @@ html, body {
 }
 
 .button {
-    padding: 20px;
-    margin: 0 10px;
+    height: 60px;
+    width: 300px;
+    margin: 20px auto;
     border-radius: 50px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+    justify-content: space-around;
 }
 
 .button:hover {
     font-weight: bold;
+}
+
+.course-creation-form {
+    height: 500px;
+    width: 1000px;
+    padding: 20px 0;
+    display: flex;
+    position: relative;
+    left: 0px;
+}
+
+.create-container {
+    height: 100%;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 40px;
 }
 
 .element {
@@ -152,6 +181,16 @@ html, body {
     position: relative;
 }
 
+.creation-submit {
+    height: 60px;
+    width: 150px;
+    border-radius: 7px;
+    background-image: repeating-linear-gradient(to top, rgb(109, 108, 108), rgb(0, 0, 0));
+    font-size: 22px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
 
 @media screen and (max-width: 320px) {
     .container {
@@ -165,11 +204,26 @@ html, body {
         margin: 20px auto;
     }
 
+    .course-creation-form {
+        height: 500px;
+        width: 500px;
+    }
+
+    .create-container {
+        height: 100%;
+        width: 250px;
+    }
 
     .element {
         height: 50px;
         width: 220px;
         font-size: 15px;
+    }
+
+    .creation-submit {
+        height: 50px;
+        width: 130px;
+        font-size: 19px;
     }
 
 }
