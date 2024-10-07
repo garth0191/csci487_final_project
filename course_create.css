@@ -12,6 +12,15 @@
     font-family: "Arsenal", sans-serif;
 }
 
+h2 {
+    flex-direction: column;
+    order: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
 .anton-regular {
     font-family: "Anton", sans-serif;
     font-weight: 400;
@@ -87,7 +96,7 @@ body {
 
 .container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     height: 600px;
     width: 500px;
     background-color: white;
@@ -122,9 +131,6 @@ body {
     flex: 1;
     justify-content: center;
     overflow: hidden;
-    padding-left: 20px;
-    order: 2;
-    /* Should there be a max width? Try first without. */
 }
 
 .button {

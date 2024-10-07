@@ -55,9 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
 
     <div class="container">
+    <h2>New Course Details</h2>
         <div class="main-section">
             <section class="course-creation-form">
-                <h2>New Course Details</h2>
                 <form action="course_create.php" method="post">
                     <div class="create-container">
                         Course Name: <input type="text" class="text element" placeholder="Input course name." name="course_name"></input><br>
