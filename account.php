@@ -10,6 +10,7 @@ $user_id = $_SESSION['user_id'];
 $user_email = $_SESSION['user_email'];
 $error = false;
 $empty = true;
+$message = "";
 
 //Pull user's usertype from database.
 try {
