@@ -4,7 +4,6 @@ session_start();
 
 $user_id = $_SESSION['user_id'];
 
-//Pull user information from the database.
 try {
     //Remove user from the database.
     $deleteQuery = $conn->prepare("DELETE FROM USER WHERE user_id = ?");
