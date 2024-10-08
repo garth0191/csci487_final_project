@@ -147,6 +147,10 @@ tr:nth-child(odd) {
     order: 2;
 }
 
+.change-password-container {
+    margin: 10px 0;
+}
+
 .password-confirm {
     margin-top: 10px;
     cursor: pointer;

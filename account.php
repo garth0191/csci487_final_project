@@ -117,12 +117,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Change user password. -->
                 <section class="change-password">
                     <h2>Change Password</h2>
-                    <form action="account.php" method="post">
-                        <input type="password" name="current_password" placeholder="Enter current password."></input>
-                        <input type="password" name="new_password" placeholder="Enter new password."></input>
-                        <input type="password" name="confirm_password" placeholder="Confirm new password."></input>
-                        <button type ="submit" id="password-confirm">Confirm</button>
-                    </form>
+                    <div class= "change-password-container">
+                        <form action="account.php" method="post">
+                            <input type="password" name="current_password" placeholder="Enter current password."></input>
+                            <input type="password" name="new_password" placeholder="Enter new password."></input>
+                            <input type="password" name="confirm_password" placeholder="Confirm new password."></input>
+                            <button type ="submit" id="password-confirm">Confirm</button>
+                        </form>
+                    </div>
                 </section>
 
                 <!-- Delete account. -->
