@@ -142,6 +142,7 @@ body {
     align-items: center;
     box-shadow: none;
     justify-content: space-around;
+    font-weight: bold;
 }
 
 .button:hover {
