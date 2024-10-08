@@ -169,14 +169,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 echo "<option name='new_assistant' value='".$allUsersRow["user_id"]."'>".$allUsersRow["user_email"]."</option>";
                             }
                         ?>
-
-                        <input type="submit" name="submit"></input>
+                        <br>
+                        <input type="submit" name="submit" value="&nbsp;Confirm Changes&nbsp;"></input>
                     </form>
                 </div>
 
                 <!-- Delete course. -->
                 <div class="delete-course" id="delete-course">
-                    <button type="submit" onclick="if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) window.location.href='course_delete.php?course_id=<?php echo $course_id; ?>';">Delete Course</button>
+                    <button type="submit" onclick="if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) window.location.href='course_delete.php?course_id=<?php echo $course_id; ?>';">&nbsp;Delete Course&nbsp;</button>
                 </div>
             </section>
         </div>
