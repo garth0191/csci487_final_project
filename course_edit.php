@@ -168,6 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             while ($allUsersRow = $allUsers->fetch(PDO::FETCH_ASSOC)) {
                                 echo "<option name='new_assistant' value='".$allUsersRow["user_id"]."'>".$allUsersRow["user_email"]."</option>";
                             }
+                            echo "</select>";
                         ?>
                         <br>
                         <input type="submit" name="submit" value="&nbsp;Confirm Changes&nbsp;"></input>
