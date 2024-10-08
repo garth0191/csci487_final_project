@@ -127,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         $assistantQuery->execute([$assistant_id]);
                                         while ($assistantDetails = $assistantQuery->fetch(PDO::FETCH_ASSOC)) {
                                             echo "<td><em>".$assistantDetails["user_email"]."</em>";
-                                            echo "<form action='course_edit.php?course_id=".$course_id."' method='post'>";
+                                            echo "<form action='course_edit.php?course_id=".$course_id."' method='post' style='display: inline;'>";
                                             echo "<input type='hidden' name='assistant_remove' value='".$assistantDetails["user_id"]."'></input>";
                                             echo "<input type='submit' name='submit' value=' X '></input>";
                                             echo "</form></td>";
@@ -152,12 +152,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <!-- Options to edit course details. -->
             <section class="edit-course-details">
-                <h2>Edit Course Details</h2>
+                <br><br><br><h2>Edit Course Details</h2>
                 <div class="edit-course-details-container">
                     <form action='course_edit.php?course_id=<?php echo $course_id; ?>' method='post'>
-                        Course Name: <input type="text" id="course_name" name="course_name" placeholder="<?php echo $course_name; ?>"></input>
-                        Course Description: <input type='text' id='course_description' name='course_description' placeholder="<?php echo $course_description; ?>"></input>
-                        Instructor Name: <input type='text' id='professor_name' name='professor_name' placeholder="<?php echo $professor_name; ?>"></input>
+                        Course Name: <input type="text" id="course_name" name="course_name" placeholder="<?php echo $course_name; ?>"></input><br>
+                        Course Description: <input type='text' id='course_description' name='course_description' placeholder="<?php echo $course_description; ?>"></input><br>
+                        Instructor Name: <input type='text' id='professor_name' name='professor_name' placeholder="<?php echo $professor_name; ?>"></input><br>
 
                         <!-- Pull all available users to assign a new assistant. -->
                         Course Teaching Assistant: 
