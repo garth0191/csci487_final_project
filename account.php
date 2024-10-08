@@ -17,7 +17,7 @@ try {
     $userTypeQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
     $userTypeQuery->execute([$user_id]);
     while ($oneUser = $userTypeQuery->fetch(PDO::FETCH_ASSOC)) {
-        $user_type = $oneItem["user_type"];
+        $user_type = $oneUser["user_type"];
         $userDescQuery = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` = ?");
         $userDescQuery->execute([$user_type]);
         while ($oneDesc = $userDescQuery->fetch(PDO::FETCH_ASSOC)) {
@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="delete-account" id="delete-account">Delete Account</div>
                 <?php if($error) {echo "<center><div class='error'>".$message."</div></center>";} ?>
                 <?php if(!$empty) {echo "<center><div class='error'>".$message."</div></center>";} ?>
-            </main>
+            </div>
         </div>
         <footer class="footer">
         <p>© 2024 Garth McClure. All rights reserved.</p>
