@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Change user password. -->
                 <section class="change-password">
                     <h2>Change Password</h2>
-                    <div class= "change-password-container">
+                    <div class="change-password-container">
                         <form action="account.php" method="post">
                             <input type="password" name="current_password" placeholder="Enter current password."></input>
                             <input type="password" name="new_password" placeholder="Enter new password."></input>

@@ -15,7 +15,61 @@ $user_id = $_SESSION['user_id'];
 $error = false;
 
 // Edit course details.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Change course name.
+    if ((isset($_POST["course_name"]) && $_POST["course_name"] !== "")) {
+        try {
+            $courseNameUpdate = $conn->prepare("UPDATE COURSE SET course_name = ? WHERE course_id = ?");
+            $courseNameUpdate->execute([$_POST["course_name"], $course_id]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not change course name. ".$e->getMessage();
+        }
+    }
 
+    // Change course description.
+    if ((isset($_POST["course_description"]) && $_POST["course_description"] !== "")) {
+        try {
+            $courseDescUpdate = $conn->prepare("UPDATE COURSE SET course_description = ? WHERE course_id = ?");
+            $courseDescUpdate->execute([$_POST["course_description"], $course_id]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not change course description. ".$e->getMessage();
+        }
+    }
+
+    // Change instructor name.
+    if ((isset($_POST["professor_name"]) && $_POST["professor_name"] !== "")) {
+        try {
+            $nameUpdate = $conn->prepare("UPDATE COURSE SET professor_name = ? WHERE course_id = ?");
+            $nameUpdate->execute([$_POST["professor_name"], $course_id]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not change instructor name. ".$e->getMessage();
+        }
+    }
+
+    // Assign or change teaching assistant.
+    if ((isset($_POST["new_assistant"]) && $_POST["new_assistant"] !== "")) {
+        try {
+            $assistantUpdate = $conn->prepare("UPDATE COURSE SET assistant_id = ? WHERE course_id = ?");
+            $assistantUpdate->execute([$_POST["new_assistant"], $course_id]);
+            $updateUserType = $conn->prepare("UPDATE USER SET user_type = 2 WHERE user_id = ?");
+            $updateUserType->execute([$_POST["new_assistant"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not add TA to course. ".$e->getMessage();
+        }
+    }
+
+    // Remove teaching assistant from course.
+    if ((isset($_POST["assistant_remove"]) && $_POST["assistant_remove"] !== "")) {
+        try {
+            $removeAssistant = $conn->prepare("UPDATE COURSE SET assistant_id = NULL WHERE course_id = ?");
+            $removeAssistant->execute([$course_id]);
+            $updateUserType2 = $conn->prepare("UPDATE USER SET user_type = 3 WHERE user_id = ?");
+            $updateUserType2->execute([$_POST["assistant_remove"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not remove TA from course. ".$e->getMessage();
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +126,11 @@ $error = false;
                                         $assistantQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
                                         $assistantQuery->execute([$assistant_id]);
                                         while ($assistantDetails = $assistantQuery->fetch(PDO::FETCH_ASSOC)) {
-                                            echo "<td>".$assistantDetails["user_email"]."</td>";
+                                            echo "<td><em>".$assistantDetails["user_email"]."</em>";
+                                            echo "<form action='course_edit.php?course_id=".$course_id."' method='post'>";
+                                            echo "<input type='hidden' name='assistant_remove' value='".$assistantDetails["user_id"]."'></input>";
+                                            echo "<input type='submit' name='submit' value=' X '></input>";
+                                            echo "</form></td>";
                                         }
                                     } else {
                                         echo "<td><em>No assigned assistant for this course.</em></td>";
@@ -116,6 +174,13 @@ $error = false;
                         <input type="submit" name="submit"></input>
                     </form>
                 </div>
+
+                <!-- Delete course. -->
+                <div class="delete-course" id="delete-course">
+                    <button type="submit" onclick="if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) window.location.href='course_delete.php?course_id=<?php echo $course_id; ?>';">Delete Course</button>
+                </div>
+                <?php if($error) {echo "<center><div class='error'>".$message."</div></center>";} ?>
+                <?php if(!$empty) {echo "<center><div class='error'>".$message."</div></center>";} ?>
             </section>
         </div>
 
