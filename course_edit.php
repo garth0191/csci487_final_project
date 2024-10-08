@@ -12,7 +12,6 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
 }
 
 $user_id = $_SESSION['user_id'];
-$error = false;
 
 // Edit course details.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -179,8 +178,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="delete-course" id="delete-course">
                     <button type="submit" onclick="if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) window.location.href='course_delete.php?course_id=<?php echo $course_id; ?>';">Delete Course</button>
                 </div>
-                <?php if($error) {echo "<center><div class='error'>".$message."</div></center>";} ?>
-                <?php if(!$empty) {echo "<center><div class='error'>".$message."</div></center>";} ?>
             </section>
         </div>
 
