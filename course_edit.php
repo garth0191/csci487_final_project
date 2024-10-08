@@ -85,7 +85,6 @@ $error = false;
                                 echo "<td><strong>Instructor Name</strong></td><td>".$professor_name."</td>";
                                 echo "</tr>";
                             }
-                            }
                         } catch (PDOException $e) {
                             echo "ERROR: Could not retrieve course items. ".$e->getMessage();
                         }
@@ -124,7 +123,6 @@ $error = false;
         <div class="sidebar">
             <!-- Course edit options, etc., will go here. -->
             <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
-            <a href="course_edit.php?course_id=<?php echo $course_id; ?>">DELETE COURSE</a>
             <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
             <a href="assessment_edit.php?course_id=<?php echo $course_id; ?>">EDIT ASSESSMENTS</a>
             <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE ITEMS</a>

@@ -144,7 +144,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="sidebar">
             <!-- Course edit options, etc., will go here. -->
             <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
-            <a href="course_edit.php?course_id=<?php echo $course_id; ?>">DELETE COURSE</a>
             <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
             <a href="assessment_edit.php?course_id=<?php echo $course_id; ?>">EDIT ASSESSMENTS</a>
             <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE ITEMS</a>
