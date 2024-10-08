@@ -1,4 +1,4 @@
-/* Stylesheet for course edit page. */
+/* Stylesheet for course edit page page. */
 
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -118,6 +118,10 @@ tr:nth-child(odd) {
     background-color: #ddd;
 }
 
+tr:hover {
+    background-color: cornflowerblue;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -142,13 +146,35 @@ tr:nth-child(odd) {
     display: flex;
     flex-direction: column;
     flex: 1;
+    justify-content: center;
     overflow: hidden;
     padding-left: 20px;
     order: 2;
+    /* Should there be a max width? Try first without. */
 }
 
 .edit-course-details-container {
     margin: 10px 0;
+}
+
+.delete-course {
+    padding-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    padding: 5px;
+    flex-shrink: 0;
+    overflow: hidden;
+    background-color: #dddddd;
+    border: 1px solid;
+    border-radius: 10px;
+    order: 1;
 }
 
 .button {
@@ -157,13 +183,6 @@ tr:nth-child(odd) {
     border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
-}
-
-.delete-course {
-    padding-top: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 0 10px;
 }
 
 .button:hover {
