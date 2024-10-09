@@ -54,8 +54,9 @@ document.addEventListener('DOMContentLoaded', function () {
             tile.addEventListener('click', function() {
                 window.location.href = `course.php?course_id=${$course.course_id}`;
             });
+
+            container.appendChild(tile);
         });
-        container.appendChild(tile);
     }
 
     createCourseTiles(tileContainer);
