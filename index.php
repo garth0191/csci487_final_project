@@ -34,7 +34,7 @@
                 } else {
                     //Password is incorrect.
                     $empty = false;
-                    $message = "Your password is incorrect. Please try again.";
+                    $message = "User e-mail/password mismatch.";
                 }
             } catch (PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
