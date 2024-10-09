@@ -155,6 +155,7 @@ body {
     padding: 20px;
     margin: 10px auto;
     flex: 0 1 calc(33.333% - 40px);
+    cursor: pointer;
 }
 
 .course-tile h2 {
