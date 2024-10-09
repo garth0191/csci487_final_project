@@ -134,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         <footer class="footer">
-        <p>© 2024 Garth McClure. All rights reserved.</p>
+        <p>© Garth McClure. All rights reserved.</p>
         </footer>
     
     <script src="account.js"></script>
