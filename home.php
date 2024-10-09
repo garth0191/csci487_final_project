@@ -34,7 +34,6 @@ $current_courses = [];
         <div class="navbar-logo">
             <img src="./images/logo.png" height="35%" alt="CourseCanvas logo">
         </div>
-        '
     </nav>
 
     <div class="container">
