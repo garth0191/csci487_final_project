@@ -84,7 +84,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                     }
                                 }
 
-                                if (($assessmentCounter < 1) && !$hasAssessments) {
+                                if (($assessmentCounter < 1) && $hasAssessments) {
                                     echo "<tr><td colspan='3'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
                                 }
                                 $assessmentCounter = 0;
