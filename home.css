@@ -132,6 +132,24 @@ body {
     order: 2;
 }
 
+.course-tile {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px auto;
+    max-width: 350px;
+}
+
+.course-tile h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.course-tile p {
+    font-size: 1rem;
+}
+
 .element {
     height: 60px;
     width: 400px;
