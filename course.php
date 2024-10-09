@@ -9,6 +9,7 @@ if(!isset($_SESSION['user_id'])){
 $currentTime = new DateTime();
 $assessmentCounter = 0;
 $assessmentsReadyToGrade = 0;
+$hasAssessments = false;
 $user_id = $_SESSION['user_id'];
 
 // Grab course ID that has been passed to this page.
@@ -63,6 +64,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                 if ($assessmentGrab->rowCount() < 1) {
                                     echo "<tr><td colspan='3'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
                                 } else {
+                                    $hasAssessments = true;
                                     while ($oneAssessment = $assessmentGrab->fetch(PDO::FETCH_ASSOC)) {
                                         $assessmentDueDate = new DateTime($oneAssessment["due_date"]);
                                         if ($assessmentDueDate > $currentTime) {
@@ -82,7 +84,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                     }
                                 }
 
-                                if ($assessmentCounter < 1) {
+                                if (($assessmentCounter < 1) && !$hasAssessments) {
                                     echo "<tr><td colspan='3'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
                                 }
                                 $assessmentCounter = 0;
