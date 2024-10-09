@@ -153,7 +153,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
             <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
             <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
             <a href="assessment_edit.php?course_id=<?php echo $course_id; ?>">EDIT ASSESSMENTS</a>
-            <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE ITEMS</a>
+            <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE SECTIONS</a>
             <?php
                 // Pull all sections created by instructor.
                 try {

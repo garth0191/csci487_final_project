@@ -2,7 +2,13 @@
 require '/home/gnmcclur/connections/connect.php';
 session_start();
 
-$course_id = 1;
+if(!isset($_SESSION['username'])){
+    header('Location: index.php');
+}
+
+$user_id = $_SESSION["user_id"];
+
+$current_courses = [];
 ?>
 
 <!DOCTYPE html>
@@ -28,14 +34,38 @@ $course_id = 1;
         <div class="navbar-logo">
             <img src="./images/logo.png" height="35%" alt="CourseCanvas logo">
         </div>
+        '
     </nav>
 
     <div class="container">
         <section class="main-section">
-            <!-- Temporary link to main course page. -->
-            <a href="course.php?course_id=<?php echo $course_id; ?>">Go to course page.</a>
+            <h2>Affiliated Courses</h2>
+            <div class="course-container">
+                <div class="tile-container">
+                    <?php
+                        // Retrieve all courses associated with current user.
+                        try {  
+                            // Put courses into array to be passe to Javascript file.
+                            $courseQuery = $conn->prepare("SELECT * FROM COURSE WHERE `instructor_id` = ?");
+                            $courseQuery->execute([$user_id]);
+                            while ($oneCourse = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
+                                $current_courses = array (
+                                    "course_id" => $oneCourse["course_id"],
+                                    "course_name" => $oneCourse["course_name"],
+                                    "course_description" => $oneCourse["course_description"],
+                                    "instructor_name" => $oneCourse["professor_name"]
+                                );
+                            }
+                        } catch (PDOException $e) {
+                            echo "ERROR: Could not pull affiliated courses. ".$e->getMessage();
+                        }
+                    ?>
+                </div>
+            </div>
         </section>
     </div>
+
+    <script>const current_courses = <?php echo json_encode($current_courses); ?></script>
 
     <footer class="footer">
         <p>© Garth McClure. All rights reserved.</p>
