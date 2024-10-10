@@ -84,7 +84,7 @@ CREATE TABLE ASSESSMENT(
     PRIMARY KEY (assessment_id)
 ) Engine=InnoDB;
 
-CREATE TABLE USER_ASSESSMENT(
+CREATE TABLE USER_ASSESSMENT( /* For student records only -- one per student, per assessment. */
     user_assessment_id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
     course_id int NOT NULL,
@@ -97,17 +97,17 @@ CREATE TABLE USER_ASSESSMENT(
 CREATE TABLE ASSESSMENT_TYPE(
     assessment_type_id int NOT NULL,
     type_description varchar(25) NOT NULL,
-    assessment_weight int,
+    assessment_weight int, /* Will be added when the instructor specifies weights on course_edit page. */
     PRIMARY KEY (assessment_type_id)
 ) Engine=InnoDB;
 
-CREATE TABLE SCORE_TYPE(
+CREATE TABLE SCORE_TYPE( /* Will be specified for each assessment: either PASS/FAIL or percentage. */
     score_id int NOT NULL,
     score_description varchar(50),
     PRIMARY KEY (score_id)
 ) Engine=InnoDB;
 
-CREATE TABLE GRADE(
+CREATE TABLE GRADE( /* Either specific letter grades or 0/1 for PASS/FAIL. */
     grade_id int NOT NULL AUTO_INCREMENT,
     score_type int NOT NULL,
     assessment_id int NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE GRADE(
     PRIMARY KEY (grade_id)
 ) Engine=InnoDB;
 
-CREATE TABLE GRADE_RESULT(
+CREATE TABLE GRADE_RESULT( /* Fail, Pass, or Incomplete. This will be used to indicate color options for certain assessment grades. */
     result_id int NOT NULL,
     result_description varchar(10),
     PRIMARY KEY (result_id)
