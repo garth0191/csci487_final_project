@@ -81,10 +81,92 @@ $user_id = $_SESSION['user_id'];
                     ?>
 
                     <div class="invisible percentage-points-selection" name="points-possible-selection">
+
                         Points Possible: <input type="number" id="points-possible" name="points-possible"></input>
 
-                    </div>
+                        <br><br>
+                        <h2>Grade Assignments</h2><br>
+                        <fieldset>
+                            <legend>Will your assessment use +/- scoring?</legend>
+                            <div>
+                                <input type="radio" id="true" name="plus-minus" value="true" />
+                                <label for="true">Yes</label>&nbsp;&nbsp;&nbsp;
+                                <input type="radio" id="false" name="plus-minus" value="false" />
+                                <label for="false">No</label>
+                            </div>
+                        </fieldset>
 
+                        <!-- Without +/- scoring options. -->
+                        <div class="invisible-grades grade-assignments" name="grade-assignments">
+                            <table>
+                                <tr>
+                                    <th>Letter Grade</th>
+                                    <th>Lower Threshold</th>
+                                </tr>
+                                <tr>
+                                    <td>A</td>
+                                    <td><input type="number" id="a-threshold" name="a-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td><input type="number" id="b-threshold" name="b-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                    <td><input type="number" id="c-threshold" name="c-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                    <td><input type="number" id="d-threshold" name="d-threshold"></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- With +/- scoring options. -->
+                        <div class="invisible-grades grade-assignments-plus-minus" name="grade-assignments-plus-minus">
+                            <table>
+                                <tr>
+                                    <th>Letter Grade</th>
+                                    <th>Lower Threshold</th>
+                                </tr>
+                                <tr>
+                                    <td>A</td>
+                                    <td><input type="number" id="a-threshold" name="a-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>A-</td>
+                                    <td><input type="number" id="a-minus-threshold" name="a-minus-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>B+</td>
+                                    <td><input type="number" id="b-plus-threshold" name="b-plus-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td><input type="number" id="b-threshold" name="b-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>B-</td>
+                                    <td><input type="number" id="b-minus-threshold" name="b-minus-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>C+</td>
+                                    <td><input type="number" id="c-plus-threshold" name="c-plus-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                    <td><input type="number" id="c-threshold" name="c-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>C-</td>
+                                    <td><input type="number" id="c-minus-threshold" name="c-minus-threshold"></td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                    <td><input type="number" id="d-threshold" name="d-threshold"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </form>
             </div>
         </section>
