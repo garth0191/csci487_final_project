@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 input.required = false;
             });
 
+            document.querySelector('.percentage-points-selection').classList.add('invisible');
             selectedOption.required = false;
         }
         if (selectedOption !== null) {
@@ -67,11 +68,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Make all inputs not required to clear out previous selection.
             let pmTrue = document.querySelector('.pm-true');
+            pmTrue.classList.add('invisible');
             let allTrue = pmTrue.querySelectorAll('input');
             allTrue.forEach(function(input) {
                 input.required = false;
             });
             let pmFalse = document.querySelector('.pm-false');
+            pmFalse.classList.add('invisible');
             let allFalse = pmFalse.querySelectorAll('input');
             allFalse.forEach(function(input) {
                 input.required = false;
@@ -79,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Make only selected radio's class inputs required.
             let selectedRadio = document.getElementById(this.value);
+            selectedRadio.classList.remove('invisible');
             let allSelected = selectedRadio.querySelectorAll('input');
             allSelected.forEach(function(input) {
                 input.required = true;
