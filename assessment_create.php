@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Add new assessment to database.
     if ((isset($_POST["assessment_name"]) && $_POST["assessment_name"] !== "") && (isset($_POST["assessment_type"]) && $_POST["assessment_type"] !== "") && (isset($_POST["score_type"]) && $_POST["score_type"] !== "") && (isset($_POST["due_date"]) && $_POST["due_date"] !== "")){
         // Check if an assessment already exists with submitted name.
-        $nameCheck = $conn->prepare("SELECT * FROM COURSE WHERE `assessment_description` = ?");
-        $nameCheck->execute([$_POST["assessment_name"]]);
+        $nameCheck = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `assessment_description` = ? AND `course_id` = ?");
+        $nameCheck->execute([$_POST["assessment_name"], $course_id]);
         if ($nameCheck->rowCount() >= 1) {
             $error = true;
             $message = "The submitted assessment name is already in use. Please choose another name for your assessment.";
