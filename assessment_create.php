@@ -210,7 +210,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </fieldset>
 
                         <!-- Without +/- scoring options. -->
-                        <div class="pm-false" name="pm-false" id="pm-false">
+                        <div class="pm-false invisible" name="pm-false" id="pm-false">
                             <table>
                                 <tr>
                                     <th>Letter Grade</th>
@@ -236,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <!-- With +/- scoring options. -->
-                        <div class="pm-true" name="pm-true" id="pm-true">
+                        <div class="pm-true invisible" name="pm-true" id="pm-true">
                             <table>
                                 <tr>
                                     <th>Letter Grade</th>
