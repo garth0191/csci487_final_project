@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 input.required = false;
             });
         }
-        if (selectedOption !== null && selectedOption.id === "1") {
+        if (selectedOption !== null) {
             selectedOption.classList.add('visible');
             selectedOption.required = true;
         }
