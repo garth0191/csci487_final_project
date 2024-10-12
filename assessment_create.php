@@ -281,6 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </table>
                         </div>
                     </div>
+                    <input type="submit" name="submit" value="Submit">
                 </form>
             </div>
         </section>

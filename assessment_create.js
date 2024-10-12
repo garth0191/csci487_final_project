@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
         if (selectedOption !== null) {
+            selectedOption.classList.remove('invisible');
             selectedOption.classList.add('visible');
             selectedOption.required = true;
         }
