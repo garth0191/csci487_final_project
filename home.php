@@ -64,7 +64,7 @@ $current_courses = [];
         </section>
     </div>
 
-    <script>const current_courses = <?php echo json_encode($current_courses); ?></script>
+    <script>let current_courses = <?php echo json_encode($current_courses); ?></script>
 
     <footer class="footer">
         <p>© Garth McClure. All rights reserved.</p>
