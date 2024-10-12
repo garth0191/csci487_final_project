@@ -85,7 +85,6 @@ CREATE TABLE USER_ASSESSMENT( /* For student records only -- one per student, pe
     course_id int NOT NULL,
     assessment_id int NOT NULL,
     assessment_score int, /* For PASS/FAIL: 1 or 0, respectively. */
-    assessment_score_detail varchar(20),
     PRIMARY KEY (user_assessment_id)
 ) Engine=InnoDB;
 
