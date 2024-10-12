@@ -28,12 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "The submitted assessment name is already in use. Please choose another name for your assessment.";
         } else {
             try {
+                $due_date = date('Y-m-d', strtotime($_POST["due_date"]));
                 if (isset($_POST["points-possible"]) && $_POST["points-possible"] !== "") {
                     $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, points_possible, due_date) VALUES (?, ?, ?, ?, ?)");
-                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["score_type"], $_POST["points-possible"], $_POST["due_date"]]);
+                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["score_type"], $_POST["points-possible"], $due_date]);
                 } else {
                     $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, due_date) VALUES (?, ?, ?, ?)");
-                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["score_type"], $_POST["due_date"]]);
+                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["score_type"], $due_date]);
                 }
             } catch (PDOException $e) {
                 echo "ERROR: Could not create new assignment. ".$e->getMessage();
@@ -61,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Redirect user to course page.
             try {
                 header("Location: course.php?course_id=$course_id");
-                exit();
             } catch (PDOException $e) {
                 echo "ERROR: Could not redirect user to course page after adding assessment. ".$e->getMessage();
             }
