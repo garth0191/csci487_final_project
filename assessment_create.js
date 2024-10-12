@@ -50,8 +50,11 @@ document.addEventListener('DOMContentLoaded', function () {
             allElements.forEach(function(input) {
                 input.required = false;
             });
+
+            selectedOption.required = false;
         }
         if (selectedOption !== null) {
+            document.querySelector('.percentage-points-selection').classList.remove('invisible');
             selectedOption.classList.remove('invisible');
             selectedOption.classList.add('visible');
             selectedOption.required = true;
