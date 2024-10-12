@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const courseCreateButton = document.querySelector('.create');
     const homeButton = document.querySelector('.home');
     const accountButton = document.querySelector('.account');
-    const pointsGradingSection = document.getElementById('score_type');
-    const plusMinusRadios = document.querySelectorAll('input[type="radio"]');
 
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {
@@ -37,56 +35,4 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error('Could not redirect to homepage.');
     }
-
-    pointsGradingSection.addEventListener('change', function() {
-        'use strict';
-        let visiblePercentageClass = document.querySelector('.visible');
-        let selectedOption = document.getElementById(this.value);
-        if (visiblePercentageClass !== null) {
-            visiblePercentageClass.classList.remove('visible');
-            visiblePercentageClass.classList.add('invisible');
-
-            let allElements = visiblePercentageClass.querySelectorAll('input');
-            allElements.forEach(function(input) {
-                input.required = false;
-            });
-
-            document.querySelector('.percentage-points-selection').classList.add('invisible');
-            selectedOption.required = false;
-        }
-        if (selectedOption !== null) {
-            document.querySelector('.percentage-points-selection').classList.remove('invisible');
-            selectedOption.classList.remove('invisible');
-            selectedOption.classList.add('visible');
-            selectedOption.required = true;
-        }
-    });
-
-    plusMinusRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            'use strict';
-
-            // Make all inputs not required to clear out previous selection.
-            let pmTrue = document.querySelector('.pm-true');
-            pmTrue.classList.add('invisible');
-            let allTrue = pmTrue.querySelectorAll('input');
-            allTrue.forEach(function(input) {
-                input.required = false;
-            });
-            let pmFalse = document.querySelector('.pm-false');
-            pmFalse.classList.add('invisible');
-            let allFalse = pmFalse.querySelectorAll('input');
-            allFalse.forEach(function(input) {
-                input.required = false;
-            });
-
-            // Make only selected radio's class inputs required.
-            let selectedRadio = document.getElementById(this.value);
-            selectedRadio.classList.remove('invisible');
-            let allSelected = selectedRadio.querySelectorAll('input');
-            allSelected.forEach(function(input) {
-                input.required = true;
-            });
-        })
-    });
 });

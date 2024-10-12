@@ -71,11 +71,6 @@
     font-weight: 700;
     font-style: italic;
 }
-
-.invisible {
-    display: none;
-}
-
 html, body {
     height: auto;
     width: 100vw;
