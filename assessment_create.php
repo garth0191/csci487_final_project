@@ -19,7 +19,7 @@ $error = false;
 // Create a new assessment.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Add new assessment to database.
-    if ((isset($_POST["assessment_name"]) && $_POST["assessment_name"] !== "") && (isset($_POST["assessment_type"]) && $_POST["assessment_type"] !== "") && (isset($_POST["score_type"]) && $_POST["score_type"] !== "") && (isset($_POST["due_date"]) && $_POST["due_date"])){
+    if ((isset($_POST["assessment_name"]) && $_POST["assessment_name"] !== "") && (isset($_POST["assessment_type"]) && $_POST["assessment_type"] !== "") && (isset($_POST["score_type"]) && $_POST["score_type"] !== "") && (isset($_POST["due_date"]) && $_POST["due_date"] !== "")){
         // Check if an assessment already exists with submitted name.
         $nameCheck = $conn->prepare("SELECT * FROM COURSE WHERE `assessment_description` = ?");
         $nameCheck->execute([$_POST["assessment_name"]]);
@@ -28,9 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $message = "The submitted assessment name is already in use. Please choose another name for your assessment.";
         } else {
             try {
-                if (isset($_POST["points_possible"]) && $_POST["points_possible"] !== "") {
+                if (isset($_POST["points-possible"]) && $_POST["points-possible"] !== "") {
                     $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, points_possible, due_date) VALUES (?, ?, ?, ?, ?)");
-                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["score_type"], $_POST["points_possible"], $_POST["due_date"]]);
+                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["score_type"], $_POST["points-possible"], $_POST["due_date"]]);
                 } else {
                     $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, due_date) VALUES (?, ?, ?, ?)");
                     $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["score_type"], $_POST["due_date"]]);
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Create USER_ASSESSMENT bridge records for all students in the course.
                 try {
-                    $pullStudentRecords = $conn->preapre("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
+                    $pullStudentRecords = $conn->prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
                     $pullStudentRecords->execute([$course_id]);
                     while ($oneStudent = $pullStudentRecords->fetch(PDO::FETCH_ASSOC)) {
                         $student_id = $oneStudent["user_id"];
@@ -57,12 +57,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } catch (PDOException $e) {
                     echo "ERROR: Could not pull student records from USER_COURSE table. ".$e->getMessage();
                 }
-                // Redirect user to course page.
-                try {
-                    header("Location: course.php?course_id=$course_id");
-                } catch (PDOException $e) {
-                    echo "ERROR: Could not redirect user to course page after adding assessment. ".$e->getMessage();
-                }
+            }
+            // Redirect user to course page.
+            try {
+                header("Location: course.php?course_id=$course_id");
+                exit();
+            } catch (PDOException $e) {
+                echo "ERROR: Could not redirect user to course page after adding assessment. ".$e->getMessage();
             }
         }
     } else {
