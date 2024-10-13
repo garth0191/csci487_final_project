@@ -107,7 +107,11 @@
                             echo "<td><strong>Assessment Name</strong></td><td>".$assessment_name."</td>";
                             echo "</tr>";
                             echo "<tr>";
-                            echo "<td><strong>Assessment Type</strong></td><td>".$assessment_type."</td>";
+                            $pullAssessmentType = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
+                            $pullAssessmentType->execute([$assessment_type]);
+                            while ($oneType = $pullAssessmentType->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<td><strong>Assessment Type</strong></td><td>".$oneType["type_description"]."</td>";
+                            }
                             echo "</tr>";
                             echo "<tr>";
                             echo "<td><strong>Points Possible</strong></td><td>".$points_possible."</td>";
