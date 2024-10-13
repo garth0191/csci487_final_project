@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function confirmDelete(event) {
-    if (!confirm('Are you sure you want to delete this assessment? This action cannot be undone.')) {
+    if (!confirm('Are you sure you want to delete this item? This action cannot be undone.')) {
         event.preventDefault();
     }
 }
