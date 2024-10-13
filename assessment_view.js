@@ -35,4 +35,49 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error('Could not redirect to home page.');
     }
+
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, direction;
+        var switchCount = 0;
+
+        table = document.getElementById("assessment-table");
+        switching = true;
+
+        //Sorting direction set to ASCENDING.
+        direction = "asc";
+
+        // Loops until no switching has been done.
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            //Loop through all table rows (except the headers).
+            for (i = 1; i < (rows.length-1); i++) {
+                shouldSwitch = false;
+                //Comparisons.
+                x = rows[i].getElementsByTagName("td")[n];
+                y = rows[i+1].getElementsByTagName("td")[n];
+                if (direction == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (direction == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+                switching = true;
+                switchCount++;
+            } else {
+                if (switchCount == 0 && direction == "asc") {
+                    direction = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
 });
