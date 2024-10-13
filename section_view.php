@@ -1,58 +1,58 @@
 <?php
-session_start();
-require '/home/gnmcclur/connections/connect.php';
+    session_start();
+    require '/home/gnmcclur/connections/connect.php';
 
-if(!isset($_SESSION['user_id'])){
-    header('Location: index.php');
-}
+    if(!isset($_SESSION['user_id'])){
+        header('Location: index.php');
+    }
 
-$user_id = $_SESSION['user_id'];
-$error = false;
+    $user_id = $_SESSION['user_id'];
+    $error = false;
 
-// Grab section ID that has been passed to this page.
-if (isset($_GET["section_id"]) && $_GET["section_id"] !== "") {
-    $section_id = $_GET["section_id"];
-}
+    // Grab section ID that has been passed to this page.
+    if (isset($_GET["section_id"]) && $_GET["section_id"] !== "") {
+        $section_id = $_GET["section_id"];
+    }
 
-//Grab corresponding course ID.
-$courseQuery = $conn->prepare("SELECT * FROM SECTION WHERE `section_id` = ?");
-$courseQuery->execute([$section_id]);
-while ($course = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
-    $course_id = $course["course_id"];
-}
+    //Grab corresponding course ID.
+    $courseQuery = $conn->prepare("SELECT * FROM SECTION WHERE `section_id` = ?");
+    $courseQuery->execute([$section_id]);
+    while ($course = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
+        $course_id = $course["course_id"];
+    }
 
-// Check whether an instructor has uploaded a new course item for the section.
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if ( (isset($_FILES["course_item"]) && $_FILES["course_item"]["error"] === UPLOAD_ERR_OK ) && (isset($_POST["user_id"]) && $_POST["user_id"] !== "") && (isset($_POST["item_name"]) && $_POST["item_name"] !== "") ) {
-        $item_name = $_POST["item_name"];
-        $instructor_id = $_POST["user_id"];
+    // Check whether an instructor has uploaded a new course item for the section.
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ( (isset($_FILES["course_item"]) && $_FILES["course_item"]["error"] === UPLOAD_ERR_OK ) && (isset($_POST["user_id"]) && $_POST["user_id"] !== "") && (isset($_POST["item_name"]) && $_POST["item_name"] !== "") ) {
+            $item_name = $_POST["item_name"];
+            $instructor_id = $_POST["user_id"];
 
-        try {
-            $item_filepath = $_FILES["course_item"];
+            try {
+                $item_filepath = $_FILES["course_item"];
 
-            if ($item_filepath['error'] == 0) {
-                try {
-                    
-                    //Upload course item to server.
-                    $temp_filename = $item_filepath['tmp_name'];
-                    $file_extension = pathinfo($item_filepath['name'], PATHINFO_EXTENSION);
-                    $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section_id."_".time().".".$file_extension;
-                    $upload_path = "course_items/".$new_filename;
-                    move_uploaded_file($temp_filename, $upload_path);
+                if ($item_filepath['error'] == 0) {
+                    try {
 
-                    $date = date('Y-m-d');
-                    //Add course item to database.
-                    $itemAddQuery = $conn->prepare("INSERT INTO ITEM (section_id, user_id, item_name, file_path, upload_date) VALUES (?, ?, ?, ?, ?)");
-                    $itemAddQuery->execute([$section_id, $instructor_id, $item_name, $upload_path, $date]);
-                } catch (PDOException $e) {
-                    echo "ERROR: Could not add item to database. ".$e->getMessage();
+                        //Upload course item to server.
+                        $temp_filename = $item_filepath['tmp_name'];
+                        $file_extension = pathinfo($item_filepath['name'], PATHINFO_EXTENSION);
+                        $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section_id."_".time().".".$file_extension;
+                        $upload_path = "course_items/".$new_filename;
+                        move_uploaded_file($temp_filename, $upload_path);
+
+                        $date = date('Y-m-d');
+                        //Add course item to database.
+                        $itemAddQuery = $conn->prepare("INSERT INTO ITEM (section_id, user_id, item_name, file_path, upload_date) VALUES (?, ?, ?, ?, ?)");
+                        $itemAddQuery->execute([$section_id, $instructor_id, $item_name, $upload_path, $date]);
+                    } catch (PDOException $e) {
+                        echo "ERROR: Could not add item to database. ".$e->getMessage();
+                    }
                 }
+            } catch (PDOException $e) {
+                echo "ERROR: Could not upload course item to server. ".$e->getMessage();
             }
-        } catch (PDOException $e) {
-            echo "ERROR: Could not upload course item to server. ".$e->getMessage();
         }
     }
-}
 ?>
 
 <!DOCTYPE html>

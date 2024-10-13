@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 try {
-    //Remove user from the database.
     $deleteQuery = $conn->prepare("DELETE FROM ASSESSMENT WHERE `assessment_id` = ?");
     $deleteQuery->execute([$assessment_id]);
     
