@@ -19,7 +19,8 @@ $error = false;
 // Create a new assessment.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Add new assessment to database.
-    if ((isset($_POST["assessment_name"]) && $_POST["assessment_name"] !== "") && (isset($_POST["assessment_type"]) && $_POST["assessment_type"] !== "") && (isset($_POST["due_date"]) && $_POST["due_date"] !== "")){
+    if ((isset($_POST["assessment_name"]) && $_POST["assessment_name"] !== "") && (isset($_POST["assessment_type"]) && $_POST["assessment_type"] !== "") && (isset($_POST["due_date"]) && $_POST["due_date"] !== "") &&
+        (isset($_POST["submissions"]) && $_POST["submissions"] !== "")){
         // Check if an assessment already exists with submitted name.
         $nameCheck = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `assessment_description` = ? AND `course_id` = ?");
         $nameCheck->execute([$_POST["assessment_name"], $course_id]);
@@ -30,11 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             try {
                 $due_date = date('Y-m-d', strtotime($_POST["due_date"]));
                 if (isset($_POST["points-possible"]) && $_POST["points-possible"] !== "") {
-                    $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, points_possible, due_date) VALUES (?, ?, ?, ?, ?)");
-                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["points-possible"], $due_date]);
+                    $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, points_possible, due_date, has_submissions) VALUES (?, ?, ?, ?, ?, ?)");
+                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["points-possible"], $due_date, $_POST["submissions"]]);
                 } else {
-                    $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, due_date) VALUES (?, ?, ?, ?)");
-                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $due_date]);
+                    $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, due_date, has_submissions) VALUES (?, ?, ?, ?, ?)");
+                    $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $due_date, $_POST["submissions"]]);
                 }
             } catch (PDOException $e) {
                 echo "ERROR: Could not create new assignment. ".$e->getMessage();
@@ -122,7 +123,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "ERROR: Could not pull assessment types. ".$e->getMessage();
                         }
                     ?>
-                    Points Possible: <input type="number" id="1" name="points-possible"></input>
+                    Points Possible: <input type="number" name="points-possible" placeholder="Leave blank if PASS/FAIL."></input><br>
+                    Will this assessment require user submissions?&nbsp;
+                    <select name="submissions">
+                        <option style="display:none"></option>
+                        <option name="submissions" value="1">Yes</option>
+                        <option name="submissions" value="0">No</option>
+                    </select>
                     <input type="submit" name="submit" value="Submit">
                 </form>
             </div>
