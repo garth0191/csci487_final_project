@@ -36,3 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Could not redirect to homepage.');
     }
 });
+
+function confirmDelete(event) {
+    if (!confirm('Are you sure you want to delete this assessment? This action cannot be undone.')) {
+        event.preventDefault();
+    }
+}

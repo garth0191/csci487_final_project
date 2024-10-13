@@ -128,7 +128,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     $instructor_email = $nameRow["user_email"];
                                 }
                                 echo "<td>".$instructor_email."</td>";
-                                echo "<td>".$upload_date."</td>";
+                                echo "<td>".$upload_date."&nbsp;";
+                                echo "<form action='item_delete.php?item_id=".$oneItem["item_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                echo "<input type='hidden' name='section_id' value='".$section_id."'></input>";
+                                echo "<input type='submit' name='submit' value=' X ' onclick='confirmDelete(event)'></input>";
+                                echo "</form>";
+                                echo "</td>";
                                 echo "</tr>";
                             }
                         }

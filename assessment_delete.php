@@ -22,7 +22,7 @@ try {
     $deleteQuery->execute([$assessment_id]);
     
 } catch (PDOException $e) {
-    echo "ERROR: Could not delete user account.".$e->getMessage();
+    echo "ERROR: Could not delete assessment.".$e->getMessage();
 }
 
 header("Location: assessment_view.php?course_id=$course_id");
