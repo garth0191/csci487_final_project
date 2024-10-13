@@ -25,5 +25,4 @@ try {
     echo "ERROR: Could not delete user account.".$e->getMessage();
 }
 
-header("Location: assessment_view.php?course_id=$course_id);
-?>
+header("Location: assessment_view.php?course_id=$course_id");
