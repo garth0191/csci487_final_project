@@ -37,7 +37,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Section Edit Page</title>
-    <link rel="stylesheet" href="assessment_edit.css">
+    <link rel="stylesheet" href="section_edit.css">
 </head>
 
 <body>
@@ -60,14 +60,14 @@
     <div class="main-section">
         <section class="section-list">
             <h2>Current Course Item Sections</h2>
+            <th>Section Name</th>
             <table>
                 <?php
                     $courseSections = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
                     $courseSections->execute([$course_id]);
                     while ($oneSection = $courseSections->fetch(PDO::FETCH_ASSOC)) {
                         $sectionName = $oneSection["section_name"];
-                        echo "<tr>";
-                        echo "<td><strong>Section Name</strong></td><td>".$sectionName."&nbsp;";
+                        echo "<tr><td>";
                         echo "<form action='section_delete.php?section_id=".$oneSection["section_id"]."' method='post' style='display: inline; padding: 5px;'>";
                         echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
                         echo "<input type='submit' name='submit' value=' X ' onclick='confirmDelete(event)'></input>";
@@ -125,6 +125,6 @@
     <p>© Garth McClure. All rights reserved.</p>
 </footer>
 
-<script src="assessment_edit.js"></script>
+<script src="section_edit.js"></script>
 </body>
 </html>
