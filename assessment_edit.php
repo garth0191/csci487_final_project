@@ -20,6 +20,47 @@
     
     $message = "";
     $error = false;
+
+    // Edit assessment details.
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Change assessment name.
+        if ((isset($_POST["assessment_name"]) && $_POST["assessment_name"] !== "")) {
+            try {
+                $changeName = $conn->prepare("UPDATE ASSESSMENT SET `assessment_description` = ? WHERE `assessment_id` = ?");
+                $changeName->execute([$_POST["assessment_name"], $assessment_id]);
+            } catch (PDOException $e) {
+                echo "ERROR: Could not change assessment name. ".$e->getMessage();
+            }
+        }
+        // Change assessment type.
+        if ((isset($_POST["assessment_type"]) && $_POST["assessment_type"] !== "")) {
+            try {
+                $changeType = $conn->prepare("UPDATE ASSESSMENT SET `assessment_type` = ? WHERE `assessment_id` = ?");
+                $changeType->execute([$_POST["assessment_type"], $assessment_id]);
+            } catch (PDOException $e) {
+                echo "ERROR: Could not change assessment type. ".$e->getMessage();
+            }
+        }
+        // Change points possible.
+        if ((isset($_POST["points_possible"]) && $_POST["points_possible"] !== "")) {
+            try {
+                $changePoints = $conn->prepare("UPDATE ASSESSMENT SET `points_possible` = ? WHERE `assessment_id` = ?");
+                $changePoints->execute([$_POST["points_possible"], $assessment_id]);
+            } catch (PDOException $e) {
+                echo "ERROR: Could not change points possible. ".$e->getMessage();
+            }
+        }
+        // Change due date.
+        if (isset($_POST["due_date"]) && $_POST["due_date"] !== "") {
+            try {
+                $due_date = date('Y-m-d', strtotime($_POST["due_date"]));
+                $changeDate = $conn->prepare("UPDATE ASSESSMENT SET `due_date` = ? WHERE `assessment_id` = ?");
+                $changeDate->execute([$due_date, $assessment_id]);
+            } catch (PDOException $e) {
+                echo "ERROR: Could not change due date. ".$e->getMessage();
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -60,13 +101,50 @@
                             $assessment_name = $oneAssessment["assessment_description"];
                             $assessment_type = $oneAssessment["assessment_type"];
                             $points_possible = $oneAssessment["points_possible"];
+                            $due_date = $oneAssessment["due_date"];
 
+                            echo "<tr>";
+                            echo "<td><strong>Assessment Name</strong></td><td>".$assessment_name."</td>";
+                            echo "</tr>";
+                            echo "<tr>";
+                            echo "<td><strong>Assessment Type</strong></td><td>".$assessment_type."</td>";
+                            echo "</tr>";
+                            echo "<tr>";
+                            echo "<td><strong>Points Possible</strong></td><td>".$points_possible."</td>";
+                            echo "</tr>";
+                            echo "<tr>";
+                            echo "<td><strong>Due Date</strong></td><td>".$due_date."</td>";
+                            echo "</tr>";
                         }
                     } catch (PDOException $e) {
                         echo "ERROR: Could not pull assessment data from database. ".$e->getMessage();
                     }
                 ?>
             </table>
+        </section>
+
+        <section class="edit-assessment-details">
+            <br><br><br><h2>Edit Assessment Details</h2>
+            <div class="edit-assessment-details-container">
+                <form action='assessment_edit.php?assessment_id=<?php echo $assessment_id; ?>' method='post'>
+                    Assessment Name: <input type="text" id="assessment_name" name="assessment_name" style="width: 20%;" placeholder="<?php echo $assessment_name; ?>"></input><br>
+                    Assessment Type:
+                    <?php
+                    $allTypes = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE");
+                    $allTypes->execute();
+                    echo "<select name='assessment_type'>";
+                    echo '<option style="display:none"></option>';
+                    while ($oneRow = $allTypes->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<option name='assessment_type' value='".$oneRow["assessment_type_id"]."'>".$oneRow["type_description"]."</option>";
+                    }
+                    echo "</select>";
+                    ?>
+                    <br>
+                    Points Possible: <input type="number" id="points_possible" name="points_possible"><br>
+                    Due Date: <input type="date" id="due_date" name="due_date" min="1900-01-01" max="2999-01-01"><br>
+                    <input type="submit" name="submit" value="Confirm Changes">
+                </form>
+            </div>
         </section>
     </div>
 

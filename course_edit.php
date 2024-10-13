@@ -114,6 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                 echo "<tr>";
                                 echo "<td><strong>Department Course ID</strong></td><td>".$course_num."</td>";
+                                echo "</tr>";
                                 echo "<tr>";
                                 echo "<td><strong>Course Name</strong></td><td>".$course_name."</td>";
                                 echo "</tr>";
