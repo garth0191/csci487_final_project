@@ -67,6 +67,7 @@
                                     echo "<input type='submit' name='submit' value=' Edit '></input>";
                                     echo "</form>&nbsp;";
                                     echo "<form action='assessment_delete.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                    echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
                                     echo "<input type='submit' name='submit' value=' X '></input>";
                                     echo "</form>";
                                     echo "</td>";

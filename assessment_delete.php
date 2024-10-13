@@ -10,6 +10,12 @@ if (isset($_GET["assessment_id"]) && $_GET["assessment_id"] !== "") {
     $assessment_id = $_GET["assessment_id"];
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if ((isset($_POST["course_id"]) && $_POST["course_id"] !== "")) {
+        $course_id = $_POST["course_id"];
+    }
+}
+
 try {
     //Remove user from the database.
     $deleteQuery = $conn->prepare("DELETE FROM ASSESSMENT WHERE `assessment_id` = ?");
@@ -19,5 +25,5 @@ try {
     echo "ERROR: Could not delete user account.".$e->getMessage();
 }
 
-header("Location: assessment_view.php");
+header("Location: assessment_view.php?course_id=$course_id);
 ?>
