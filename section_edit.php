@@ -60,8 +60,8 @@
     <div class="main-section">
         <section class="section-list">
             <h2>Current Course Item Sections</h2>
-            <th>Section Name</th>
             <table>
+                <th>Section Name</th>
                 <?php
                     $courseSections = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
                     $courseSections->execute([$course_id]);
