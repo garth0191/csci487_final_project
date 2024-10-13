@@ -76,6 +76,7 @@ CREATE TABLE ASSESSMENT(
     assessment_type int NOT NULL,
     points_possible int,
     due_date date NOT NULL,
+    has_submissions int NOT NULL, /* 0 for no, 1 for yes. */
     PRIMARY KEY (assessment_id)
 ) Engine=InnoDB;
 
@@ -85,6 +86,7 @@ CREATE TABLE USER_ASSESSMENT( /* For student records only -- one per student, pe
     course_id int NOT NULL,
     assessment_id int NOT NULL,
     assessment_score int, /* For PASS/FAIL: 1 or 0, respectively. */
+    user_submission_filepath varchar(200),
     PRIMARY KEY (user_assessment_id)
 ) Engine=InnoDB;
 

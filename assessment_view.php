@@ -44,8 +44,53 @@
 
 <div class="container">
     <div class="main-section">
-        <section class="assessment-container">
+        <section class="all-assessments">
+            <h2>Assessment List</h2>
+            <div class="all-assessments-container">
+                <table id="assessment-table">
+                    <tr>
+                        <th onclick="sortTable(0)">Assessment Name</th>
+                        <th onclick="sortTable(1)">Assessment Type</th>
+                        <th onclick="sortTable(2)">Assessment Due Date</th>
+                    </tr>
+                        <?php
+                            try {
+                                //Grab assessments from database.
+                                $pullAssessments = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `course_id` = ?");
+                                $pullAssessments->execute([$course_id]);
+                                while ($oneAssessment = $pullAssessments->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<tr>";
+                                    echo "<td>";
+                                    echo $oneAssessment["assessment_description"];
+                                    echo "&nbsp;<form action='assessment_edit.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                    echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
+                                    echo "<input type='submit' name='submit' value=' Edit '></input>";
+                                    echo "</form>&nbsp;";
+                                    echo "<form action='assessment_delete.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                    echo "<input type='submit' name='submit' value=' X '></input>";
+                                    echo "</form>";
+                                    echo "</td>";
 
+                                    //Grab assessment types from database.
+                                    echo "<td>";
+                                    $pullTypes = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
+                                    $pullTypes->execute([$oneAssessment["assessment_type"]]);
+                                    while ($oneType = $pullTypes->fetch(PDO::FETCH_ASSOC)) {
+                                        echo $oneType["type_description"];
+                                    }
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo $oneAssessment["due_date"];
+                                    echo "</td>";
+                                    echo "</tr>";
+                                }
+                            } catch (PDOException $e) {
+                            echo "ERROR: Could not pull assessment items from database. ".$e->getMessage();
+                            }
+
+                        ?>
+                </table>
+            </div>
         </section>
     </div>
 
@@ -54,7 +99,7 @@
         <!-- Course edit options, etc., will go here. -->
         <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
         <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
-        <a href="assessment_view.php?course_id=<?php echo $course_id; ?>">EDIT ASSESSMENTS</a>
+        <a href="assessment_view.php?course_id=<?php echo $course_id; ?>">VIEW/EDIT ASSESSMENTS</a>
         <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE SECTIONS</a>
         <?php
         // Pull all sections created by instructor.
