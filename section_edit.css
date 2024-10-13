@@ -92,7 +92,7 @@ html, body {
 }
 
 table {
-    width: 100%;
+    width: 40%;
     border-collapse: collapse;
     margin: 10px 0;
     /* Add background colors, etc., later. */

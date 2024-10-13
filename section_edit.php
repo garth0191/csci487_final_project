@@ -59,6 +59,7 @@
 <div class="container">
     <div class="main-section">
         <section class="section-list">
+            <center>
             <h2>Current Course Item Sections</h2>
             <table>
                 <th>Section Name</th>
@@ -77,13 +78,14 @@
                     }
                 ?>
             </table>
+            </center>
         </section>
 
         <section class="add-section">
             <h2>Add New Item Section to Course</h2>
             <div class="add-section-container">
                 <form action="section_edit.php?course_id=<?php echo $course_id; ?>" method="post">
-                    <input type="text" name="section_name" placeholder="Input new section name.">
+                    <input type="text" name="section_name" placeholder="Input new section name." style="width: 150px;">
                     <input type="submit" name="submit" value="Add New Section">
                 </form>
             </div>
