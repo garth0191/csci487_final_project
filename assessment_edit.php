@@ -52,7 +52,20 @@
         <section class="current-assessment-details">
             <h2>Assessment Details</h2>
             <table>
-                
+                <?php
+                    try {
+                        $assessmentDetails = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `assessment_id` = ?");
+                        $assessmentDetails->execute([$assessment_id]);
+                        while ($oneAssessment = $assessmentDetails->fetch(PDO::FETCH_ASSOC)) {
+                            $assessment_name = $oneAssessment["assessment_description"];
+                            $assessment_type = $oneAssessment["assessment_type"];
+                            $points_possible = $oneAssessment["points_possible"];
+
+                        }
+                    } catch (PDOException $e) {
+                        echo "ERROR: Could not pull assessment data from database. ".$e->getMessage();
+                    }
+                ?>
             </table>
         </section>
     </div>

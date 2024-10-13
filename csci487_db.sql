@@ -26,6 +26,8 @@ CREATE TABLE USER(
     user_email varchar(75) NOT NULL,
     user_password varchar(1000) NOT NULL,
     user_type int NOT NULL,
+    first_name varchar(100),
+    last_name varchar(100),
     PRIMARY KEY (user_id)
 ) Engine=InnoDB;
 
@@ -37,6 +39,7 @@ CREATE TABLE USER_TYPE(
 
 CREATE TABLE COURSE(
     course_id int NOT NULL AUTO_INCREMENT,
+    course_num varchar(50) NOT NULL,
     course_name varchar(150) NOT NULL,
     instructor_id int NOT NULL,
     assistant_id int,
