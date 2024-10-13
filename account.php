@@ -18,6 +18,8 @@ try {
     $userTypeQuery->execute([$user_id]);
     while ($oneUser = $userTypeQuery->fetch(PDO::FETCH_ASSOC)) {
         $user_type = $oneUser["user_type"];
+        $first_name = $oneUser["first_name"];
+        $last_name = $oneUser["last_name"];
         $userDescQuery = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` = ?");
         $userDescQuery->execute([$user_type]);
         while ($oneDesc = $userDescQuery->fetch(PDO::FETCH_ASSOC)) {
@@ -65,6 +67,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = true;
         $message = "Fields must not be blank.";
     }
+
+    if ((isset($_POST["first_name"]) && $_POST["first_name"] !== "")) {
+        try {
+            $changeFirstName = $conn->prepare("UPDATE USER SET first_name = ? WHERE `user_id` = ?");
+            $changeFirstName->execute([$user_id]);
+            $error = false;
+        } catch (PDOException $e) {
+            echo "ERROR: Could not update first name. ".$e->getMessage();
+        }
+    }
+
+    if ((isset($_POST["last_name"]) && $_POST["last_name"] !== "")) {
+        try {
+            $changeLastName = $conn->prepare("UPDATE USER SET last_name = ? WHERE `user_id` = ?");
+            $changeLastName->execute([$user_id]);
+            $error = false;
+        } catch (PDOException $e) {
+            echo "ERROR: Could not update last name. ".$e->getMessage();
+        }
+    }
 }
 ?>
 
@@ -100,7 +122,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>User Details</h2>
                     <table>
                         <tr>
-                            <?php echo "<td>User ID</td><td>".$user_id."</td>"; ?>
+                            <?php
+                            echo "<td>First Name</td>";
+                            if ($first_name !== NULL) {
+                                echo "<td>".$first_name."</td>";
+                            } else {
+                                echo "<td><em>Unspecified</em></td>";
+                            }
+                            ?>
+                        </tr>
+                        <tr>
+                            <?php
+                            echo "<td>Last Name</td>";
+                            if ($last_name !== NULL) {
+                                echo "<td>".$last_name."</td>";
+                            } else {
+                                echo "<td><em>Unspecified</em></td>";
+                            }
+                            ?>
                         </tr>
                         <tr>
                             <?php echo "<td>E-mail Address</td><td>".$user_email."</td>"; ?>
@@ -112,6 +151,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php echo "<td>User Type</td><td>".$type_description."</td>"; ?>
                         </tr>
                     </table>
+                </section>
+
+                <!-- Change name -->
+                <section class="change-name">
+                    <h2>Change Profile Name</h2>
+                    <div class="change-name-container">
+                        <form action="account.php" method="post">
+                            <input type="text" name="first_name" placeholder="Enter new first name."></input>
+                            <input type="text" name="last_name" placeholder="Enter new last name."></input>
+                            <button type ="submit" id="name-confirm">Confirm</button>
+                        </form>
+                    </div>
                 </section>
 
                 <!-- Change user password. -->

@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const tile = document.createElement('div');
             tile.classList.add('course-tile');
             tile.innerHTML = `
-                <h2>${course.course_name}</h2>
+                <h2>${course.course_num}&nbsp;${course.course_name}</h2>
                 <p>Instructor: <em>${course.instructor_name}</em></p>
                 <p>${course.course_description}</p>
             `;

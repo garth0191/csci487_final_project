@@ -45,6 +45,15 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
 
     <div class="container">
         <div class="main-section">
+            <h1>
+                <?php
+                    $pullCourseName = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
+                    $pullCourseName->execute([$course_id]);
+                    while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<center>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</center>";
+                    }
+                ?>
+            </h1>
             <!-- Upcoming assessments section. -->
             <section class="upcoming">
             <h2>Upcoming Assessments</h2>

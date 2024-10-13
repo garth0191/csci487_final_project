@@ -106,11 +106,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $courseQuery = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
                             $courseQuery->execute([$course_id]);
                             while ($oneCourse = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
+                                $course_num = $oneCourse["course_num"];
                                 $course_name = $oneCourse["course_name"];
                                 $course_description = $oneCourse["course_description"];
                                 $assistant_id = $oneCourse["assistant_id"];
                                 $professor_name = $oneCourse["professor_name"];
 
+                                echo "<tr>";
+                                echo "<td><strong>Department Course ID</strong></td><td>".$course_num."</td>";
                                 echo "<tr>";
                                 echo "<td><strong>Course Name</strong></td><td>".$course_name."</td>";
                                 echo "</tr>";

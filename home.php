@@ -44,12 +44,13 @@ $current_courses = [];
                     <?php
                         // Retrieve all courses associated with current user.
                         try {  
-                            // Put courses into array to be passe to Javascript file.
+                            // Put courses into array to be passed to Javascript file.
                             $courseQuery = $conn->prepare("SELECT * FROM COURSE WHERE `instructor_id` = ?");
                             $courseQuery->execute([$user_id]);
                             while ($oneCourse = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
                                 $current_courses[] = array (
                                     "course_id" => $oneCourse["course_id"],
+                                    "course_num" => $oneCourse["course_num"],
                                     "course_name" => $oneCourse["course_name"],
                                     "course_description" => $oneCourse["course_description"],
                                     "instructor_name" => $oneCourse["professor_name"]
