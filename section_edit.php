@@ -67,7 +67,8 @@
                     $courseSections->execute([$course_id]);
                     while ($oneSection = $courseSections->fetch(PDO::FETCH_ASSOC)) {
                         $sectionName = $oneSection["section_name"];
-                        echo "<tr><td>";
+                        echo "<tr>";
+                        echo "<td>".$sectionName."&nbsp;";
                         echo "<form action='section_delete.php?section_id=".$oneSection["section_id"]."' method='post' style='display: inline; padding: 5px;'>";
                         echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
                         echo "<input type='submit' name='submit' value=' X ' onclick='confirmDelete(event)'></input>";
