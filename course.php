@@ -156,6 +156,37 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                     ?>
                 </table>
             </section>
+
+            <!-- Course roster of all registered students. -->
+            <section class="student-roster">
+                <h2>Course Roster</h2>
+                <table>
+                    <tr>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Contact E-Mail</th>
+                    </tr>
+                        <?php
+                            $rosterQuery = $conn->prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
+                            $rosterQuery->execute([$course_id]);
+                            if ($rosterQuery->rowCount() < 1) {
+                                echo "<tr><td colspan='3'><i><b>No students currently registered in course.</b></i></td></tr>";
+                            } else {
+                                while ($oneStudent = $rosterQuery->fetch(PDO::FETCH_ASSOC)) {
+                                    try {
+                                        echo "<tr>";
+                                        echo "<td>".$oneStudent["last_name"]."</td>";
+                                        echo "<td>".$oneStudent["first_name"]."</td>";
+                                        echo "<td>".$oneStudent["user_email"]."</td>";
+                                        echo "</tr>";
+                                    } catch (PDOException $e) {
+                                        echo "ERROR: Could not pull student data from database. ".$e->getMessage();
+                                    }
+                                }
+                            }
+                        ?>
+                </table>
+            </section>
         </div>
 
         <!-- Sidebar. -->
