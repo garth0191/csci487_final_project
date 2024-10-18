@@ -162,9 +162,9 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                 <h2>Course Roster</h2>
                 <table>
                     <tr>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Contact E-Mail</th>
+                        <th onclick="sortTable(0)">Last Name</th>
+                        <th onclick="sortTable(1)">First Name</th>
+                        <th onclick="sortTable(2)">Contact E-Mail</th>
                     </tr>
                         <?php
                             $rosterQuery = $conn->prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
