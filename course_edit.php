@@ -74,8 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Extra Credit
         try {
             $extraCreditWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 0");
-            $decimalWeight = $_POST["weight_0"] / 100;
-            $extraCreditWeight->execute([$decimalWeight]);
+            $extraCreditWeight->execute([$_POST["weight_0"]]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Extra Credit weight. ".$e->getMessage();
         }
@@ -85,8 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Attendance
         try {
             $attWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 1");
-            $decimalWeight = $_POST["weight_1"] / 100;
-            $attWeight->execute([$decimalWeight]);
+            $attWeight->execute([$_POST["weight_1"]]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Attendance weight. ".$e->getMessage();
         }
@@ -96,8 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Participation
         try {
             $partWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 2");
-            $decimalWeight = $_POST["weight_2"] / 100;
-            $partWeight->execute([$decimalWeight]);
+            $partWeight->execute([$_POST["weight_2"]]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Participation weight. ".$e->getMessage();
         }
@@ -107,8 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Quiz
         try {
             $quizWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 3");
-            $decimalWeight = $_POST["weight_3"] / 100;
-            $quizWeight->execute([$decimalWeight]);
+            $quizWeight->execute([$_POST["weight_3"]]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Quiz weight. ".$e->getMessage();
         }
@@ -118,8 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Exam
         try {
             $examWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 4");
-            $decimalWeight = $_POST["weight_4"] / 100;
-            $examWeight->execute([$decimalWeight]);
+            $examWeight->execute([$_POST["weight_4"]]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Exam weight. ".$e->getMessage();
         }
@@ -129,8 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Lab
         try {
             $labWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 5");
-            $decimalWeight = $_POST["weight_5"] / 100;
-            $labWeight->execute([$decimalWeight]);
+            $labWeight->execute([$_POST["weight_5"]]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Lab weight. ".$e->getMessage();
         }
@@ -140,8 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Project
         try {
             $projectWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 6");
-            $decimalWeight = $_POST["weight_6"] / 100;
-            $projectWeight->execute([$decimalWeight]);
+            $projectWeight->execute([$_POST["weight_6"]]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Project weight. ".$e->getMessage();
         }
@@ -243,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 echo "<tr>";
                                 echo "<td><strong>".$oneType["type_description"]."</strong></td>";
                                 if ($oneType["assessment_weight"] !== NULL) {
-                                    $weightPercentage = $oneType["assessment_weight"] * 100;
+                                    $weightPercentage = $oneType["assessment_weight"];
                                     echo "<td>".$weightPercentage."%"."</td>";
                                 } else {
                                     echo "<td><em>Weight not yet assigned.</em></td>";
@@ -294,7 +287,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $weightsQuery2->execute();
                                 while ($oneWeight = $weightsQuery2->fetch(PDO::FETCH_ASSOC)) {
                                     echo $oneWeight["type_description"]."&nbsp;";
-                                    $weightPercentage2 = $oneWeight["assessment_weight"] * 100;
+                                    $weightPercentage2 = $oneWeight["assessment_weight"];
                                     echo "<input type='number' min='1' max='100' id='weight_".$oneWeight["assessment_type_id"]."' name='weight_".$oneWeight["assessment_type_id"]."' placeholder ='".$weightPercentage2."'><br>";
 
                                 }
