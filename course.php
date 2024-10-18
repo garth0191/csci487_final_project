@@ -160,7 +160,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
             <!-- Course roster of all registered students. -->
             <section class="student-roster">
                 <h2>Course Roster</h2>
-                <table>
+                <table id="student-roster-table">
                     <tr>
                         <th onclick="sortTable(0)">Last Name</th>
                         <th onclick="sortTable(1)">First Name</th>

@@ -41,7 +41,7 @@ function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, direction;
     var switchCount = 0;
 
-    table = document.getElementById("assessment-table");
+    table = document.getElementById("student-roster-table");
     switching = true;
 
     //Sorting direction set to ASCENDING.
