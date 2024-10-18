@@ -68,6 +68,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "ERROR: Could not remove TA from course. ".$e->getMessage();
         }
     }
+
+    // Change assessment weights.
+    if ((isset($_POST["weight_0"]) && $_POST["weight_0"] !== "")) {
+        // Extra Credit
+        try {
+            $extraCreditWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 0");
+            $extraCreditWeight->execute([$_POST["weight_0"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not edit Extra Credit weight. ".$e->getMessage();
+        }
+    }
+
+    if ((isset($_POST["weight_1"]) && $_POST["weight_1"] !== "")) {
+        // Attendance
+        try {
+            $attWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 1");
+            $attWeight->execute([$_POST["weight_1"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not edit Attendance weight. ".$e->getMessage();
+        }
+    }
+
+    if ((isset($_POST["weight_2"]) && $_POST["weight_2"] !== "")) {
+        // Participation
+        try {
+            $partWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 2");
+            $partWeight->execute([$_POST["weight_2"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not edit Participation weight. ".$e->getMessage();
+        }
+    }
+
+    if ((isset($_POST["weight_3"]) && $_POST["weight_3"] !== "")) {
+        // Quiz
+        try {
+            $quizWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 3");
+            $quizWeight->execute([$_POST["weight_3"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not edit Quiz weight. ".$e->getMessage();
+        }
+    }
+
+    if ((isset($_POST["weight_4"]) && $_POST["weight_4"] !== "")) {
+        // Exam
+        try {
+            $examWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 4");
+            $examWeight->execute([$_POST["weight_4"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not edit Exam weight. ".$e->getMessage();
+        }
+    }
+
+    if ((isset($_POST["weight_5"]) && $_POST["weight_5"] !== "")) {
+        // Lab
+        try {
+            $labWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 5");
+            $labWeight->execute([$_POST["weight_5"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not edit Lab weight. ".$e->getMessage();
+        }
+    }
+
+    if ((isset($_POST["weight_6"]) && $_POST["weight_6"] !== "")) {
+        // Project
+        try {
+            $projectWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 6");
+            $projectWeight->execute([$_POST["weight_6"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not edit Project weight. ".$e->getMessage();
+        }
+    }
 }
 ?>
 
@@ -99,6 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <div class="main-section">
             <section class="current-course-details">
+                <h2>Course Summary</h2>
                     <!-- Display current course details. -->
                 <table>
                     <?php
@@ -153,6 +225,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </table>
             </section>
 
+            <section class="course-weights">
+                <h2>Course Weights</h2>
+                <table>
+                    <?php
+                        try {
+                            $weightsQuery = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE");
+                            $weightsQuery->execute();
+                            while ($oneType = $weightsQuery->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr>";
+                                echo "<td><strong>".$oneType["type_description"]."</strong></td>";
+                                if ($oneType["assessment_weight"] !== NULL) {
+                                    $weightPercentage = $oneType["assessment_weight"] * 100;
+                                    echo "<td>".$weightPercentage."%"."</td>";
+                                } else {
+                                    echo "<td><em>Weight not yet assigned.</em></td>";
+                                }
+                                echo "</tr>";
+                            }
+                        } catch (PDOException $e) {
+                            echo "ERROR: Could not retrieve assessment weights. ".$e->getMessage();
+                        }
+                    ?>
+                </table>
+            </section>
+
                 <!-- Options to edit course details. -->
             <section class="edit-course-details">
                 <br><br><br><h2>Edit Course Details</h2>
@@ -182,6 +279,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Delete course. -->
                 <div class="delete-course" id="delete-course">
                     <button type="submit" onclick="if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) window.location.href='course_delete.php?course_id=<?php echo $course_id; ?>';">&nbsp;Delete Course&nbsp;</button>
+                </div>
+            </section>
+
+            <section class="edit-course-weights">
+                <h2>Edit Course Weights</h2>
+                <div class="edit-course-weights-container">
+                    <form action='course_edit.php?course_id=<?php echo $course_id; ?>' method='post'>
+                        <?php
+                            try {
+                                $weightsQuery2 = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE");
+                                $weightsQuery2->execute();
+                                while ($oneWeight = $weightsQuery2->fetch(PDO::FETCH_ASSOC)) {
+                                    echo $oneWeight["type_description"]."&nbsp;";
+                                    $weightPercentage2 = $oneWeight["assessment_weight"] * 100;
+                                    echo "<input type='number' min='1' max='100' id='weight_".$oneWeight["assessment_type_id"]."' name='weight_".$oneWeight["assessment_type_id"]."' placeholder ='".$weightPercentage2."'><br>";
+
+                                }
+                            } catch (PDOException $e) {
+                                echo "ERROR: Could not retrieve weights. ".$e->getMessage();
+                            }
+                        ?>
+                    </form>
                 </div>
             </section>
         </div>
