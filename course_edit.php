@@ -74,7 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Extra Credit
         try {
             $extraCreditWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 0");
-            $extraCreditWeight->execute([$_POST["weight_0"]]);
+            $decimalWeight = $_POST["weight_0"] / 100;
+            $extraCreditWeight->execute([$decimalWeight]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Extra Credit weight. ".$e->getMessage();
         }
@@ -84,7 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Attendance
         try {
             $attWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 1");
-            $attWeight->execute([$_POST["weight_1"]]);
+            $decimalWeight = $_POST["weight_1"] / 100;
+            $attWeight->execute([$decimalWeight]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Attendance weight. ".$e->getMessage();
         }
@@ -94,7 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Participation
         try {
             $partWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 2");
-            $partWeight->execute([$_POST["weight_2"]]);
+            $decimalWeight = $_POST["weight_2"] / 100;
+            $partWeight->execute([$decimalWeight]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Participation weight. ".$e->getMessage();
         }
@@ -104,7 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Quiz
         try {
             $quizWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 3");
-            $quizWeight->execute([$_POST["weight_3"]]);
+            $decimalWeight = $_POST["weight_3"] / 100;
+            $quizWeight->execute([$decimalWeight]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Quiz weight. ".$e->getMessage();
         }
@@ -114,7 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Exam
         try {
             $examWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 4");
-            $examWeight->execute([$_POST["weight_4"]]);
+            $decimalWeight = $_POST["weight_4"] / 100;
+            $examWeight->execute([$decimalWeight]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Exam weight. ".$e->getMessage();
         }
@@ -124,7 +129,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Lab
         try {
             $labWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 5");
-            $labWeight->execute([$_POST["weight_5"]]);
+            $decimalWeight = $_POST["weight_5"] / 100;
+            $labWeight->execute([$decimalWeight]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Lab weight. ".$e->getMessage();
         }
@@ -134,7 +140,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Project
         try {
             $projectWeight = $conn->prepare("UPDATE ASSESSMENT_TYPE SET assessment_weight = ? WHERE assessment_type_id = 6");
-            $projectWeight->execute([$_POST["weight_6"]]);
+            $decimalWeight = $_POST["weight_6"] / 100;
+            $projectWeight->execute([$decimalWeight]);
         } catch (PDOException $e) {
             echo "ERROR: Could not edit Project weight. ".$e->getMessage();
         }
