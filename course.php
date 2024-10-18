@@ -175,9 +175,13 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                 while ($oneStudent = $rosterQuery->fetch(PDO::FETCH_ASSOC)) {
                                     try {
                                         echo "<tr>";
-                                        echo "<td>".$oneStudent["last_name"]."</td>";
-                                        echo "<td>".$oneStudent["first_name"]."</td>";
-                                        echo "<td>".$oneStudent["user_email"]."</td>";
+                                        $userQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
+                                        $userQuery->execute([$oneStudent["user_id"]]);
+                                        while ($userRow = $userQuery->fetch(PDO::FETCH_ASSOC)) {
+                                            echo "<td>".$userRow["last_name"]."</td>";
+                                            echo "<td>".$userRow["first_name"]."</td>";
+                                            echo "<td>".$userRow["user_email"]."</td>";
+                                        }
                                         echo "</tr>";
                                     } catch (PDOException $e) {
                                         echo "ERROR: Could not pull student data from database. ".$e->getMessage();
