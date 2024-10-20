@@ -14,10 +14,33 @@
         $assessment_id = $_GET["assessment_id"];
     }
 
+    // Grab assessment due date.
+    try {
+        $dueDateQuery = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `assessment_id` = ?");
+        $dueDateQuery->execute([$assessment_id]);
+        while ($oneDate = $dueDateQuery->fetch(PDO::FETCH_ASSOC)) {
+            $assessment_due_date = new DateTime($oneDate["due_date"]);
+        }
+    } catch (PDOException $e) {
+        echo "ERROR: Could not pull assessment due date. ".$e->getMessage();
+    }
+
     // Grab course ID that has been passed to this page.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ((isset($_POST["course_id"]) && $_POST["course_id"] !== "")) {
             $course_id = $_POST["course_id"];
+        }
+    }
+
+    // Check for new grade submission.
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST["new_grade"]) && $_POST["new_grade"] !== "") {
+            try {
+                $gradeUpdate = $conn->prepare("UPDATE USER_ASSESSMENT SET `assessment_score` = ? WHERE `user_assessment_id` = ?");
+                $gradeUpdate->execute([$_POST["new_grade"], $_POST["user_assessment_id"]]);
+            } catch (PDOException $e) {
+                echo "ERROR: Could not update student assessment grade. ".$e->getMessage();
+            }
         }
     }
 ?>
@@ -49,7 +72,72 @@
 
 <div class="container">
     <div class="main-section">
-
+        <h1>
+            <?php
+                $pullAssessmentName = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `assessment_id` = ?");
+                $pullAssessmentName->execute([$assessment_id]);
+                while ($oneAssessment = $pullAssessmentName->fetch(PDO::FETCH_ASSOC)) {
+                    echo $oneAssessment["assessment_description"]."<br>";
+                }
+            ?>
+        </h1>
+        <section class="user-assessment-list">
+            <h2>Assessment Student Records</h2>
+            <div class="assessment-list-container">
+                <table id="user-assessment-table">
+                    <tr>
+                        <th onclick="sortTable(0)">Last Name</th>
+                        <th onclick="sortTable(1)">First Name</th>
+                        <th onclick="sortTable(2)">File Submission</th>
+                        <th onclick="sortTable(3)">Score</th>
+                        <th></th>
+                    </tr>
+                    <?php
+                        // Pull USER_ASSESSMENT records for each student.
+                        try {
+                            $studentRecords = $conn->prepare("SELECT * FROM USER_ASSESSMENT WHERE `assessment_id` = ?");
+                            $studentRecords->execute([$assessment_id]);
+                            while ($oneRecord = $studentRecords->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr>";
+                                // Pull USER records for each student.
+                                $studentName = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
+                                $studentName->execute([$oneRecord["user_id"]]);
+                                while ($oneStudent = $studentName->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<td>".$oneStudent["last_name"]."</td>";
+                                    echo "<td>".$oneStudent["first_name"]."</td>";
+                                }
+                                if ($oneRecord["user_submission_filepath"] !== NULL) {
+                                    echo "<td><a href='".$oneRecord["user_submission_filepath"]."'>View Submission</a></td>";
+                                } else {
+                                    echo "<td><em>No submission available.</em></td>";
+                                }
+                                if ($oneRecord["assessment_score"] !== NULL) {
+                                    echo "<td>".$oneRecord["assessment_score"]."</td>";
+                                } else {
+                                    echo "<td><em>Not yet graded.</em></td>";
+                                }
+                                echo "<td>";
+                                echo "<form action='gradebook_view.php?assessment_id=".$assessment_id."' method='post' id='grade-edit' name='grade-edit'>";
+                                echo "<input type='number' name='new_grade' id='new_grade'>";
+                                echo "<input type='hidden' name='course_id' value='".$course_id."'>";
+                                echo "<input type='hidden' name-'user_assessment_id' value='".$oneRecord["user_assessment_id"]."'>";
+                                // If due date has NOT passed, make sure that alert is presented.
+                                if ($assessment_due_date > $currentTime) {
+                                    echo "<input type='submit' name='submit' value='Submit Grade' onclick='confirmGrade(event)'>";
+                                } else {
+                                    echo "<input type='submit' name='submit' value='Submit Grade'>";
+                                }
+                                echo "</form>";
+                                echo "</td>";
+                                echo "</tr>";
+                            }
+                        } catch (PDOException $e) {
+                            echo "ERROR: Could not pull student assessment records. ".$e->getMessage();
+                        }
+                    ?>
+                </table>
+            </div>
+        </section>
     </div>
 
     <!-- Sidebar. -->

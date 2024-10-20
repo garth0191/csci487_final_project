@@ -84,13 +84,17 @@
                                     $userAssessmentQuery = $conn->prepare("SELECT * FROM `USER_ASSESSMENT` WHERE `assessment_id` = ?");
                                     $userAssessmentQuery->execute([$oneAssessment["assessment_id"]]);
                                     $numRows = $userAssessmentQuery->rowCount();
-                                    echo "<td>";
-                                    echo $numRows;
-                                    echo "&nbsp;<form action='gradebook_view.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
-                                    echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
-                                    echo "<input type='submit' name='submit' value=' View Records '></input>";
-                                    echo "</form>";
-                                    echo "</td>";
+                                    if ($numRows >= 1) {
+                                        echo "<td>";
+                                        echo $numRows;
+                                        echo "&nbsp;<form action='gradebook_view.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                        echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
+                                        echo "<input type='submit' name='submit' value=' View Records '></input>";
+                                        echo "</form>";
+                                        echo "</td>";
+                                    } else {
+                                        echo "<td><em>No student records available.</em></td>";
+                                    }
                                     echo "</tr>";
                                 }
                             }
