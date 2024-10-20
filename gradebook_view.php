@@ -35,6 +35,8 @@
     // Check for new grade submission.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["new_grade"]) && $_POST["new_grade"] !== "") {
+            echo $_POST["user_assessment_id"];
+            echo $_POST["new_grade"];
             try {
                 $gradeUpdate = $conn->prepare("UPDATE USER_ASSESSMENT SET `assessment_score` = ? WHERE `user_assessment_id` = ?");
                 $gradeUpdate->execute([$_POST["new_grade"], $_POST["user_assessment_id"]]);
