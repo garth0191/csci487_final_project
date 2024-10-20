@@ -35,9 +35,6 @@
     // Check for new grade submission.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["new_grade"]) && $_POST["new_grade"] !== "") {
-            echo $_POST["user_assessment_id"];
-            echo $_POST["new_grade"];
-
             try {
                 $gradeUpdate = $conn->prepare("UPDATE USER_ASSESSMENT SET `assessment_score` = ? WHERE `user_assessment_id` = ?");
                 $gradeUpdate->execute([$_POST["new_grade"], $_POST["user_assessment_id"]]);
@@ -123,7 +120,7 @@
                                 echo "<form action='gradebook_view.php?assessment_id=".$assessment_id."' method='post' id='grade-edit' name='grade-edit'>";
                                 echo "<input type='number' name='new_grade' id='new_grade'>";
                                 echo "<input type='hidden' name='course_id' value='".$course_id."'>";
-                                echo "<input type='hidden' name-'user_assessment_id' value='".$oneRecord["user_assessment_id"]."'>";
+                                echo "<input type='hidden' name='user_assessment_id' value='".$oneRecord["user_assessment_id"]."'>";
                                 // If due date has NOT passed, make sure that alert is presented.
                                 if ($assessment_due_date > $currentTime) {
                                     echo "<input type='submit' name='submit' value='Submit Grade' onclick='confirmGrade(event)'>";
