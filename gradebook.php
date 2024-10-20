@@ -7,7 +7,6 @@
     }
 
     $user_id = $_SESSION['user_id'];
-    $currentTime = new DateTime();
 
     // Grab course ID that has been passed to this page.
     if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
