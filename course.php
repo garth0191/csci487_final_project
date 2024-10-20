@@ -201,6 +201,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
             <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
             <a href="assessment_view.php?course_id=<?php echo $course_id; ?>">VIEW/EDIT ASSESSMENTS</a>
             <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE SECTIONS</a>
+            <a href="gradebook.php?course_id=<?php echo $course_id; ?>">GRADEBOOK</a>
             <?php
                 // Pull all sections created by instructor.
                 try {
