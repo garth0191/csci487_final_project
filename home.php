@@ -38,7 +38,7 @@ $current_courses = [];
 
     <div class="container">
         <section class="main-section">
-            <center><h2>Affiliated Courses</h2></center>
+            <center><h2>Affiliated Courses</h2></center><br><br>
             <div class="course-container">
                 <div class="tile-container">
                     <?php

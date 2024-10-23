@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
     <div class="main-section">
         <section class="assessment-create">
-            <h2>New Course Details</h2>
+            <h2>New Assessment Details</h2><br>
             <center><?php if($error) {echo "<div class='error'>".$message."</div>";} ?></center>
             <div class="assessment-create-container">
                 <form action='assessment_create.php?course_id=<?php echo $course_id; ?>' method='post'>
