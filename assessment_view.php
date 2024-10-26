@@ -68,7 +68,7 @@
                                     echo "</form>&nbsp;";
                                     echo "<form action='assessment_delete.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
                                     echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
-                                    echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' width='32' height='32' alt='Delete'></button>";
+                                    echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
                                     echo "</form>";
                                     echo "</td>";
 
