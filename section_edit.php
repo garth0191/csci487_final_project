@@ -72,7 +72,7 @@
                         echo "<td>".$sectionName."&nbsp;";
                         echo "<form action='section_delete.php?section_id=".$oneSection["section_id"]."' method='post' style='display: inline; padding: 5px;'>";
                         echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
-                        echo "<input type='submit' name='submit' value=' X ' onclick='confirmDelete(event)'></input>";
+                        echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
                         echo "</form></td>";
                         echo "</tr>";
                     }
