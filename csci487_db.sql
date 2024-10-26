@@ -29,6 +29,7 @@ CREATE TABLE USER(
     user_type int NOT NULL,
     first_name varchar(100),
     last_name varchar(100),
+    reset_token varchar(32),
     PRIMARY KEY (user_id)
 ) Engine=InnoDB;
 

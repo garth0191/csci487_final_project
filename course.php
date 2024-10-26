@@ -34,7 +34,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
         <div class="navbar-buttons">
             <div class="button home" id="home-button">Home</div>
             <div class="button create" id="create-button">Create Course</div>
-            <div class="button account" id="account-button">Account Options</div>
+            <div class="button account" id="account-button">Profile</div>
             <div class="button logout" id="logout-button">Logout</div>
         </div>
         <!-- Will appear on right side of nav bar. -->

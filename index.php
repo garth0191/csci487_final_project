@@ -4,6 +4,47 @@
     //Get username and password from login form.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+        //Reset password.
+        if (isset($_POST["reset_password"])) {
+            if (isset($_POST["login_email"]) && $_POST["login_email"] !== "") {
+                $user_email = $_POST["login_email"];
+
+                try {
+                    $stmt = $conn->prepare("SELECT * FROM USER WHERE user_email = :user");
+                    $stmt->bindParam(":user", $user_email);
+                    $stmt->execute();
+
+                    $isUser = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if ($isUser) {
+                        //Generate password reset token.
+                        $token = bin2hex(random_bytes(16));
+                        $resetLink = "https://turing.cs.olemiss.edu/~gnmcclur/reset_password.php?token=".$token;
+
+                        //Store token in database.
+                        $stmt = $conn->prepare("UPDATE USER SET reset_token = :token WHERE user_email = :email");
+                        $stmt->bindParam(":token", $token);
+                        $stmt->bindParam(":email", $user_email);
+                        $stmt->execute();
+
+                        //Prepare and send e-mail to the address in the database.
+                        $subject = "Request for Password Reset";
+                        $message = "Click the following link to reset your password: ".$resetLink;
+                        $headers = "From: no-reply@coursecanvas.com\r\n";
+                        mail($user_email, $subject, $message, $headers);
+
+                        $message = "An email has been sent to $user_email with instructions to reset your password.";
+                    } else {
+                        $message = "No account associated with that email.";
+                    }
+                } catch (PDOException $e) {
+                    echo "Error retrieving email from database: " . $e->getMessage();
+                }
+            } else {
+                $message = "Please enter your registered email.";
+            }
+        }
+
         //Login.
         if ((isset($_POST["login_email"]) && $_POST["login_email"] !== "") && (isset($_POST["login_password"]) && $_POST["login_password"] !== "")) {
             $username = $_POST["login_email"];
@@ -39,7 +80,8 @@
             } catch (PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
-        } elseif ((isset($_POST["signup_email"]) && $_POST["signup_email"] !== "") && (isset($_POST["signup_password"]) && $_POST["signup_password"] !== "")) {
+        } elseif ((isset($_POST["signup_email"]) && $_POST["signup_email"] !== "") && (isset($_POST["signup_password"]) && $_POST["signup_password"] !== "") &&
+            (isset($_POST["lname"]) && $_POST["lname"] !== "") && (isset($_POST["fname"]) && $_POST["fname"] !== "")) {
             try {
                 $stmt = $conn->prepare("SELECT * FROM USER WHERE user_email = ?");
                 $stmt->execute([$_POST["signup_email"]]);
@@ -54,6 +96,8 @@
                 $desiredEmail = $_POST["signup_email"];
                 $desiredPassword = $_POST["signup_password"];
                 $desiredUserType = $_POST["type"];
+                $lastName = $_POST["lname"];
+                $firstName = $_POST["fname"];
 
                 //Check that submitted passwords match.
                 if ($_POST["signup_password"] !== $_POST["signup_password_confirm"]) {
@@ -67,12 +111,12 @@
 
                     try {
                         //Prepare to add user to the database.
-                        $addUserStmt = "INSERT INTO USER (user_email, user_password, user_type) VALUES (?, ?, ?)";
+                        $addUserStmt = "INSERT INTO USER (user_email, user_password, user_type, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
                         $addUser = $conn->prepare($addUserStmt);
 
                         //Encrypt password.
                         $hash = password_hash($desiredPassword, PASSWORD_DEFAULT);
-                        $addUser->execute([$desiredEmail, $hash, $desiredUserType]);
+                        $addUser->execute([$desiredEmail, $hash, $desiredUserType, $firstName, $lastName]);
 
                         $error = false;
                         $empty = false;
@@ -127,7 +171,8 @@
                         E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email">
                         Password: <input type="password" class="password element" placeholder="Input password." name="login_password">
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
-                        <button class="login-submit">Login</button>
+                        <button class="login-submit">Login</button><br><br>
+                        <button type="submit" name="reset_password" class="reset-password">Reset Password</button>
                     </div>
                  </form>
 
@@ -136,6 +181,8 @@
                     <div class="signup-container">
                         E-mail: <input type="email" class="email element" placeholder="Input desired e-mail address." name="signup_email">
                         Password: <input type="password" class="password element" placeholder="Input desired password." name="signup_password">
+                        First Name: <input type="text" class="fname element" placeholder="Input First name." name="fname">
+                        Last Name: <input type="text" class="lname element" placeholder="Input last name." name="lname">
                         Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm">
                         <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
                         Account type: <select name="type">
