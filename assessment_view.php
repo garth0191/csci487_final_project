@@ -63,12 +63,12 @@
                                     echo "<td>";
                                     echo $oneAssessment["assessment_description"];
                                     echo "&nbsp;<form action='assessment_edit.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
-                                    echo "<input type='hidden' name='course_id' value='".$course_id."' style='background: transparent; border: none; padding: 0; cursor: pointer;'></input>";
-                                    echo "<button type='submit' name='submit'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                    echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
+                                    echo "<button type='submit' name='submit' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
                                     echo "</form>&nbsp;";
                                     echo "<form action='assessment_delete.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
-                                    echo "<input type='hidden' name='course_id' value='".$course_id."' style='background: transparent; border: none; padding: 0; cursor: pointer;'></input>";
-                                    echo "<button type='submit' name='submit' onclick='confirmDelete(event)'><img src='./images/trash.svg' width='32' height='32' alt='Delete'></button>";
+                                    echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
+                                    echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' width='32' height='32' alt='Delete'></button>";
                                     echo "</form>";
                                     echo "</td>";
 
