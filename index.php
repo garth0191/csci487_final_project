@@ -172,18 +172,20 @@
                 <!-- Login form. -->
 
                 <div class="login-container">
+                    <center>
                     <form action="index.php" method="post">
                         E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email">
                         Password: <input type="password" class="password element" placeholder="Input password." name="login_password">
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
                         <button class="login-submit">Login</button>
                     </form>
-                    <h3>Reset Password</h3>
+                    <br><h3>Reset Password</h3><br>
                     <form action="index.php" method="post">
                         E-mail: <input type="email" class="email element" placeholder="Input e-mail associated with account." name="password_reset_email"></input>
                         <button type="submit" name="reset_password" class="password-reset-submit">Reset Password</button>
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
                     </form>
+                    </center>
                 </div>
 
 
