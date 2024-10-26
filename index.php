@@ -1,53 +1,25 @@
 <?php
     require '/home/gnmcclur/connections/connect.php';
+    $empty = true;
+    $message = "";
+
+    //REDIRECTED from 'reset_password_home'. Result of password reset request with given e-mail.
+    if (isset($_GET["result"]) && $_GET["result"] !== "") {
+        $result = $_GET["result"];
+        if ($result == 01) {
+            $empty = false;
+            $message = "An email has been sent to the provided e-mail with instructions to reset your password.";
+        } else if ($result == 02) {
+            $empty = false;
+            $message = "No account associated with that email.";
+        } else {
+            $empty = false;
+            $message = "Required field cannot be left blank.";
+        }
+    }
 
     //Get username and password from login form.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-        //Reset password.
-        if (isset($_POST["password_reset_email"]) && $_POST["password_reset_email"] !== "") {
-            $user_email = $_POST["login_email"];
-            $empty = true;
-            $message = "";
-
-            try {
-                $stmt = $conn->prepare("SELECT * FROM USER WHERE user_email = :user");
-                $stmt->bindParam(":user", $user_email);
-                $stmt->execute();
-
-                $isUser = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if ($isUser) {
-                    //Generate password reset token.
-                    $token = bin2hex(random_bytes(16));
-                    $resetLink = "https://turing.cs.olemiss.edu/~gnmcclur/reset_password.php?token=".$token;
-
-                    //Store token in database.
-                    $stmt = $conn->prepare("UPDATE USER SET reset_token = :token WHERE user_email = :email");
-                    $stmt->bindParam(":token", $token);
-                    $stmt->bindParam(":email", $user_email);
-                    $stmt->execute();
-
-                    //Prepare and send e-mail to the address in the database.
-                    $subject = "Request for Password Reset";
-                    $message = "Click the following link to reset your password: ".$resetLink;
-                    $headers = "From: no-reply@coursecanvas.com\r\n";
-                    mail($user_email, $subject, $message, $headers);
-
-                    $empty = false;
-                    $message = "An email has been sent to $user_email with instructions to reset your password.";
-                } else {
-                    $empty = false;
-                    $message = "No account associated with that email.";
-                }
-            } catch (PDOException $e) {
-                echo "Error retrieving email from database: " . $e->getMessage();
-            }
-        } else {
-            $empty = false;
-            $message = "Please enter your registered email.";
-        }
-
 
         //Login.
         if ((isset($_POST["login_email"]) && $_POST["login_email"] !== "") && (isset($_POST["login_password"]) && $_POST["login_password"] !== "")) {
@@ -180,14 +152,13 @@
                         <button class="login-submit">Login</button>
                     </form>
                     <br><h3>Reset Password</h3><br>
-                    <form action="index.php" method="post">
+                    <form action="reset_password_send.php" method="post">
                         E-mail: <input type="email" class="email element" placeholder="Input e-mail associated with account." name="password_reset_email"></input>
                         <button type="submit" name="reset_password" class="password-reset-submit">Reset Password</button>
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
                     </form>
                     </center>
                 </div>
-
 
                  <!-- Sign-up form. -->
                   <form action="index.php" method="post">

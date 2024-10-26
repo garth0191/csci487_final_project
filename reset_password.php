@@ -18,7 +18,7 @@ if (isset($_GET['token'])) {
 
         if ($user) {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                if (isset($_POST["new_password"]) && !empty($_POST["new_password"]) && isset($_POST["confirm_password"]) && !empty($_POST["confirm_password"])) {
+                if ((isset($_POST["new_password"]) && $_POST["new_password"] !== "") && (isset($_POST["confirm_password"]) && $_POST["confirm_password"] !== "")) {
                     if ($_POST["new_password"] !== $_POST["confirm_password"]) {
                         $message = "Passwords do not match.";
                     } else {
