@@ -36,17 +36,17 @@
                     mail($user_email, $subject, $message, $headers);
 
                     $result = 01;
-                    header("Location: home.php?result=$result");
+                    header("Location: index.php?result=$result");
                 } else {
                     $result = 02;
-                    header("Location: home.php?result=$result");
+                    header("Location: index.php?result=$result");
                 }
             } catch (PDOException $e) {
                 echo "Error retrieving email from database: " . $e->getMessage();
             }
         } else {
             $result = 03;
-            header("Location: home.php?result=$result");
+            header("Location: index.php?result=$result");
         }
     }
 ?>
