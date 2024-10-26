@@ -32,7 +32,7 @@
                     //Prepare and send e-mail to the address in the database.
                     $subject = "Request for Password Reset";
                     $message = "Click the following link to reset your password: " . $resetLink;
-                    $headers = "From: no-reply@coursecanvas.com\r\n";
+                    $headers = "From: gnmcclur@go.olemiss.edu\r\n";
                     mail($user_email, $subject, $message, $headers);
 
                     $result = 01;
