@@ -192,6 +192,8 @@ header{
 
 .signup-container {
     gap: 30px;
+    overflow-y: auto;
+    max-height: 450px;
 }
 
 .element {
