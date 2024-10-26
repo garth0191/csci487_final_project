@@ -71,14 +71,14 @@ function sortTable(n, tableName) {
             }
         }
         if (shouldSwitch) {
-            header.textContent.replace(/ \^$/, '');
+            header.textContent = header.textContent.replace(/ \^$/, '');
             header.textContent += ' ^';
             rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
             switching = true;
             switchCount++;
         } else {
             if (switchCount == 0 && direction == "asc") {
-                header.textContent.replace(/ ˅$/, '');
+                header.textContent = header.textContent.replace(/ ˅$/, '');
                 header.textContent += ' ˅';
                 direction = "desc";
                 switching = true;
