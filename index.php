@@ -5,45 +5,49 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //Reset password.
-        if (isset($_POST["reset_password"])) {
-            if (isset($_POST["login_email"]) && $_POST["login_email"] !== "") {
-                $user_email = $_POST["login_email"];
+        if (isset($_POST["password_reset_email"]) && $_POST["password_reset_email"] !== "") {
+            $user_email = $_POST["login_email"];
+            $empty = true;
+            $message = "";
 
-                try {
-                    $stmt = $conn->prepare("SELECT * FROM USER WHERE user_email = :user");
-                    $stmt->bindParam(":user", $user_email);
+            try {
+                $stmt = $conn->prepare("SELECT * FROM USER WHERE user_email = :user");
+                $stmt->bindParam(":user", $user_email);
+                $stmt->execute();
+
+                $isUser = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($isUser) {
+                    //Generate password reset token.
+                    $token = bin2hex(random_bytes(16));
+                    $resetLink = "https://turing.cs.olemiss.edu/~gnmcclur/reset_password.php?token=".$token;
+
+                    //Store token in database.
+                    $stmt = $conn->prepare("UPDATE USER SET reset_token = :token WHERE user_email = :email");
+                    $stmt->bindParam(":token", $token);
+                    $stmt->bindParam(":email", $user_email);
                     $stmt->execute();
 
-                    $isUser = $stmt->fetch(PDO::FETCH_ASSOC);
+                    //Prepare and send e-mail to the address in the database.
+                    $subject = "Request for Password Reset";
+                    $message = "Click the following link to reset your password: ".$resetLink;
+                    $headers = "From: no-reply@coursecanvas.com\r\n";
+                    mail($user_email, $subject, $message, $headers);
 
-                    if ($isUser) {
-                        //Generate password reset token.
-                        $token = bin2hex(random_bytes(16));
-                        $resetLink = "https://turing.cs.olemiss.edu/~gnmcclur/reset_password.php?token=".$token;
-
-                        //Store token in database.
-                        $stmt = $conn->prepare("UPDATE USER SET reset_token = :token WHERE user_email = :email");
-                        $stmt->bindParam(":token", $token);
-                        $stmt->bindParam(":email", $user_email);
-                        $stmt->execute();
-
-                        //Prepare and send e-mail to the address in the database.
-                        $subject = "Request for Password Reset";
-                        $message = "Click the following link to reset your password: ".$resetLink;
-                        $headers = "From: no-reply@coursecanvas.com\r\n";
-                        mail($user_email, $subject, $message, $headers);
-
-                        $message = "An email has been sent to $user_email with instructions to reset your password.";
-                    } else {
-                        $message = "No account associated with that email.";
-                    }
-                } catch (PDOException $e) {
-                    echo "Error retrieving email from database: " . $e->getMessage();
+                    $empty = false;
+                    $message = "An email has been sent to $user_email with instructions to reset your password.";
+                } else {
+                    $empty = false;
+                    $message = "No account associated with that email.";
                 }
-            } else {
-                $message = "Please enter your registered email.";
+            } catch (PDOException $e) {
+                echo "Error retrieving email from database: " . $e->getMessage();
             }
+        } else {
+            $empty = false;
+            $message = "Please enter your registered email.";
         }
+
 
         //Login.
         if ((isset($_POST["login_email"]) && $_POST["login_email"] !== "") && (isset($_POST["login_password"]) && $_POST["login_password"] !== "")) {
@@ -166,19 +170,26 @@
             <!-- Form div. -->
             <div class="form-section">
                 <!-- Login form. -->
-                 <form action="index.php" method="post">
-                    <div class="login-container">
+
+                <div class="login-container">
+                    <form action="index.php" method="post">
                         E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email">
                         Password: <input type="password" class="password element" placeholder="Input password." name="login_password">
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
                         <button class="login-submit">Login</button>
+                    </form>
+                    <h3>Reset Password</h3>
+                    <form action="index.php" method="post">
+                        E-mail: <input type="email" class="email element" placeholder="Input e-mail associated with account." name="password_reset_email"></input>
                         <button type="submit" name="reset_password" class="password-reset-submit">Reset Password</button>
-                    </div>
-                 </form>
+                        <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
+                    </form>
+                </div>
+
 
                  <!-- Sign-up form. -->
                   <form action="index.php" method="post">
-                    <div class="signup-container">
+                      <div class="signup-container">
                         E-mail: <input type="email" class="email element" placeholder="Input desired e-mail address." name="signup_email">
                         Password: <input type="password" class="password element" placeholder="Input desired password." name="signup_password">
                         First Name: <input type="text" class="fname element" placeholder="Input First name." name="fname">
@@ -196,7 +207,7 @@
                             ?>
                         </select>
                         <input type="submit" name="submit" class="signup-submit"></input>
-                    </div>
+                      </div>
                 </form>
             </div>
         </div>
