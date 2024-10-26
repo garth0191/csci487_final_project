@@ -49,9 +49,15 @@
             <div class="all-assessments-container">
                 <table id="assessment-table">
                     <tr>
-                        <th onclick="sortTable(0)">Assessment Name</th>
-                        <th onclick="sortTable(1)">Assessment Type</th>
-                        <th onclick="sortTable(2)">Assessment Due Date</th>
+                        <th onclick="sortTable(0, 'assessment-table')">Assessment Name
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
+                        <th onclick="sortTable(1, 'assessment-table')">Assessment Type
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
+                        <th onclick="sortTable(2, 'assessment-table')">Due Date
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
                     </tr>
                         <?php
                             try {

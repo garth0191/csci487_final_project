@@ -37,24 +37,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, direction;
-    var switchCount = 0;
+function sortTable(n, tableName) {
+    let table, rows, switching, i, x, y, shouldSwitch, direction;
+    let switchCount = 0;
 
-    table = document.getElementById("assessment-table");
+    table = document.getElementById(tableName);
+    let header = table.getElementsByTagName("th")[n];
     switching = true;
 
-    //Sorting direction set to ASCENDING.
+    const indicators = table.getElementsByClassName("sort-indicator");
+    for (let j = 0; j < indicators.length; j++) {
+        indicators[j].style.display = 'none';
+    }
+
+    // Sorting direction set to ASCENDING.
     direction = "asc";
 
     // Loops until no switching has been done.
     while (switching) {
         switching = false;
         rows = table.rows;
-        //Loop through all table rows (except the headers).
+        // Loop through all table rows (except the headers).
         for (i = 1; i < (rows.length-1); i++) {
             shouldSwitch = false;
-            //Comparisons.
+            // Comparisons.
             x = rows[i].getElementsByTagName("td")[n];
             y = rows[i+1].getElementsByTagName("td")[n];
             if (direction == "asc") {
@@ -78,6 +84,17 @@ function sortTable(n) {
                 direction = "desc";
                 switching = true;
             }
+        }
+
+        // Show ascending/descending indicator.
+        const indicatorAsc = header.querySelectorAll(".sort-indicator")[0];
+        const indicatorDesc = header.querySelectorAll(".sort-indicator")[1];
+        if (direction === "asc") {
+            indicatorAsc.style.display = 'inline';
+            indicatorDesc.style.display = 'none';
+        } else {
+            indicatorAsc.style.display = 'none';
+            indicatorDesc.style.display = 'inline';
         }
     }
 }
