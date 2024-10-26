@@ -171,8 +171,8 @@
                         E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email">
                         Password: <input type="password" class="password element" placeholder="Input password." name="login_password">
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
-                        <button class="login-submit">Login</button><br><br>
-                        <button type="submit" name="reset_password" class="reset-password">Reset Password</button>
+                        <button class="login-submit">Login</button>
+                        <button type="submit" name="reset_password" class="password-reset-submit">Reset Password</button>
                     </div>
                  </form>
 

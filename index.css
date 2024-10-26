@@ -187,7 +187,8 @@ header{
 }
 
 .login-container {
-    gap: 50px;
+    padding: 0 40px 0;
+    gap: 30px;
 }
 
 .signup-container {
@@ -208,7 +209,7 @@ header{
     font-size: 15px;
 }
 
-.login-submit, .signup-submit {
+.login-submit, .signup-submit, .password-reset-submit {
     height: 60px;
     width: 150px;
     border-radius: 7px;
