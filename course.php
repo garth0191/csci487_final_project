@@ -59,9 +59,15 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
             <h2>Upcoming Assessments</h2>
                 <table id="upcoming-assessments-table">
                     <tr>
-                        <th onclick="sortTable(0, 'upcoming-assessments-table')">Assessment Name</th>
-                        <th onclick="sortTable(1, 'upcoming-assessments-table')">Assessment Type</th>
-                        <th onclick="sortTable(2, 'upcoming-assessments-table')">Due Date</th>
+                        <th onclick="sortTable(0, 'upcoming-assessments-table')">Assessment Name
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
+                        <th onclick="sortTable(1, 'upcoming-assessments-table')">Assessment Type
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
+                        <th onclick="sortTable(2, 'upcoming-assessments-table')">Due Date
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
                     </tr>
                         <!-- Grab all pending assessment items for course. 
                          NOTE: They should only be listed if the current date is not past the assessment's due date. -->
@@ -109,9 +115,15 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
             <h2>Items Ready to Grade</h2>
                 <table id="ready-to-grade-table">
                     <tr>
-                        <th onclick="sortTable(0, 'ready-to-grade-table')">Assessment Name</th>
-                        <th onclick="sortTable(1, 'ready-to-grade-table')">Assessment Type</th>
-                        <th onclick="sortTable(2, 'ready-to-grade-table')">Total Items</th>
+                        <th onclick="sortTable(0, 'ready-to-grade-table')">Assessment Name
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
+                        <th onclick="sortTable(1, 'ready-to-grade-table')">Assessment Type
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
+                        <th onclick="sortTable(2, 'ready-to-grade-table')">Total Items
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
                     </tr>
                     <?php
                         try {
@@ -162,9 +174,15 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                 <h2>Course Roster</h2>
                 <table id="student-roster-table">
                     <tr>
-                        <th onclick="sortTable(0, 'student-roster-table')">Last Name</th>
-                        <th onclick="sortTable(1, 'student-roster-table')">First Name</th>
-                        <th onclick="sortTable(2, 'student-roster-table')">Contact E-Mail</th>
+                        <th onclick="sortTable(0, 'student-roster-table')">Last Name
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
+                        <th onclick="sortTable(1, 'student-roster-table')">First Name
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
+                        <th onclick="sortTable(2, 'student-roster-table')">Contact E-Mail
+                            <span class="sort-indicator" style="display: none;">&#9650;</span>
+                            <span class="sort-indicator" style="display: none;">&#9660;</span></th>
                     </tr>
                         <?php
                             $rosterQuery = $conn->prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");

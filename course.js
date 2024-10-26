@@ -45,17 +45,22 @@ function sortTable(n, tableName) {
     let header = table.getElementsByTagName("th")[n];
     switching = true;
 
-    //Sorting direction set to ASCENDING.
+    const indicators = table.getElementsByClassName("sort-indicator");
+    for (let j = 0; j < indicators.length; j++) {
+        indicators[j].style.display = 'none';
+    }
+
+    // Sorting direction set to ASCENDING.
     direction = "asc";
 
     // Loops until no switching has been done.
     while (switching) {
         switching = false;
         rows = table.rows;
-        //Loop through all table rows (except the headers).
+        // Loop through all table rows (except the headers).
         for (i = 1; i < (rows.length-1); i++) {
             shouldSwitch = false;
-            //Comparisons.
+            // Comparisons.
             x = rows[i].getElementsByTagName("td")[n];
             y = rows[i+1].getElementsByTagName("td")[n];
             if (direction == "asc") {
@@ -71,18 +76,25 @@ function sortTable(n, tableName) {
             }
         }
         if (shouldSwitch) {
-            header.textContent = header.textContent.replace(/ [^˅]$/, '');
-            header.textContent += ' ^';
             rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
             switching = true;
             switchCount++;
         } else {
             if (switchCount == 0 && direction == "asc") {
-                header.textContent = header.textContent.replace(/ [^˅]$/, '');
-                header.textContent += ' ˅';
                 direction = "desc";
                 switching = true;
             }
+        }
+
+        // Show ascending/descending indicator.
+        const indicatorAsc = header.querySelectorAll(".sort-indicator")[0];
+        const indicatorDesc = header.querySelectorAll(".sort-indicator")[1];
+        if (direction === "asc") {
+            indicatorAsc.style.display = 'inline';
+            indicatorDesc.style.display = 'none';
+        } else {
+            indicatorAsc.style.display = 'none';
+            indicatorDesc.style.display = 'inline';
         }
     }
 }
