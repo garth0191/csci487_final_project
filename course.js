@@ -37,11 +37,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, direction;
-    var switchCount = 0;
+function sortTable(n, tableName) {
+    let table, rows, switching, i, x, y, shouldSwitch, direction;
+    let switchCount = 0;
 
-    table = document.getElementById("student-roster-table");
+    table = document.getElementById(tableName);
+    let header = table.getElementsByTagName("th")[n];
     switching = true;
 
     //Sorting direction set to ASCENDING.
@@ -70,11 +71,15 @@ function sortTable(n) {
             }
         }
         if (shouldSwitch) {
+            header.textContent.replace(/ \^$/, '');
+            header.textContent += ' ^';
             rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
             switching = true;
             switchCount++;
         } else {
             if (switchCount == 0 && direction == "asc") {
+                header.textContent.replace(/ ˅$/, '');
+                header.textContent += ' ˅';
                 direction = "desc";
                 switching = true;
             }
