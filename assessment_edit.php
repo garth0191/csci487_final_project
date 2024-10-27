@@ -146,6 +146,7 @@
                     <br>
                     Points Possible: <input type="number" id="points_possible" name="points_possible"><br>
                     Due Date: <input type="date" id="due_date" name="due_date" min="<?php echo date('Y-m-d'); ?>" max="2999-01-01"> <br>
+                    <input type="hidden" name="course_id" value="<?php echo $course_id; ?>">
                     <input type="submit" name="submit" value="Confirm Changes">
                 </form>
             </div>
