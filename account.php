@@ -30,7 +30,7 @@ try {
     echo "ERROR: Could not pull user data from database. ".$e->getMessage();
 }
 
-//Change password request.
+//Change request.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ((isset($_POST["current_password"]) && $_POST["current_password"] !== "") && (isset($_POST["new_password"]) && $_POST["new_password"] !== "") && (isset($_POST["confirm_password"]) && $_POST["confirm_password"] !== "")) {
         $current_password = $_POST["current_password"];
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ((isset($_POST["first_name"]) && $_POST["first_name"] !== "")) {
         try {
             $changeFirstName = $conn->prepare("UPDATE USER SET first_name = ? WHERE `user_id` = ?");
-            $changeFirstName->execute([$user_id]);
+            $changeFirstName->execute([$_POST["first_name"], $user_id]);
             $error = false;
         } catch (PDOException $e) {
             echo "ERROR: Could not update first name. ".$e->getMessage();
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ((isset($_POST["last_name"]) && $_POST["last_name"] !== "")) {
         try {
             $changeLastName = $conn->prepare("UPDATE USER SET last_name = ? WHERE `user_id` = ?");
-            $changeLastName->execute([$user_id]);
+            $changeLastName->execute([$_POST["last_name"], $user_id]);
             $error = false;
         } catch (PDOException $e) {
             echo "ERROR: Could not update last name. ".$e->getMessage();
