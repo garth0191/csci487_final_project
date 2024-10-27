@@ -18,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
             //Check that course is not already taken.
-            $courseCheck = $conn->prepare("SELECT * FROM COURSE WHERE `course_name` = ? AND `course_sec_num` = ? AND `semester` = ?");
-            $courseCheck->execute([$_POST["course_name"], $_POST["course_sec_num"], $_POST["semester"]]);
+            $courseCheck = $conn->prepare("SELECT * FROM COURSE WHERE `course_num` = ? AND `course_sec_num` = ? AND `semester` = ?");
+            $courseCheck->execute([$_POST["course_num"], $_POST["course_sec_num"], $_POST["semester"]]);
             $courseResult = $courseCheck->fetch(PDO::FETCH_ASSOC);
             if ($courseResult) {
                 $empty = false;
