@@ -290,7 +290,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $weightsQuery2 = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE");
                                 $weightsQuery2->execute();
                                 while ($oneWeight = $weightsQuery2->fetch(PDO::FETCH_ASSOC)) {
-                                    $courseWeights = $conn->prepare("SELECT * FROM COURSE_WEIGHT WHERE `course_id` = ? AND `assessment_type_id` = ?");
+                                    $courseWeights = $conn->prepare("SELECT * FROM COURSE_WEIGHT WHERE `course_id` = ? AND `type_id` = ?");
                                     $courseWeights->execute([$course_id, $oneWeight["assessment_type_id"]]);
                                     while ($oneWeight2 = $courseWeights->fetch(PDO::FETCH_ASSOC)) {
                                         echo $oneWeight["type_description"]."&nbsp;";
