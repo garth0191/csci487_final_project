@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             //Check that course is not already taken.
             $courseCheck = $conn->prepare("SELECT * FROM COURSE WHERE `course_num` = ? AND `course_sec_num` = ? AND `semester` = ?");
-            $courseCheck->execute([$_POST["course_num"], $_POST["course_sec_num"], $_POST["semester"]]);
+            $courseCheck->execute([$_POST["course_code"], $_POST["course_sec_num"], $_POST["semester"]]);
             if ($courseCheck->rowCount() >= 1) {
                 $empty = false;
                 $message = "A course with the given name for this semester already exists with the indicated section number.";
