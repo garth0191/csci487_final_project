@@ -18,14 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
             //Check that course is not already taken.
-            $courseCheck = $conn->prepare("SELECT * FROM COURSE WHERE `course_sec_num` = ? AND `semester` = ?");
-            $courseCheck->execute([$_POST["course_sec_num"], $_POST["semester"]]);
+            $courseCheck = $conn->prepare("SELECT * FROM COURSE WHERE `course_name` = ? AND `course_sec_num` = ? AND `semester` = ?");
+            $courseCheck->execute([$_POST["course_name"], $_POST["course_sec_num"], $_POST["semester"]]);
             $courseResult = $courseCheck->fetch(PDO::FETCH_ASSOC);
             if ($courseResult) {
                 $empty = false;
-                $message = "A course for this semester already exists with the indicated section number.";
+                $message = "A course with the given name for this semester already exists with the indicated section number.";
             } else {
-                $addCourse = $conn->prepare("INSERT INTO COURSE (course_num, course_name, instructor_id, assistant_id, course_description, professor_name, course_sec_number, semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $addCourse = $conn->prepare("INSERT INTO COURSE (course_num, course_name, instructor_id, assistant_id, course_description, professor_name, course_sec_num, semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 $addCourse->execute([$_POST["course_code"], $_POST["course_name"], $user_id, NULL, $_POST["course_description"], $_POST["instructor_name"], $_POST["course_sec_num"], $_POST["semester"]]);
                 header("Location: home.php");
             }
