@@ -60,21 +60,25 @@
     <div class="main-section">
         <section class="section-list">
             <center>
-            <h2>Current Course Item Sections</h2>
+            <h2>Current Course Content Categories</h2>
             <table>
-                <th>Section Name</th>
+                <th>Content Name</th>
                 <?php
                     $courseSections = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
                     $courseSections->execute([$course_id]);
-                    while ($oneSection = $courseSections->fetch(PDO::FETCH_ASSOC)) {
-                        $sectionName = $oneSection["section_name"];
-                        echo "<tr>";
-                        echo "<td>".$sectionName."&nbsp;";
-                        echo "<form action='section_delete.php?section_id=".$oneSection["section_id"]."' method='post' style='display: inline; padding: 5px;'>";
-                        echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
-                        echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
-                        echo "</form></td>";
-                        echo "</tr>";
+                    if ($courseSections->rowCount() < 1) {
+                        echo "<tr><td><em>No categories have been created yet.</em></td></tr>";
+                    } else {
+                        while ($oneSection = $courseSections->fetch(PDO::FETCH_ASSOC)) {
+                            $sectionName = $oneSection["section_name"];
+                            echo "<tr>";
+                            echo "<td>".$sectionName."&nbsp;";
+                            echo "<form action='section_delete.php?section_id=".$oneSection["section_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                            echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
+                            echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
+                            echo "</form></td>";
+                            echo "</tr>";
+                        }
                     }
                 ?>
             </table>
@@ -82,11 +86,11 @@
         </section>
 
         <section class="add-section">
-            <h2>Add New Item Section to Course</h2>
+            <h2>Add New Content Categories</h2>
             <div class="add-section-container">
                 <form action="section_edit.php?course_id=<?php echo $course_id; ?>" method="post">
-                    <input type="text" name="section_name" placeholder="Input new section name." style="width: 150px;">
-                    <input type="submit" name="submit" value="Add New Section">
+                    <input type="text" name="section_name" placeholder="Input new category name." style="width: 150px;">
+                    <input type="submit" name="submit" value=" Add ">
                 </form>
             </div>
         </section>
