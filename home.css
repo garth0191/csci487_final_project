@@ -141,11 +141,12 @@ body {
 }
 
 .tile-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(3, 1.2fr); /* Slightly larger width per tile */
     gap: 20px;
     max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .course-tile {
@@ -153,12 +154,11 @@ body {
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: calc((100% - 60px) / 3);
-    max-width: 300px;
-    flex: 1 1 calc(33.333% - 20px);
     box-sizing: border-box;
     cursor: pointer;
+    width: 300px;
 }
+
 
 .course-tile h2 {
     margin-top: 0;
@@ -188,6 +188,18 @@ body {
     padding: 10px;
     width: 100%;
     position: relative;
+}
+
+@media screen and (max-width: 1024px) {
+    .tile-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 tiles per row on medium screens */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .tile-container {
+        grid-template-columns: 1fr; /* 1 tile per row on small screens */
+    }
 }
 
 @media screen and (max-width: 320px) {
