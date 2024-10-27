@@ -141,12 +141,14 @@ body {
 }
 
 .tile-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1.2fr); /* Slightly larger width per tile */
+    display: flex;
+    grid-template-columns: repeat(3, 1.2fr);
     gap: 20px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .course-tile {
