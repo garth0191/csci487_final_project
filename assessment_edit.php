@@ -145,7 +145,7 @@
                     ?>
                     <br>
                     Points Possible: <input type="number" id="points_possible" name="points_possible"><br>
-                    Due Date: <input type="date" id="due_date" name="due_date" min="<?php echo date('Y-m-d'); ?>" max="2999-01-01"><br>
+                    Due Date: <input type="date" id="due_date" name="due_date" min="<?php echo date('Y-m-d'); ?>" max="2999-01-01" value="<?php echo isset($due_date) ? date('Y-m-d', strtotime($due_date)) : ''; ?>"><br>
                     <input type="submit" name="submit" value="Confirm Changes">
                 </form>
             </div>
