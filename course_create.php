@@ -74,8 +74,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         Section Number: <input type="number" class="number element" placeholder="Input course section number." min ="1" max="99" name="course_sec_num"><br></br>
                         Semester: <select name='semester'>
                             <option style="display: none;"></option>
-                            <option name="semester" value="fall_2024">Fall 2024</option>
-                            <option name="semester" value="spring_2025">Spring 2025</option>
+                            <option name="semester" value="Fall 2024">Fall 2024</option>
+                            <option name="semester" value="Spring 2025">Spring 2025</option>
                         </select><br>
                         Course Description: <input type="text" class="text element" placeholder='Input course description.' name='course_description'></input><br>
                         Instructor Name: <input type="text" class="text element" placeholder="Input desired instructor name." name="instructor_name"></input><br>

@@ -53,7 +53,9 @@ $current_courses = [];
                                     "course_num" => $oneCourse["course_num"],
                                     "course_name" => $oneCourse["course_name"],
                                     "course_description" => $oneCourse["course_description"],
-                                    "instructor_name" => $oneCourse["professor_name"]
+                                    "instructor_name" => $oneCourse["professor_name"],
+                                    "semester" => $oneCourse["semester"],
+                                    "course_sec_num" => $oneCourse["course_sec_num"]
                                 );
                             }
                         } catch (PDOException $e) {

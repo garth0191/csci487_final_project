@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
             tile.classList.add('course-tile');
             tile.innerHTML = `
                 <h2>${course.course_num}&nbsp;${course.course_name}</h2>
+                <h3>${course.semester} Section ${course.course_sec_num}</h3>
                 <p>Instructor: <em>${course.instructor_name}</em></p>
                 <p>${course.course_description}</p>
             `;
