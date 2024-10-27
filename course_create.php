@@ -13,12 +13,22 @@ $message = "";
 //Create a new course.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ((isset($_POST["course_name"]) && $_POST["course_name"] !== "") && (isset($_POST["course_description"]) && $_POST["course_description"] !== "") && 
-    (isset($_POST["instructor_name"]) && $_POST["instructor_name"] !== "") && (isset($_POST["course_code"]) && $_POST["course_code"] !== "")) {
+    (isset($_POST["instructor_name"]) && $_POST["instructor_name"] !== "") && (isset($_POST["course_code"]) && $_POST["course_code"] !== "") &&
+    (isset($_POST["semester"]) && $_POST["semester"] !== "") && (isset($_POST["course_sec_num"]) && $_POST["course_sec_num"] !== "")) {
 
         try {
-            $addCourse = $conn->prepare("INSERT INTO COURSE (course_num, course_name, instructor_id, assistant_id, course_description, professor_name) VALUES (?, ?, ?, ?, ?, ?)");
-            $addCourse->execute([$_POST["course_code"], $_POST["course_name"], $user_id, NULL, $_POST["course_description"], $_POST["instructor_name"]]);
-            header("Location: home.php");
+            //Check that course is not already taken.
+            $courseCheck = $conn->prepare("SELECT * FROM COURSE WHERE `semester` = ? AND `course_sec_num` = ?");
+            $courseCheck->execute([$_POST["semester"], $_POST["course_sec_num"]]);
+            $courseResult = $courseCheck->fetch(PDO::FETCH_ASSOC);
+            if ($courseResult) {
+                $empty = false;
+                $message = "A course for this semester already exists with the indicated section number.";
+            } else {
+                $addCourse = $conn->prepare("INSERT INTO COURSE (course_num, course_name, instructor_id, assistant_id, course_description, professor_name, course_sec_number, semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $addCourse->execute([$_POST["course_code"], $_POST["course_name"], $user_id, NULL, $_POST["course_description"], $_POST["instructor_name"], $_POST["course_sec_num"], $_POST["semester"]]);
+                header("Location: home.php");
+            }
         } catch (PDOException $e) {
             echo "ERROR: Could not add course to database. ".$e->getMessage();
         }
@@ -62,6 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="create-container">
                         Course Code: <input type="text" class="text element" placeholder="Input course department code, e.g., 'CSCI 487'." name="course_code"><br>
                         Course Name: <input type="text" class="text element" placeholder="Input course name." name="course_name"></input><br>
+                        Section Number: <input type="number" class="number element" placeholder="Input course section number." min ="1" max="99" name="course_sec_num"><br></br>
+                        Semester: <select name='semester'>
+                            <option style="display: none;"></option>
+                            <option name="semester" value="fall_2024">Fall 2024</option>
+                            <option name="semester" value="spring_2025">Spring 2025</option>
+                        </select><br>
                         Course Description: <input type="text" class="text element" placeholder='Input course description.' name='course_description'></input><br>
                         Instructor Name: <input type="text" class="text element" placeholder="Input desired instructor name." name="instructor_name"></input><br>
                         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>

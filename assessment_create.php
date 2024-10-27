@@ -107,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="assessment-create-container">
                 <form action='assessment_create.php?course_id=<?php echo $course_id; ?>' method='post'>
                     Assessment Name: <input type="text" id="assessment_name" name="assessment_name" style="width: 20%;" required><br>
-                    Due Date: <input type="date" id="due_date" name="due_date" min="1900-01-01" max="2999-01-01" required><br>
+                    Due Date: <input type="date" id="due_date" name="due_date" min=min="<?php echo date('Y-m-d'); ?>" max="2999-01-01" required><br>
                     Assessment Type:
                     <?php
                         try {
@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
         <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
         <a href="assessment_view.php?course_id=<?php echo $course_id; ?>">VIEW/EDIT ASSESSMENTS</a>
-        <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE SECTIONS</a>
+        <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE CONTENT</a>
         <a href="gradebook.php?course_id=<?php echo $course_id; ?>">GRADEBOOK</a>
         <?php
         // Pull all sections created by instructor.

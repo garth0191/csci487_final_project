@@ -145,7 +145,7 @@
                     ?>
                     <br>
                     Points Possible: <input type="number" id="points_possible" name="points_possible"><br>
-                    Due Date: <input type="date" id="due_date" name="due_date" min="1900-01-01" max="2999-01-01"><br>
+                    Due Date: <input type="date" id="due_date" name="due_date" min="<?php echo date('Y-m-d'); ?>" max="2999-01-01"><br>
                     <input type="submit" name="submit" value="Confirm Changes">
                 </form>
             </div>
@@ -159,7 +159,7 @@
         <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
         <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
         <a href="assessment_view.php?course_id=<?php echo $course_id; ?>">VIEW/EDIT ASSESSMENTS</a>
-        <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE SECTIONS</a>
+        <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE CONTENT</a>
         <a href="gradebook.php?course_id=<?php echo $course_id; ?>">GRADEBOOK</a>
         <?php
         // Pull all sections created by instructor.

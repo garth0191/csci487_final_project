@@ -47,6 +47,8 @@ CREATE TABLE COURSE(
     assistant_id int,
     course_description varchar(4000),
     professor_name varchar(50),
+    course_sec_num int,
+    semester varchar(32),
     PRIMARY KEY (course_id)
 ) Engine=InnoDB;
 
