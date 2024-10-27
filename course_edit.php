@@ -233,7 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $weightsQuery = $conn->prepare("SELECT * FROM COURSE_WEIGHT WHERE `course_id` = ?");
                             $weightsQuery->execute([$course_id]);
                             while ($oneWeight = $weightsQuery->fetch(PDO::FETCH_ASSOC)) {
-                                $pullTypes = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `type_id` = ?");
+                                $pullTypes = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
                                 $pullTypes->execute([$oneWeight["assessment_type_id"]]);
                                 while ($oneType = $pullTypes->fetch(PDO::FETCH_ASSOC)) {
                                     echo "<tr>";
