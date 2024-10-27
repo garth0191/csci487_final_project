@@ -26,6 +26,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $addCourse = $conn->prepare("INSERT INTO COURSE (course_num, course_name, instructor_id, assistant_id, course_description, professor_name, course_sec_num, semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 $addCourse->execute([$_POST["course_code"], $_POST["course_name"], $user_id, NULL, $_POST["course_description"], $_POST["instructor_name"], $_POST["course_sec_num"], $_POST["semester"]]);
+
+                //Grab new course and add initial empty weights to each assessment type for the new course.
+                $retrieveCourse = $conn->prepare("SELECT * FROM COURSE WHERE `course_num` = ? AND `instructor_id` = ? AND `course_sec_num` = ? AND `semester` = ?");
+                $retrieveCourse->execute([$_POST["course_code"], $user_id, $_POST["course_sec_num"], $_POST["semester"]]);
+                while ($oneCourse = $retrieveCourse->fetch(PDO::FETCH_ASSOC)) {
+                    $course_id = $oneCourse["course_id"];
+                    $pullTypes = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE");
+                    $pullTypes->execute();
+                    while ($oneType = $pullTypes->fetch(PDO::FETCH_ASSOC)) {
+                        $newWeight = $conn->prepare("INSERT INTO COURSE_WEIGHT (course_id, type_id, weight) VALUES (?, ?, ?)");
+                        $newWeight->execute([$course_id, $oneType["assessment_type_id"], NULL]);
+                    }
+                }
                 header("Location: home.php");
             }
         } catch (PDOException $e) {
