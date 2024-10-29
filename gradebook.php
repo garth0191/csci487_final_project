@@ -144,7 +144,7 @@
                                             }
                                             echo "<td>";
                                             echo $score;
-                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id=''".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".$score."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id='".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".$score."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
                                             echo "</td>";
                                         }
                                     }
