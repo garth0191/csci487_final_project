@@ -144,7 +144,7 @@
                                             }
                                             echo "<td>";
                                             echo $score;
-                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id-'".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".$score."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id=''".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".$score."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
                                             echo "</td>";
                                         }
                                     }
@@ -197,7 +197,8 @@
     <div class="modal-content">
         <span class="close-button">&times;</span>
         <form id="edit-grade-form" method="post" action="">
-            <input type="number" id="new-grade" name="new_grade" min="0" max="100" required>Input Assessment Grade: </input>
+            <label for="new-grade">Input new grade:</label>
+            <input type="number" id="new-grade" name="new_grade" min="0" max="100" required>
             <input type="hidden" id="modal-assessment-id" name="assessment_id">
             <input type="hidden" id="modal-user-id" name="user_id">
             <button type="submit">Submit</button>
