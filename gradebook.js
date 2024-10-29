@@ -4,6 +4,30 @@ document.addEventListener('DOMContentLoaded', function () {
     const homeButton = document.querySelector('.home');
     const accountButton = document.querySelector('.account');
 
+    // For modal only.
+    var modal = document.getElementById('edit-grade-modal');
+    var closeButton = document.querySelector('.close-button');
+    closeButton.onclick = function() {
+        modal.style.display = 'none';
+    };
+    var editGradeButtons = document.querySelectorAll('.edit-grade-button');
+    editGradeButtons.forEach(function(button) {
+        button.addEventListener('click', function () {
+            var assessmentID = this.getAttribute('data-assessment-id');
+            var userID = this.getAttribute('data-user-id');
+            var score = this.getAttribute('data-score');
+            document.getElementById('modal-assessment-id').value = assessmentID;
+            document.getElementById('modal-user-id').value = userID;
+            document.getElementById('new-grade').value = score !== 'N/A' ? score : '';
+            modal.style.display = 'block';
+        });
+    });
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {
             window.location.href = 'logout.php';

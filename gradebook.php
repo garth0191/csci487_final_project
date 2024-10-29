@@ -12,6 +12,41 @@
     if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
         $course_id = $_GET["course_id"];
     }
+
+    // Pull number of course assessments for table header.
+    try {
+        $assessments = $conn -> prepare("SELECT * FROM ASSESSMENT WHERE `course_id` = ?");
+        $assessments->execute([$course_id]);
+        $numAssessments = $assessments -> rowCount();
+    } catch (PDOException $e) {
+        echo "ERROR: Could not pull total number of assessments for courses. ".$e->getMessage();
+    }
+
+    // Update student grade.
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['new_grade'], $_POST['assessment_id'], $_POST['user_id'])) {
+            $new_grade = $_POST['new_grade'];
+            $assessment_id = $_POST['assessment_id'];
+            $student_id = $_POST['user_id'];
+
+            if (is_numeric($new_grade) && $new_grade >= 0 && $new_grade <= 100) {
+                try {
+                    $insertGrade = $conn->prepare("
+                        INSERT INTO USER_ASSESSMENT (user_id, assessment_id, course_id, assessment_score)
+                        VALUES (?, ?, ?, ?)
+                        ON DUPLICATE KEY UPDATE assessment_score = VALUES(assessment_score)
+                    ");
+                    $insertGrade->execute([$student_id, $assessment_id, $course_id, $new_grade]);
+                    header("Location: gradebook.php?course_id=".$course_id);
+                    exit();
+                } catch (PDOException $e) {
+                    echo "ERROR: Could not update grade. " . $e->getMessage();
+                }
+            } else {
+                echo "Invalid grade value.";
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -55,51 +90,67 @@
             <h2>Course Assessments</h2>
             <div class="gradebook-container">
                 <table id="gradebook-table">
-                    <tr>
-                        <th onclick="sortTable(0)">Assessment Name</th>
-                        <th onclick="sortTable(1)">Assessment Type</th>
-                        <th onclick="sortTable(2)">Due Date</th>
-                        <th onclick="sortTable(3)">Student Records</th>
-                    </tr>
                     <?php
-                        try {
-                            // Pull all assessments associated with the course ID.
-                            $assessmentQuery = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `course_id` = ?");
-                            $assessmentQuery->execute([$course_id]);
-                            if ($assessmentQuery->rowCount() < 1) {
-                                echo "<tr><td colspan='4'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
+                        if ($numAssessments < 1) {
+                            echo "<tr>";
+                            echo "<td><b>No assessments created yet.</b></td>";
+                            echo "</tr>";
+                        } else {
+                            // Table headers.
+                            echo "<tr>";
+                            echo "<th onclick='sortTable(0)'><b>Last Name</b></th>";
+                            echo "<th onclick='sortTable(1)'><b>First Name</b></th>";
+                            echo "<th colspan='".$numAssessments."'><b><em>Assessments</em></b></th>";
+                            echo "</tr>";
+                            echo "<tr>";
+                            echo "<td colspan='2' bgcolor='gray'></td>"; // Blank for student first and last name.
+                            $assessmentsList = array();
+                            $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ?");
+                            $assessmentNames->execute([$course_id]);
+                            while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
+                                $assessmentsList[] = $oneAssessment;
+                                echo "<td>".$oneAssessment["assessment_description"]."</td>";
+                            }
+                            echo "</tr>";
+                            // Rows: student last name, student first name, all assessments for that student, average.
+                            // Check that course has students.
+                            $pullStudents = $conn -> prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
+                            $pullStudents->execute([$course_id]);
+                            $numStudents = $pullStudents -> rowCount();
+                            if ($numStudents < 1) {
+                                echo "<tr><td><em><strong>No students currently registered in course.</strong></em></td></tr>";
                             } else {
-                                while ($oneAssessment = $assessmentQuery->fetch(PDO::FETCH_ASSOC)) {
+                                while ($oneStudent = $pullStudents->fetch(PDO::FETCH_ASSOC)) {
                                     echo "<tr>";
-                                    echo "<td>".$oneAssessment["assessment_description"]."</td>";
-                                    // Pull assessment type description to match each respective assessment.
-                                    $assessmentTypeQuery = $conn->prepare("SELECT * FROM `ASSESSMENT_TYPE` WHERE `assessment_type_id` = ?");
-                                    $assessmentTypeQuery->execute([$oneAssessment["assessment_type"]]);
-                                    while ($oneAssessmentType = $assessmentTypeQuery->fetch(PDO::FETCH_ASSOC)) {
-                                        echo "<td>".$oneAssessmentType["type_description"]."</td>";
-                                    }
-                                    // Pull respective assessment due date.
-                                    echo "<td>".$oneAssessment["due_date"]."</td>";
-                                    // Pull total number of records from USER_ASSESSMENT for each assessment ID.
-                                    $userAssessmentQuery = $conn->prepare("SELECT * FROM `USER_ASSESSMENT` WHERE `assessment_id` = ?");
-                                    $userAssessmentQuery->execute([$oneAssessment["assessment_id"]]);
-                                    $numRows = $userAssessmentQuery->rowCount();
-                                    if ($numRows >= 1) {
-                                        echo "<td>";
-                                        echo $numRows;
-                                        echo "&nbsp;<form action='gradebook_view.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
-                                        echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
-                                        echo "<input type='submit' name='submit' value=' View Records '></input>";
-                                        echo "</form>";
-                                        echo "</td>";
-                                    } else {
-                                        echo "<td><em>No student records available.</em></td>";
+                                    $pullName = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
+                                    $pullName->execute([$oneStudent["user_id"]]);
+                                    while ($oneName = $pullName->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<td>".$oneName["last_name"]."</td>";
+                                        echo "<td>".$oneName["first_name"]."</td>";
+                                        // Pull from USER_ASSESSMENT table all records for student for this course.
+                                        $pullUserAssessments = $conn -> prepare("SELECT * FROM USER_ASSESSMENT WHERE `course_id` = ? AND user_id = ?");
+                                        $pullUserAssessments->execute([$course_id, $oneStudent["user_id"]]);
+                                        $userAssessments = array();
+                                        while ($oneUserAssessment = $pullUserAssessments->fetch(PDO::FETCH_ASSOC)) {
+                                            $userAssessments[$oneUserAssessment["assessment_id"]] = $oneUserAssessment;
+                                        }
+                                        // Display grades with EDIT button.
+                                        foreach ($assessmentsList as $assessment) {
+                                            $assessment_id = $assessment["assessment_id"];
+                                            if (isset($userAssessments[$assessment_id])) {
+                                                $score = $userAssessments[$assessment_id]["assessment_score"];
+                                            } else {
+                                                $score = "N/A";
+                                            }
+                                            echo "<td>";
+                                            echo $score;
+                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id-'".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".$score."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                            echo "</td>";
+                                        }
                                     }
                                     echo "</tr>";
                                 }
                             }
-                        } catch (PDOException $e) {
-                            echo "ERROR: Could not pull records from USER_ASSESSMENT for gradebook table. ".$e->getMessage();
                         }
                     ?>
                 </table>
@@ -141,6 +192,19 @@
 <footer class="footer">
     <p>© Garth McClure. All rights reserved.</p>
 </footer>
+
+<div id="edit-grade-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <form id="edit-grade-form" method="post" action="">
+            <label for="new-grade">Input new grade:</label>
+            <input type="number" id="new-grade" name="new_grade" min="0" max="100" required>
+            <input type="hidden" id="modal-assessment-id" name="assessment_id">
+            <input type="hidden" id="modal-user-id" name="user_id">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
 
 <script src="gradebook.js"></script>
 </body>
