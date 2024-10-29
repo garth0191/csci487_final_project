@@ -197,8 +197,7 @@
     <div class="modal-content">
         <span class="close-button">&times;</span>
         <form id="edit-grade-form" method="post" action="">
-            <label for="new-grade">Input new grade:</label>
-            <input type="number" id="new-grade" name="new_grade" min="0" max="100" required>
+            <input type="number" id="new-grade" name="new_grade" min="0" max="100" required>Input Assessment Grade: </input>
             <input type="hidden" id="modal-assessment-id" name="assessment_id">
             <input type="hidden" id="modal-user-id" name="user_id">
             <button type="submit">Submit</button>
