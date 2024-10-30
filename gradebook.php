@@ -31,16 +31,12 @@
 
             if (is_numeric($new_grade) && $new_grade >= 0 && $new_grade <= 100) {
                 try {
-                    $insertGrade = $conn->prepare("
-                        INSERT INTO USER_ASSESSMENT (user_id, assessment_id, course_id, assessment_score)
-                        VALUES (?, ?, ?, ?)
-                        ON DUPLICATE KEY UPDATE assessment_score = VALUES(assessment_score)
-                    ");
+                    $insertGrade = $conn->prepare("INSERT INTO USER_ASSESSMENT (user_id, assessment_id, course_id, assessment_score) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE assessment_score = VALUES(assessment_score)");
                     $insertGrade->execute([$student_id, $assessment_id, $course_id, $new_grade]);
                     header("Location: gradebook.php?course_id=".$course_id);
                     exit();
                 } catch (PDOException $e) {
-                    echo "ERROR: Could not update grade. " . $e->getMessage();
+                    echo "ERROR: Could not update grade in database. " . $e->getMessage();
                 }
             } else {
                 echo "Invalid grade value.";
@@ -103,13 +99,13 @@
                             echo "<th colspan='".$numAssessments."'><b><em>Assessments</em></b></th>";
                             echo "</tr>";
                             echo "<tr>";
-                            echo "<td colspan='2' bgcolor='gray'></td>"; // Blank for student first and last name.
+                            echo "<td colspan='".(2 + $numAssessments)."' bgcolor='gray'></td>"; // Blank for student first and last name.
                             $assessmentsList = array();
                             $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ?");
                             $assessmentNames->execute([$course_id]);
                             while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
                                 $assessmentsList[] = $oneAssessment;
-                                echo "<td>".$oneAssessment["assessment_description"]."</td>";
+                                echo "<td bgcolor='gray'>".$oneAssessment["assessment_description"]."</td>";
                             }
                             echo "</tr>";
                             // Rows: student last name, student first name, all assessments for that student, average.
