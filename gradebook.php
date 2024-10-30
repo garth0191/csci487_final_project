@@ -72,15 +72,15 @@
 
 <div class="container">
     <div class="main-section">
-        <h1>
             <?php
             $pullCourseName = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
             $pullCourseName->execute([$course_id]);
             while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
-                echo "<center>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</center>";
+                echo "<h1>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</h1><br>";
+                echo "<h2>Section ".$oneCourse["course_sec_num"]."</h2><br>";
+                echo "<h3>".$oneCourse["semester"]."</h3>";
             }
             ?>
-        </h1>
         <!-- Gradebook section. -->
         <section class="gradebook">
             <h2>Course Assessments</h2>
