@@ -114,7 +114,7 @@
                             $pullStudents->execute([$course_id]);
                             $numStudents = $pullStudents -> rowCount();
                             if ($numStudents < 1) {
-                                echo "<tr><td><em><strong>No students currently registered in course.</strong></em></td></tr>";
+                                echo "<tr><td colspan='".(2+$numAssessments)."'><em><strong>No students currently registered in course.</strong></em></td></tr>";
                             } else {
                                 while ($oneStudent = $pullStudents->fetch(PDO::FETCH_ASSOC)) {
                                     echo "<tr>";
