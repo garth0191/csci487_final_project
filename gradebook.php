@@ -99,7 +99,7 @@
                             echo "<th colspan='".$numAssessments."'><b><em>Assessments</em></b></th>";
                             echo "</tr>";
                             echo "<tr>";
-                            echo "<td colspan='".(2 + $numAssessments)."' bgcolor='gray'></td>"; // Blank for student first and last name.
+                            echo "<td colspan='2' bgcolor='gray'></td>"; // Blank for student first and last name.
                             $assessmentsList = array();
                             $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ?");
                             $assessmentNames->execute([$course_id]);
