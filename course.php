@@ -45,18 +45,17 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
 
     <div class="container">
         <div class="main-section">
-            <h1>
-                <?php
-                    $pullCourseName = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
-                    $pullCourseName->execute([$course_id]);
-                    while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<center>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</center>";
-                    }
-                ?>
-            </h1>
+            <?php
+            $pullCourseName = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
+            $pullCourseName->execute([$course_id]);
+            while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
+                echo "<h1>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</h1>";
+                echo "<h2>Section ".$oneCourse["course_sec_num"].", ".$oneCourse["semester"]."</h2>";
+            }
+            ?>
             <!-- Upcoming assessments section. -->
             <section class="upcoming">
-            <h2>Upcoming Assessments</h2>
+            <h3>Upcoming Assessments</h3>
                 <table id="upcoming-assessments-table">
                     <tr>
                         <th onclick="sortTable(0, 'upcoming-assessments-table')">Assessment Name
@@ -112,7 +111,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
 
             <!-- Section for assessments ready to be graded. -->
             <section class="ready-to-grade">
-            <h2>Items Ready to Grade</h2>
+            <h3>Items Ready to Grade</h3>
                 <table id="ready-to-grade-table">
                     <tr>
                         <th onclick="sortTable(0, 'ready-to-grade-table')">Assessment Name
@@ -171,7 +170,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
 
             <!-- Course roster of all registered students. -->
             <section class="student-roster">
-                <h2>Course Roster</h2>
+                <h3>Course Roster</h3>
                 <table id="student-roster-table">
                     <tr>
                         <th onclick="sortTable(0, 'student-roster-table')">Last Name
