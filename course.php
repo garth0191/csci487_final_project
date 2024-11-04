@@ -85,13 +85,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                             $assessmentCounter++;
                                             echo "<tr>";
                                             echo "<td>".$oneAssessment["assessment_description"]."</td>";
-
-                                            //Grab assessment types.
-                                            $typeStmt = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
-                                            $typeStmt->execute([$oneAssessment["assessment_type"]]);
-                                            $assessmentType = $typeStmt->fetch(PDO::FETCH_ASSOC);
-                                            echo "<td>".$assessmentType["type_description"]."</td>";
-
+                                            echo "<td>".$oneAssessment["assessment_type"]."</td>";
                                             echo "<td>".$oneAssessment["due_date"]."</td>";
                                             echo "</tr>";
                                         }
@@ -144,11 +138,7 @@ if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
                                             echo "<tr>";
                                             echo "<td>".$oneItem["assessment_description"]."</td>";
 
-                                            //Grab assessment types.
-                                            $typeStmt2 = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
-                                            $typeStmt2->execute([$oneItem["assessment_type"]]);
-                                            $assessmentType2 = $typeStmt2->fetch(PDO::FETCH_ASSOC);
-                                            echo "<td>".$assessmentType2["type_description"]."</td>";
+                                            echo "<td>".$oneItem["assessment_type"]."</td>";
 
                                             echo "<td>".$assessmentsReadyToGrade."</td>";
                                             echo "</tr>";

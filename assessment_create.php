@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "<select name='assessment_type' required>";
                             echo '<option style="display:none"></option>';
                             while ($allTypes = $typeQuery->fetch(PDO::FETCH_ASSOC)) {
-                                echo "<option name='assessment_type' value='".$allTypes["assessment_type_id"]."'>".$allTypes["type_description"]."</option>";
+                                echo "<option name='assessment_type' value='".$allTypes["type_description"]."'>".$allTypes["type_description"]."</option>";
                             }
                             echo "</select>";
                         } catch (PDOException $e) {

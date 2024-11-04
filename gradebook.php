@@ -31,8 +31,9 @@
 
             if (is_numeric($new_grade) && $new_grade >= 0 && $new_grade <= 100) {
                 try {
-                    $insertGrade = $conn->prepare("INSERT INTO USER_ASSESSMENT (user_id, assessment_id, course_id, assessment_score) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE assessment_score = VALUES(assessment_score)");
-                    $insertGrade->execute([$student_id, $assessment_id, $course_id, $new_grade]);
+                    $insertGrade = $conn->prepare("INSERT INTO USER_ASSESSMENT (user_id, assessment_id, assessment_score) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE assessment_score = VALUES(assessment_score)");
+                    $insertGrade->execute([$student_id, $assessment_id, $new_grade]);
+
                     header("Location: gradebook.php?course_id=".$course_id);
                     exit();
                 } catch (PDOException $e) {
@@ -100,7 +101,7 @@
                             echo "<tr>";
                             echo "<td colspan='2' bgcolor='gray'></td>"; // Blank for student first and last name.
                             $assessmentsList = array();
-                            $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ?");
+                            $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ? ORDER BY assessment_type, due_date");
                             $assessmentNames->execute([$course_id]);
                             while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
                                 $assessmentsList[] = $oneAssessment;
@@ -122,9 +123,13 @@
                                     while ($oneName = $pullName->fetch(PDO::FETCH_ASSOC)) {
                                         echo "<td>".$oneName["last_name"]."</td>";
                                         echo "<td>".$oneName["first_name"]."</td>";
+
+
+
                                         // Pull from USER_ASSESSMENT table all records for student for this course.
-                                        $pullUserAssessments = $conn -> prepare("SELECT * FROM USER_ASSESSMENT WHERE `course_id` = ? AND user_id = ?");
+                                        $pullUserAssessments = $conn->prepare("SELECT ua.* FROM USER_ASSESSMENT ua INNER JOIN ASSESSMENT a ON ua.assessment_id = a.assessment_id WHERE a.course_id = ? AND ua.user_id = ?");
                                         $pullUserAssessments->execute([$course_id, $oneStudent["user_id"]]);
+
                                         $userAssessments = array();
                                         while ($oneUserAssessment = $pullUserAssessments->fetch(PDO::FETCH_ASSOC)) {
                                             $userAssessments[$oneUserAssessment["assessment_id"]] = $oneUserAssessment;

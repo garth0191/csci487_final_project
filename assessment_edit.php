@@ -107,11 +107,7 @@
                             echo "<td><strong>Assessment Name</strong></td><td>".$assessment_name."</td>";
                             echo "</tr>";
                             echo "<tr>";
-                            $pullAssessmentType = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
-                            $pullAssessmentType->execute([$assessment_type]);
-                            while ($oneType = $pullAssessmentType->fetch(PDO::FETCH_ASSOC)) {
-                                echo "<td><strong>Assessment Type</strong></td><td>".$oneType["type_description"]."</td>";
-                            }
+                            echo "<td><strong>Assessment Type</strong></td><td>".$assessment_type."</td>";
                             echo "</tr>";
                             echo "<tr>";
                             echo "<td><strong>Points Possible</strong></td><td>".$points_possible."</td>";
@@ -139,7 +135,7 @@
                     echo "<select name='assessment_type'>";
                     echo '<option style="display:none"></option>';
                     while ($oneRow = $allTypes->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<option name='assessment_type' value='".$oneRow["assessment_type_id"]."'>".$oneRow["type_description"]."</option>";
+                        echo "<option name='assessment_type' value='".$oneRow["type_description"]."'>".$oneRow["type_description"]."</option>";
                     }
                     echo "</select>";
                     ?>

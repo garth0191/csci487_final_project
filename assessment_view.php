@@ -80,11 +80,7 @@
 
                                     //Grab assessment types from database.
                                     echo "<td>";
-                                    $pullTypes = $conn->prepare("SELECT * FROM ASSESSMENT_TYPE WHERE `assessment_type_id` = ?");
-                                    $pullTypes->execute([$oneAssessment["assessment_type"]]);
-                                    while ($oneType = $pullTypes->fetch(PDO::FETCH_ASSOC)) {
-                                        echo $oneType["type_description"];
-                                    }
+                                    echo $oneAssessment["assessment_type"];
                                     echo "</td>";
                                     echo "<td>";
                                     echo $oneAssessment["due_date"];
