@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $courseNum = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
             $courseNum->execute([$course_id]);
             while ($courseRow = $courseNum->fetch(PDO::FETCH_ASSOC)) {
-                $upload_path = "student_submissions/".$courseRow["course_num"]."/".$new_filename;
+                $upload_path = "student_submissions/".$new_filename;
                 move_uploaded_file($temp_filename, $upload_path);
                 $date = date("Y-m-d");
                 $submissionAddQuery = $conn->prepare("UPDATE USER_ASSESSMENT SET user_submission_filepath = ? WHERE `user_id` = ?");
