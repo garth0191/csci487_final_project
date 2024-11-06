@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function () {
             var userAssessmentID = this.getAttribute('data-user-assessment-id');
             var userID = this.getAttribute('data-user-id');
-            document.getElementById('modal-assessment-id').value = userAssessmentID;
+            document.getElementById('user-assessment-id').value = userAssessmentID;
             document.getElementById('modal-user-id').value = userID;
             modal.style.display = 'block';
         });

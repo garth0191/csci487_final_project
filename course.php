@@ -151,7 +151,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     }
                                 }
                                 if (($assessmentCounter < 1) && $hasAssessments) {
-                                    echo "<tr><td colspan='3'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
+                                    if ($user_type < 2) {
+                                        echo "<tr><td colspan='3'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
+                                    } else {
+                                        echo "<tr><td colspan='4'><i><b>No upcoming assessments at this time.</b></i></td></tr>";
+                                    }
                                 }
                                 $assessmentCounter = 0;
                             } catch (PDOException $e) {
