@@ -4,6 +4,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const homeButton = document.querySelector('.home');
     const accountButton = document.querySelector('.account');
 
+    // For modal only.
+    var modal = document.getElementById('student-submit-modal');
+    var closeButton = document.querySelector('.close-button');
+    closeButton.onclick = function() {
+        modal.style.display = 'none';
+    };
+    var studentSubmissionButtons = document.querySelectorAll('.student-submit-button');
+    studentSubmissionButtons.forEach(function(button) {
+        button.addEventListener('click', function () {
+            var userAssessmentID = this.getAttribute('data-user-assessment-id');
+            var userID = this.getAttribute('data-user-id');
+            document.getElementById('modal-assessment-id').value = userAssessmentID;
+            document.getElementById('modal-user-id').value = userID;
+            modal.style.display = 'block';
+        });
+    });
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {
             window.location.href = 'logout.php';

@@ -85,7 +85,7 @@ CREATE TABLE ASSESSMENT(
     assessment_type varchar(50) NOT NULL,
     points_possible int,
     due_date date NOT NULL,
-    has_submissions int NOT NULL, /* CHANGE TO BOOLEAN. */
+    has_submissions int NOT NULL, /* 0 for false, 1 for true. */
     PRIMARY KEY (assessment_id)
 ) Engine=InnoDB;
 

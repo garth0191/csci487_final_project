@@ -7,6 +7,7 @@ if(!isset($_SESSION['user_id'])){
 }
 
 $user_id = $_SESSION["user_id"];
+$user_type = $_SESSION["user_type"];
 
 $current_courses = [];
 ?>
@@ -26,7 +27,12 @@ $current_courses = [];
         <!-- Will appear on left side of nav bar. -->
         <div class="navbar-buttons">
             <div class="button home" id="home-button">Home</div>
-            <div class="button create" id="create-button">Create Course</div>
+            <!-- Display 'Create Course' option ONLY for instructors. -->
+            <?php
+                if ($user_type < 2) {
+                    echo "<div class='button create' id='create-button'>Create Course</div>";
+                }
+            ?>
             <div class="button account" id="account-button">Profile</div>
             <div class="button logout" id="logout-button">Logout</div>
         </div>
@@ -43,23 +49,51 @@ $current_courses = [];
                 <div class="tile-container">
                     <?php
                         // Retrieve all courses associated with current user.
-                        try {  
-                            // Put courses into array to be passed to Javascript file.
-                            $courseQuery = $conn->prepare("SELECT * FROM COURSE WHERE `instructor_id` = ?");
-                            $courseQuery->execute([$user_id]);
-                            while ($oneCourse = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
-                                $current_courses[] = array (
-                                    "course_id" => $oneCourse["course_id"],
-                                    "course_num" => $oneCourse["course_num"],
-                                    "course_name" => $oneCourse["course_name"],
-                                    "course_description" => $oneCourse["course_description"],
-                                    "instructor_name" => $oneCourse["professor_name"],
-                                    "semester" => $oneCourse["semester"],
-                                    "course_sec_num" => $oneCourse["course_sec_num"]
-                                );
+
+                        // Check if user is an instructor or a student.
+                        if ($user_type < 2) {
+                            try {
+                                // User is an instructor.
+                                $courseQuery = $conn->prepare("SELECT * FROM COURSE WHERE `instructor_id` = ?");
+                                $courseQuery->execute([$user_id]);
+                                while ($oneCourse = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
+                                    $current_courses[] = array (
+                                        "course_id" => $oneCourse["course_id"],
+                                        "course_num" => $oneCourse["course_num"],
+                                        "course_name" => $oneCourse["course_name"],
+                                        "course_description" => $oneCourse["course_description"],
+                                        "instructor_name" => $oneCourse["professor_name"],
+                                        "semester" => $oneCourse["semester"],
+                                        "course_sec_num" => $oneCourse["course_sec_num"]
+                                    );
+                                }
+                            } catch (PDOException $e) {
+                                echo "ERROR: Could not pull affiliated instructor courses. ".$e->getMessage();
                             }
-                        } catch (PDOException $e) {
-                            echo "ERROR: Could not pull affiliated courses. ".$e->getMessage();
+                        } else {
+                            try {
+                                // User is a student.
+                                $courseQuery = $conn->prepare("SELECT * FROM USER_COURSE WHERE `user_id` = ?");
+                                $courseQuery->execute([$user_id]);
+                                while ($oneCourse = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
+                                    // Pull the associated course information.
+                                    $studentCourses = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
+                                    $studentCourses->execute([$oneCourse["course_id"]]);
+                                    while ($oneStudentCourse = $studentCourses->fetch(PDO::FETCH_ASSOC)) {
+                                        $current_courses[] = array (
+                                            "course_id" => $oneStudentCourse["course_id"],
+                                            "course_num" => $oneStudentCourse["course_num"],
+                                            "course_name" => $oneStudentCourse["course_name"],
+                                            "course_description" => $oneStudentCourse["course_description"],
+                                            "instructor_name" => $oneStudentCourse["professor_name"],
+                                            "semester" => $oneStudentCourse["semester"],
+                                            "course_sec_num" => $oneStudentCourse["course_sec_num"]
+                                        );
+                                    }
+                                }
+                            } catch (PDOException $e) {
+                                echo "ERROR: Could not pull affiliated student courses. ".$e->getMessage();
+                            }
                         }
                     ?>
                 </div>

@@ -39,6 +39,7 @@
                     session_start();
                     $_SESSION["user_email"] = $isUser["user_email"];
                     $_SESSION["user_id"] = $isUser["user_id"];
+                    $_SESSION["user_type"] = $isUser["user_type"];
                     $empty = true;
                     $message = "";
 

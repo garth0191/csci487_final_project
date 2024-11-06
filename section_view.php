@@ -87,10 +87,9 @@
             <section class="upload-items-form">
                 <h2>Upload Course Items</h2>
                 <form action='section_view.php?section_id=<?php echo $section_id; ?>' enctype='multipart/form-data' method='post'>
-                    <input type="file" id="course_item" name="course_item" accept=".pdf, .txt"></input>
+                    <input type="file" id="student-file" name="student-file" accept=".pdf, .txt"></input>
                     <input type='hidden' id='user_id' name='user_id' value='<?php echo $user_id; ?>'></input>
                     <input type='hidden' id='section_id' name='section_id' value='<?php echo $section_id; ?>'></input>
-                    Item Title: <input type='text' id='item_name' name='item_name'></input>
                     <button type="submit" name="submit">Upload</button>
                 </form>
             </section>
