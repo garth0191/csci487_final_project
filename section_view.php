@@ -19,7 +19,10 @@
     $courseQuery->execute([$section_id]);
     while ($course = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
         $course_id = $course["course_id"];
-        $course_num = $course["course_num"];
+        $pullCourseNum = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
+        $pullCourseNum->execute([$course_id]);
+        $pullCourse = $pullCourseNum->fetch(PDO::FETCH_ASSOC);
+        $course_num = $pullCourse["course_num"];
     }
 
     // Check whether an instructor has uploaded a new course item for the section.
