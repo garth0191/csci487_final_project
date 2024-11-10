@@ -77,6 +77,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    // Add a student to the course.
+    if ((isset($_POST["new_student"]) && $_POST["new_student"] !== "")) {
+        try {
+            // Create USER_COURSE bridge record.
+            $UC_Records = $conn->prepare("INSERT INTO USER_COURSE (user_id, course_id) VALUES (?, ?)");
+            $UC_Records->execute([$_POST["new_student"], $course_id]);
+            // Create USER_ASSESSMENT bridge records for all course assessments.
+            $pullAssessments = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `course_id` = ?");
+            $pullAssessments->execute([$course_id]);
+            while ($assessmentRow = $pullAssessments->fetch()) {
+                $assessment_id = $assessmentRow["assessment_id"];
+                $UA_Records = $conn->prepare("INSERT INTO USER_ASSESSMENT(user_id, assessment_id) VALUES (?, ?)");
+                $UA_Records->execute([$_POST["new_student"], $assessment_id]);
+            }
+        } catch (PDOException $e) {
+            echo "ERROR: Could not add student to course. ".$e->getMessage();
+        }
+    }
+
     // Change assessment weights.
     if ((isset($_POST["weight_0"]) && $_POST["weight_0"] !== "")) {
         // Extra Credit
@@ -209,7 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         $assistantQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
                                         $assistantQuery->execute([$assistant_id]);
                                         while ($assistantDetails = $assistantQuery->fetch(PDO::FETCH_ASSOC)) {
-                                            echo "<td><em>".$assistantDetails["user_email"]."</em>";
+                                            echo "<td><em>".$assistantDetails["last_name"].", ".$assistantDetails["first_name"]."</em>";
                                             echo "<form action='course_edit.php?course_id=".$course_id."' method='post' style='display: inline; padding: 5px;'>";
                                             echo "<input type='hidden' name='assistant_remove' value='".$assistantDetails["user_id"]."'></input>";
                                             echo "<input type='submit' name='submit' value=' X '></input>";
@@ -279,7 +298,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "<select name='new_assistant'>";
                             echo '<option style="display:none"></option>';
                             while ($allUsersRow = $allUsers->fetch(PDO::FETCH_ASSOC)) {
-                                echo "<option name='new_assistant' value='".$allUsersRow["user_id"]."'>".$allUsersRow["user_email"]."</option>";
+                                echo "<option name='new_assistant' value='".$allUsersRow["user_id"]."'>".$allUsersRow["last_name"].", ".$allUsersRow["first_name"]."</option>";
                             }
                             echo "</select>";
                         ?>
@@ -311,6 +330,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             }
                         ?>
                         <input type="submit" name="submit" value="&nbsp;Confirm Weights&nbsp;">
+                    </form>
+                </div>
+            </section>
+
+            <section class="course-add-students">
+                <h2>Add Students to Course</h2>
+                <div class="course-add-students-container">
+                    <form action='course_edit.php?course_id=<?php echo $course_id; ?>' method='post'>
+                        <?php
+                        try {
+                            $allStudents = $conn->prepare("SELECT * FROM USER WHERE `user_type` > 1 AND user_id NOT IN (SELECT `user_id` FROM USER_COURSE WHERE `course_id` = ?)");
+                            $allStudents->execute([$course_id]);
+                            echo "<select name='new_student'>";
+                            echo '<option style="display:none"></option>';
+                            while ($allStudentsRow = $allStudents->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<option name='new_student' value='".$allStudentsRow["user_id"]."'>".$allStudentsRow["last_name"].", ".$allStudentsRow["first_name"]."</option>";
+                            }
+                            echo "</select>";
+                        } catch (PDOException $e) {
+                            echo "ERROR: Could not retrieve weights. ".$e->getMessage();
+                        }
+                        ?>
+                        <input type="submit" name="submit" value="&nbsp;Add Student&nbsp;">
                     </form>
                 </div>
             </section>
