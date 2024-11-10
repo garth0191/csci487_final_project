@@ -48,6 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Assign or change teaching assistant.
     if ((isset($_POST["new_assistant"]) && $_POST["new_assistant"] !== "")) {
         try {
+            //Remove the previous assistant, and change their user type to STUDENT.
+            $grabTA = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
+            $grabTA->execute([$course_id]);
+            while ($row = $grabTA->fetch()) {
+                $TA_ID = $row["assistant_id"];
+                $changeTA_ID = $conn->prepare("UPDATE USER SET user_type = 2 WHERE `user_id` = ?");
+                $changeTA->execute([$TA_ID]);
+            }
             $assistantUpdate = $conn->prepare("UPDATE COURSE SET assistant_id = ? WHERE course_id = ?");
             $assistantUpdate->execute([$_POST["new_assistant"], $course_id]);
             $updateUserType = $conn->prepare("UPDATE USER SET user_type = 2 WHERE user_id = ?");
