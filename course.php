@@ -132,16 +132,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 if ($oneAssessment["has_submissions"] === 0) {
                                                     echo "<td><em>No submission required.</em></td>";
                                                 } else {
-                                                    $userAssessment = $conn->prepare("SELECT * FROM USER_ASSESSMENT WHERE `assessment_id` = ?");
-                                                    $userAssessment->execute([$assessment_id]);
-                                                    while ($oneUserAssessment = $userAssessment->fetch(PDO::FETCH_ASSOC)) {
+                                                    // Fetch the USER_ASSESSMENT record for the current user and assessment.
+                                                    $userAssessment = $conn->prepare("SELECT * FROM USER_ASSESSMENT WHERE `assessment_id` = ? AND `user_id` = ?");
+                                                    $userAssessment->execute([$assessment_id, $user_id]);
+                                                    $oneUserAssessment = $userAssessment->fetch(PDO::FETCH_ASSOC);
+
+                                                    if ($oneUserAssessment) {
+                                                        $user_assessment_id = $oneUserAssessment["user_assessment_id"];
                                                         if ($oneUserAssessment["user_submission_filepath"] !== NULL) {
-                                                            $user_assessment_id = $oneUserAssessment["user_assessment_id"];
-                                                            // Previous student submission, as well as icon to upload a new submission to overwrite previous submission.
+                                                            // Output cell with previous submission link and upload button.
                                                             echo "<td><a href='".$oneUserAssessment["user_submission_filepath"]."'>Previous Submission</a>&nbsp;<button class='student-submit-button' data-user-assessment-id='".$user_assessment_id."' data-user-id='".$user_id."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Upload New Submission'></button></td>";
                                                         } else {
-                                                            // No previous submission.
-                                                            echo "<td><button class='student-submit-button' data-user-assessment-id='".$user_assessment_id."' data-user-id='".$user_id."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Upload New Submission'></button></td>";
+                                                            // Output cell with upload button only.
+                                                            echo "<td><button class='student-submit-button' data-user-assessment-id='".$user_assessment_id."' data-user-id='".$user_id."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Upload Submission'></button></td>";
+                                                        }
+                                                    } else {
+                                                        // No USER_ASSESSMENT record exists; create one.
+                                                        try {
+                                                            $insertUserAssessment = $conn->prepare("INSERT INTO USER_ASSESSMENT (user_id, assessment_id) VALUES (?, ?)");
+                                                            $insertUserAssessment->execute([$user_id, $assessment_id]);
+                                                            $user_assessment_id = $conn->lastInsertId();
+
+                                                            // Output cell with upload button.
+                                                            echo "<td><button class='student-submit-button' data-user-assessment-id='".$user_assessment_id."' data-user-id='".$user_id."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Upload Submission'></button></td>";
+                                                        } catch (PDOException $e) {
+                                                            echo "<td><em>Error creating submission record.</em></td>";
                                                         }
                                                     }
                                                 }
