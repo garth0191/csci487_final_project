@@ -17,8 +17,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 try {
+
     $deleteQuery = $conn->prepare("DELETE FROM ITEM WHERE `item_id` = ?");
     $deleteQuery->execute([$item_id]);
+
+    // Grab filepath for item and unlink it.
+    $filePathQuery = $conn->prepare("SELECT `file_path` FROM ITEM WHERE `item_id` = ?");
+    $filePathQuery->execute([$item_id]);
+    while ($row = $filePathQuery->fetch()) {
+        $filePath = $row['file_path'];
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
 
 } catch (PDOException $e) {
     echo "ERROR: Could not delete item.".$e->getMessage();
