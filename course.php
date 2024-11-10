@@ -292,7 +292,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
                 } else {
                     // User is a student.
-                    echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW ASSESSMENTS</a>';
                     echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
                 }
 

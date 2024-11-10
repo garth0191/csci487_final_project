@@ -61,24 +61,28 @@
                     </tr>
                         <?php
                             try {
-                                //Grab assessments from database.
+                                // Grab assessments from database.
                                 $pullAssessments = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `course_id` = ?");
                                 $pullAssessments->execute([$course_id]);
                                 while ($oneAssessment = $pullAssessments->fetch(PDO::FETCH_ASSOC)) {
                                     echo "<tr>";
                                     echo "<td>";
                                     echo $oneAssessment["assessment_description"];
-                                    echo "&nbsp;<form action='assessment_edit.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
-                                    echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
-                                    echo "<button type='submit' name='submit' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
-                                    echo "</form>&nbsp;";
-                                    echo "<form action='assessment_delete.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
-                                    echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
-                                    echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
-                                    echo "</form>";
-                                    echo "</td>";
 
-                                    //Grab assessment types from database.
+                                    // Only instructor should be able to edit/delete an assessment.
+                                    if ($user_type < 2) {
+                                        echo "&nbsp;<form action='assessment_edit.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                        echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
+                                        echo "<button type='submit' name='submit' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                        echo "</form>&nbsp;";
+                                        echo "<form action='assessment_delete.php?assessment_id=".$oneAssessment["assessment_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                        echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
+                                        echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
+                                        echo "</form>";
+                                        echo "</td>";
+                                    }
+
+                                    // Grab assessment types from database.
                                     echo "<td>";
                                     echo $oneAssessment["assessment_type"];
                                     echo "</td>";
@@ -101,12 +105,19 @@
     <div class="sidebar">
         <!-- Course edit options, etc., will go here. -->
         <a href="course.php?course_id=<?php echo $course_id; ?>">COURSE HOME</a>
-        <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
-        <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
-        <a href="assessment_view.php?course_id=<?php echo $course_id; ?>">VIEW/EDIT ASSESSMENTS</a>
-        <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE CONTENT</a>
-        <a href="gradebook.php?course_id=<?php echo $course_id; ?>">GRADEBOOK</a>
         <?php
+        if ($user_type < 2) {
+            // User is an instructor.
+            echo '<a href="course_edit.php?course_id=' . $course_id . '">EDIT COURSE</a>';
+            echo '<a href="assessment_create.php?course_id=' . $course_id . '">CREATE ASSESSMENT</a>';
+            echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW/EDIT ASSESSMENTS</a>';
+            echo '<a href="section_edit.php?course_id=' . $course_id . '">EDIT COURSE CONTENT</a>';
+            echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
+        } else {
+            // User is a student.
+            echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW ASSESSMENTS</a>';
+            echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
+        }
         // Pull all sections created by instructor.
         try {
             $sectionQuery = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
