@@ -7,6 +7,7 @@
     }
 
     $user_id = $_SESSION['user_id'];
+    $user_type = $_SESSION['user_type'];
     $error = false;
 
     // Grab section ID that has been passed to this page.
@@ -95,14 +96,20 @@
             <!-- INSTRUCTORS ONLY: upload new course materials. -->
             <section class="upload-items-form">
                 <h2>Upload Course Items</h2>
-                <form action='section_view.php?section_id=<?php echo $section_id; ?>' enctype='multipart/form-data' method='post'>
-                    <input type="file" id="course_item" name="course_item" accept=".pdf, .txt"></input>
-                    <label for="item_name">Input name for course item: </label>
-                    <input type="text" id="item_name" name="item_name">
-                    <input type='hidden' id='user_id' name='user_id' value='<?php echo $user_id; ?>'></input>
-                    <input type='hidden' id='section_id' name='section_id' value='<?php echo $section_id; ?>'></input>
-                    <button type="submit" name="submit">Upload</button>
-                </form>
+                <?php
+                if ($user_type < 2) {
+                    echo "<form action='section_view.php?section_id=".$section_id."' enctype='multipart/form-data' method='post'>";
+                    echo "<input type='file' id='course_item' name='course_item' accept='.pdf, .txt'></input>";
+                    echo "<label for='item_name'>Input name for course item: </label>";
+                    echo "<input type='text' id='item_name' name='item_name'>";
+                    echo "<input type='hidden' id='user_id' name='user_id' value='".$user_id."'></input>";
+                    echo "<input type='hidden' id='section_id' name='section_id' value='".$section_id."'></input>";
+                    echo "<button type='submit' name='submit'>Upload</button>";
+                    echo "</form>";
+                }
+                ?>
+
+
             </section>
 
             <section class="uploaded-items">
@@ -159,13 +166,19 @@
         <!-- Sidebar. -->
         <div class="sidebar">
             <!-- Course edit options, etc., will go here. -->
-            <a href="course.php?course_id=<?php echo $course_id; ?>">COURSE HOME</a>
-            <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
-            <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
-            <a href="assessment_view.php?course_id=<?php echo $course_id; ?>">VIEW/EDIT ASSESSMENTS</a>
-            <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE CONTENT</a>
-            <a href="gradebook.php?course_id=<?php echo $course_id; ?>">GRADEBOOK</a>
             <?php
+            if ($user_type < 2) {
+                // User is an instructor.
+                echo '<a href="course_edit.php?course_id=' . $course_id . '">EDIT COURSE</a>';
+                echo '<a href="assessment_create.php?course_id=' . $course_id . '">CREATE ASSESSMENT</a>';
+                echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW/EDIT ASSESSMENTS</a>';
+                echo '<a href="section_edit.php?course_id=' . $course_id . '">EDIT COURSE CONTENT</a>';
+                echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
+            } else {
+                // User is a student.
+                echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW ASSESSMENTS</a>';
+                echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
+            }
                 // Pull all sections created by instructor.
                 try {
                     $sectionQuery = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
