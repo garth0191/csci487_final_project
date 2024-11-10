@@ -332,6 +332,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="submit" name="submit" value="&nbsp;Confirm Weights&nbsp;">
                     </form>
                 </div>
+                <br>
             </section>
 
             <section class="course-add-students">
