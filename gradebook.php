@@ -180,13 +180,17 @@
                                 $assessmentNames->execute([$course_id]);
                                 while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
                                     echo "<tr>";
-                                    echo "<td bgcolor='gray'>".$oneAssessment["assessment_description"]."</td>";
-                                    echo "<td bgcolor='gray'>".$oneAssessment["assessment_type"]."</td>";
-                                    echo "<td bgcolor='gray'>".$oneAssessment["due_date"]."</td>";
+                                    echo "<td>".$oneAssessment["assessment_description"]."</td>";
+                                    echo "<td>".$oneAssessment["assessment_type"]."</td>";
+                                    echo "<td>".$oneAssessment["due_date"]."</td>";
                                     $pullGradeQuery = $conn->prepare("SELECT `assessment_score` FROM `USER_ASSESSMENT` WHERE `user_id` = ? AND `assessment_id` = ?");
                                     $pullGradeQuery->execute([$user_id, $oneAssessment["assessment_id"]]);
                                     while ($oneGrade = $pullGradeQuery->fetch(PDO::FETCH_ASSOC)) {
-                                        echo "<td>".$oneGrade["assessment_score"]."</td>";
+                                        if ($oneGrade["assessment_score"] !== NULL) {
+                                            echo "<td>".$oneGrade["assessment_score"]."</td>";
+                                        } else {
+                                            echo "<td><em>N/A</em></td>";
+                                        }
                                     }
                                     echo "</tr>";
                                 }
