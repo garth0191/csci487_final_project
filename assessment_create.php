@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             try {
                 $due_date = date('Y-m-d', strtotime($_POST["due_date"]));
+
                 if (isset($_POST["points-possible"]) && $_POST["points-possible"] !== "") {
                     $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, points_possible, due_date, has_submissions) VALUES (?, ?, ?, ?, ?, ?)");
                     $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $_POST["points-possible"], $due_date, $_POST["submissions"]]);
@@ -37,37 +38,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $newAssignment = $conn->prepare("INSERT INTO ASSESSMENT (course_id, assessment_description, assessment_type, due_date, has_submissions) VALUES (?, ?, ?, ?, ?)");
                     $newAssignment->execute([$course_id, $_POST["assessment_name"], $_POST["assessment_type"], $due_date, $_POST["submissions"]]);
                 }
-            } catch (PDOException $e) {
-                echo "ERROR: Could not create new assignment. ".$e->getMessage();
-            }
 
-            // Grab ID for newly created assessment.
-            $grabID = $conn->prepare("SELECT * FROM ASSESSMENT WHERE `assessment_description` = ?");
-            $grabID->execute([$_POST["assessment_name"]]);
-            while ($oneID = $grabID->fetch(PDO::FETCH_ASSOC)) {
-                $assessment_id = $oneID["assessment_id"];
+                $assessment_id = $conn->lastInsertId();
 
-                // Create USER_ASSESSMENT bridge records for all students in the course.
-                try {
-                    $pullStudentRecords = $conn->prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
-                    $pullStudentRecords->execute([$course_id]);
-                    while ($oneStudent = $pullStudentRecords->fetch(PDO::FETCH_ASSOC)) {
-                        $student_id = $oneStudent["user_id"];
-                        $newRecord = $conn->prepare("INSERT INTO USER_ASSESSMENT (user_id, course_id, assessment_id) VALUES (?, ?, ?)");
-                        $newRecord->execute([$student_id, $course_id, $assessment_id]);
-                    }
-                } catch (PDOException $e) {
-                    echo "ERROR: Could not pull student records from USER_COURSE table. ".$e->getMessage();
+
+                $pullStudentRecords = $conn->prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
+                $pullStudentRecords->execute([$course_id]);
+                while ($oneStudent = $pullStudentRecords->fetch(PDO::FETCH_ASSOC)) {
+                    $student_id = $oneStudent["user_id"];
+                    $newRecord = $conn->prepare("INSERT INTO USER_ASSESSMENT (user_id, assessment_id) VALUES (?, ?)");
+                    $newRecord->execute([$student_id, $assessment_id]);
                 }
-            }
-            // Redirect user to course page.
-            try {
+
                 header("Location: course.php?course_id=$course_id");
-            } catch (PDOException $e) {
-                echo "ERROR: Could not redirect user to course page after adding assessment. ".$e->getMessage();
-            }
+                exit();
+                } catch (PDOException $e) {
+                    echo "ERROR: Could not execute code: " . $e->getMessage();
+                }
         }
-    } else {
         $error = true;
         $message = "Required fields cannot be blank.";
     }
