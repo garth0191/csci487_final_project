@@ -36,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $upload_path = "student_submissions/".$new_filename;
                 move_uploaded_file($temp_filename, $upload_path);
                 $date = date("Y-m-d");
-                $submissionAddQuery = $conn->prepare("UPDATE USER_ASSESSMENT SET user_submission_filepath = ? WHERE `user_id` = ?");
-                $submissionAddQuery->execute([$upload_path, $student_id]);
+                $submissionAddQuery = $conn->prepare("UPDATE USER_ASSESSMENT SET user_submission_filepath = ? WHERE `user_assessment_id` = ?");
+                $submissionAddQuery->execute([$upload_path, $user_assess_id]);
             }
         } catch (PDOException $e) {
             echo "ERROR: Could not update student submission after modal confirmation." . $e->getMessage();
