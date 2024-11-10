@@ -165,9 +165,9 @@
                       <div class="signup-container">
                         E-mail: <input type="email" class="email element" placeholder="Input desired e-mail address." name="signup_email">
                         Password: <input type="password" class="password element" placeholder="Input desired password." name="signup_password">
+                        Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm">
                         First Name: <input type="text" class="fname element" placeholder="Input First name." name="fname">
                         Last Name: <input type="text" class="lname element" placeholder="Input last name." name="lname">
-                        Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm">
                         <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
                         Account type: <select name="type">
                             <option value="" disabled selected>Select desired account type.</option>
