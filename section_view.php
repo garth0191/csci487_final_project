@@ -132,6 +132,7 @@
                                 echo "<td>".$upload_date."&nbsp;";
                                 echo "<form action='item_delete.php?item_id=".$oneItem["item_id"]."' method='post' style='display: inline; padding: 5px;'>";
                                 echo "<input type='hidden' name='section_id' value='".$section_id."'></input>";
+                                echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
                                 echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
                                 echo "</form>";
                                 echo "</td>";
