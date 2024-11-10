@@ -37,8 +37,8 @@
 
             if (is_numeric($new_grade) && $new_grade >= 0 && $new_grade <= 100) {
                 try {
-                    $insertGrade = $conn->prepare("INSERT INTO USER_ASSESSMENT (user_id, assessment_id, assessment_score) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE assessment_score = VALUES(assessment_score)");
-                    $insertGrade->execute([$student_id, $assessment_id, $new_grade]);
+                    $updateGrade = $conn->prepare("UPDATE USER_ASSESSMENT SET assessment_score = ? WHERE user_id = ? AND assessment_id = ?");
+                    $updateGrade->execute([$new_grade, $student_id, $assessment_id]);
 
                     header("Location: gradebook.php?course_id=".$course_id);
                     exit();
