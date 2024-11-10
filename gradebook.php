@@ -122,45 +122,42 @@
                                 echo "</tr>";
                                 // Rows: student last name, student first name, all assessments for that student, average.
                                 // Check that course has students.
-                                $pullStudents = $conn -> prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
+                                $pullStudents = $conn->prepare("SELECT uc.user_id, u.first_name, u.last_name FROM USER_COURSE uc INNER JOIN USER u ON uc.user_id = u.user_id WHERE uc.course_id = ?");
                                 $pullStudents->execute([$course_id]);
-                                $numStudents = $pullStudents -> rowCount();
+                                $numStudents = $pullStudents->rowCount();
+
                                 if ($numStudents < 1) {
                                     echo "<tr><td colspan='".(2+$numAssessments)."'><em><strong>No students currently registered in course.</strong></em></td></tr>";
                                 } else {
                                     while ($oneStudent = $pullStudents->fetch(PDO::FETCH_ASSOC)) {
                                         echo "<tr>";
-                                        $pullName = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
-                                        $pullName->execute([$oneStudent["user_id"]]);
-                                        while ($oneName = $pullName->fetch(PDO::FETCH_ASSOC)) {
-                                            echo "<td>".$oneName["last_name"]."</td>";
-                                            echo "<td>".$oneName["first_name"]."</td>";
+                                        echo "<td>".htmlspecialchars($oneStudent["last_name"], ENT_QUOTES, 'UTF-8')."</td>";
+                                        echo "<td>".htmlspecialchars($oneStudent["first_name"], ENT_QUOTES, 'UTF-8')."</td>";
 
-                                            // Pull from USER_ASSESSMENT table all records for student for this course.
-                                            $pullUserAssessments = $conn->prepare("SELECT ua.* FROM USER_ASSESSMENT ua INNER JOIN ASSESSMENT a ON ua.assessment_id = a.assessment_id WHERE a.course_id = ? AND ua.user_id = ?");
-                                            $pullUserAssessments->execute([$course_id, $oneStudent["user_id"]]);
+                                        // Pull all USER_ASSESSMENT records for the student and course.
+                                        $pullUserAssessments = $conn->prepare("SELECT ua.* FROM USER_ASSESSMENT ua INNER JOIN ASSESSMENT a ON ua.assessment_id = a.assessment_id WHERE a.course_id = ? AND ua.user_id = ?");
+                                        $pullUserAssessments->execute([$course_id, $oneStudent["user_id"]]);
+                                        $userAssessments = array();
+                                        while ($oneUserAssessment = $pullUserAssessments->fetch(PDO::FETCH_ASSOC)) {
+                                            $userAssessments[$oneUserAssessment["assessment_id"]] = $oneUserAssessment;
+                                        }
 
-                                            $userAssessments = array();
-                                            while ($oneUserAssessment = $pullUserAssessments->fetch(PDO::FETCH_ASSOC)) {
-                                                $userAssessments[$oneUserAssessment["assessment_id"]] = $oneUserAssessment;
+                                        foreach ($assessmentsList as $assessment) {
+                                            $assessment_id = $assessment["assessment_id"];
+                                            if (isset($userAssessments[$assessment_id])) {
+                                                $score = $userAssessments[$assessment_id]["assessment_score"];
+                                            } else {
+                                                $score = "N/A";
                                             }
-                                            // Display grades with EDIT button.
-                                            foreach ($assessmentsList as $assessment) {
-                                                $assessment_id = $assessment["assessment_id"];
-                                                if (isset($userAssessments[$assessment_id])) {
-                                                    $score = $userAssessments[$assessment_id]["assessment_score"];
-                                                } else {
-                                                    $score = "N/A";
-                                                }
-                                                echo "<td>";
-                                                echo $score;
-                                                echo "&nbsp;<button class='edit-grade-button' data-assessment-id='".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".$score."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
-                                                echo "</td>";
-                                            }
+                                            echo "<td>";
+                                            echo htmlspecialchars($score, ENT_QUOTES, 'UTF-8');
+                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id='".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".htmlspecialchars($score, ENT_QUOTES, 'UTF-8')."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                            echo "</td>";
                                         }
                                         echo "</tr>";
                                     }
                                 }
+
                             }
                         } else {
                             // STUDENT gradebook.
@@ -184,11 +181,11 @@
                                     echo "<td>".htmlspecialchars($oneAssessment["assessment_type"], ENT_QUOTES, 'UTF-8')."</td>";
                                     echo "<td>".htmlspecialchars($oneAssessment["due_date"], ENT_QUOTES, 'UTF-8')."</td>";
 
-                                    // Pull the grade for the student and assessment
+                                    // Pull the grade for the student and assessment.
                                     $pullGradeQuery = $conn->prepare("SELECT * FROM `USER_ASSESSMENT` WHERE `user_id` = ? AND `assessment_id` = ?");
                                     $pullGradeQuery->execute([$user_id, $oneAssessment["assessment_id"]]);
 
-                                    // Check if a grade record exists
+                                    // Check if a grade record exists.
                                     if ($oneGrade = $pullGradeQuery->fetch(PDO::FETCH_ASSOC)) {
                                         if ($oneGrade["assessment_score"] !== NULL) {
                                             echo "<td>".htmlspecialchars($oneGrade["assessment_score"], ENT_QUOTES, 'UTF-8')."</td>";
@@ -196,7 +193,7 @@
                                             echo "<td><em>N/A</em></td>";
                                         }
                                     } else {
-                                        // No grade record exists
+                                        // No grade record exists.
                                         echo "<td><em>N/A</em></td>";
                                     }
                                     echo "</tr>";
