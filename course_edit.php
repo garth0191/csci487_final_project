@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             while ($row = $grabTA->fetch()) {
                 $TA_ID = $row["assistant_id"];
                 $changeTA_ID = $conn->prepare("UPDATE USER SET user_type = 3 WHERE `user_id` = ?");
-                $changeTA->execute([$TA_ID]);
+                $changeTA_ID->execute([$TA_ID]);
             }
             $assistantUpdate = $conn->prepare("UPDATE COURSE SET assistant_id = ? WHERE course_id = ?");
             $assistantUpdate->execute([$_POST["new_assistant"], $course_id]);
