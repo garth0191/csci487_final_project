@@ -176,6 +176,7 @@
                                 $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ? ORDER BY assessment_type, due_date");
                                 $assessmentNames->execute([$course_id]);
                                 while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
+                                    $has_submissions = $oneAssessment["has_submissions"];
                                     echo "<tr>";
                                     echo "<td>".htmlspecialchars($oneAssessment["assessment_description"], ENT_QUOTES, 'UTF-8')."</td>";
                                     echo "<td>".htmlspecialchars($oneAssessment["assessment_type"], ENT_QUOTES, 'UTF-8')."</td>";
@@ -188,7 +189,11 @@
                                     // Check if a grade record exists.
                                     if ($oneGrade = $pullGradeQuery->fetch(PDO::FETCH_ASSOC)) {
                                         if ($oneGrade["assessment_score"] !== NULL) {
-                                            echo "<td>".htmlspecialchars($oneGrade["assessment_score"], ENT_QUOTES, 'UTF-8')."</td>";
+                                            if ($has_submissions === 1) {
+                                                echo "<td><a href='".$oneGrade["user_submission_filepath"]."'>Student Submission</a>&nbsp;".htmlspecialchars($oneGrade["assessment_score"], ENT_QUOTES, 'UTF-8')."</td>";
+                                            } else {
+                                                echo "<td>".htmlspecialchars($oneGrade["assessment_score"], ENT_QUOTES, 'UTF-8')."</td>";
+                                            }
                                         } else {
                                             echo "<td><em>N/A</em></td>";
                                         }
