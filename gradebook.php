@@ -141,17 +141,22 @@
                                         while ($oneUserAssessment = $pullUserAssessments->fetch(PDO::FETCH_ASSOC)) {
                                             $userAssessments[$oneUserAssessment["assessment_id"]] = $oneUserAssessment;
                                         }
-
                                         foreach ($assessmentsList as $assessment) {
                                             $assessment_id = $assessment["assessment_id"];
+                                            $has_submissions = $assessment["has_submissions"];
                                             if (isset($userAssessments[$assessment_id])) {
                                                 $score = $userAssessments[$assessment_id]["assessment_score"];
+                                                $submission_filepath = $userAssessments[$assessment_id]["user_submission_filepath"];
                                             } else {
                                                 $score = "N/A";
+                                                $submission_filepath = null;
                                             }
                                             echo "<td>";
                                             echo htmlspecialchars($score, ENT_QUOTES, 'UTF-8');
-                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id='".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".htmlspecialchars($score, ENT_QUOTES, 'UTF-8')."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                            if ($has_submissions == 1 && !empty($submission_filepath)) {
+                                                echo "&nbsp;<a href='" . htmlspecialchars($submission_filepath, ENT_QUOTES, 'UTF-8') . "' target='_blank'>Submission</a>";
+                                            }
+                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id='" . $assessment_id . "' data-user-id='" . $oneStudent["user_id"] . "' data-score='" . htmlspecialchars($score, ENT_QUOTES, 'UTF-8') . "' style='...'><img src='./images/pencil-square.svg' alt='Edit'></button>";
                                             echo "</td>";
                                         }
                                         echo "</tr>";
