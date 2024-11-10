@@ -80,7 +80,12 @@
         <!-- Will appear on left side of nav bar. -->
         <div class="navbar-buttons">
             <div class="button home" id="home-button">Home</div>
-            <div class="button create" id="create-button">Create Course</div>
+            <!-- Display 'Create Course' option ONLY for instructors. -->
+            <?php
+            if ($user_type < 2) {
+                echo "<div class='button create' id='create-button'>Create Course</div>";
+            }
+            ?>
             <div class="button account" id="account-button">Profile</div>
             <div class="button logout" id="logout-button">Logout</div>
         </div>

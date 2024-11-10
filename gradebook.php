@@ -7,11 +7,17 @@
     }
 
     $user_id = $_SESSION['user_id'];
+    $user_type = $_SESSION['user_type'];
 
     // Grab course ID that has been passed to this page.
     if (isset($_GET["course_id"]) && $_GET["course_id"] !== "") {
         $course_id = $_GET["course_id"];
     }
+
+    // Pull assistant_id for the course, if there is one.
+    $pullAssistant = $conn->prepare("SELECT `assisstant_id` FROM COURSE WHERE `course_id` = ?");
+    $pullAssistant->execute([$course_id]);
+    $assistant_id = $pullAssistant->fetchColumn();
 
     // Pull number of course assessments for table header.
     try {
@@ -61,7 +67,12 @@
     <!-- Will appear on left side of nav bar. -->
     <div class="navbar-buttons">
         <div class="button home" id="home-button">Home</div>
-        <div class="button create" id="create-button">Create Course</div>
+        <!-- Display 'Create Course' option ONLY for instructors. -->
+        <?php
+        if ($user_type < 2) {
+            echo "<div class='button create' id='create-button'>Create Course</div>";
+        }
+        ?>
         <div class="button account" id="account-button">Profile</div>
         <div class="button logout" id="logout-button">Logout</div>
     </div>
@@ -87,66 +98,95 @@
             <div class="gradebook-container">
                 <table id="gradebook-table">
                     <?php
-                        if ($numAssessments < 1) {
+                        // INSTRUCTOR and ASSISTANT gradebook.
+                        if ($user_type == 1 || ($user_type == 2 && $assistant_id == $user_id)) {
                             echo "<tr>";
-                            echo "<td><b>No assessments created yet.</b></td>";
-                            echo "</tr>";
-                        } else {
-                            // Table headers.
-                            echo "<tr>";
-                            echo "<th onclick='sortTable(0)'><b>Last Name</b></th>";
-                            echo "<th onclick='sortTable(1)'><b>First Name</b></th>";
-                            echo "<th colspan='".$numAssessments."'><b><em>Assessments</em></b></th>";
-                            echo "</tr>";
-                            echo "<tr>";
-                            echo "<td colspan='2' bgcolor='gray'></td>"; // Blank for student first and last name.
-                            $assessmentsList = array();
-                            $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ? ORDER BY assessment_type, due_date");
-                            $assessmentNames->execute([$course_id]);
-                            while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
-                                $assessmentsList[] = $oneAssessment;
-                                echo "<td bgcolor='gray'>".$oneAssessment["assessment_description"]."</td>";
-                            }
-                            echo "</tr>";
-                            // Rows: student last name, student first name, all assessments for that student, average.
-                            // Check that course has students.
-                            $pullStudents = $conn -> prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
-                            $pullStudents->execute([$course_id]);
-                            $numStudents = $pullStudents -> rowCount();
-                            if ($numStudents < 1) {
-                                echo "<tr><td colspan='".(2+$numAssessments)."'><em><strong>No students currently registered in course.</strong></em></td></tr>";
+                            if ($numAssessments < 1) {
+                                echo "<td><b>No assessments created yet.</b></td>";
+                                echo "</tr>";
                             } else {
-                                while ($oneStudent = $pullStudents->fetch(PDO::FETCH_ASSOC)) {
-                                    echo "<tr>";
-                                    $pullName = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
-                                    $pullName->execute([$oneStudent["user_id"]]);
-                                    while ($oneName = $pullName->fetch(PDO::FETCH_ASSOC)) {
-                                        echo "<td>".$oneName["last_name"]."</td>";
-                                        echo "<td>".$oneName["first_name"]."</td>";
+                                // Table headers.
+                                echo "<th onclick='sortTable(0)'><b>Last Name</b></th>";
+                                echo "<th onclick='sortTable(1)'><b>First Name</b></th>";
+                                echo "<th colspan='".$numAssessments."'><b><em>Assessments</em></b></th>";
+                                echo "</tr>";
+                                echo "<tr>";
+                                echo "<td colspan='2' bgcolor='gray'></td>"; // Blank for student first and last name.
+                                $assessmentsList = array();
+                                $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ? ORDER BY assessment_type, due_date");
+                                $assessmentNames->execute([$course_id]);
+                                while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
+                                    $assessmentsList[] = $oneAssessment;
+                                    echo "<td bgcolor='gray'>".$oneAssessment["assessment_description"]."</td>";
+                                }
+                                echo "</tr>";
+                                // Rows: student last name, student first name, all assessments for that student, average.
+                                // Check that course has students.
+                                $pullStudents = $conn -> prepare("SELECT * FROM USER_COURSE WHERE `course_id` = ?");
+                                $pullStudents->execute([$course_id]);
+                                $numStudents = $pullStudents -> rowCount();
+                                if ($numStudents < 1) {
+                                    echo "<tr><td colspan='".(2+$numAssessments)."'><em><strong>No students currently registered in course.</strong></em></td></tr>";
+                                } else {
+                                    while ($oneStudent = $pullStudents->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<tr>";
+                                        $pullName = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
+                                        $pullName->execute([$oneStudent["user_id"]]);
+                                        while ($oneName = $pullName->fetch(PDO::FETCH_ASSOC)) {
+                                            echo "<td>".$oneName["last_name"]."</td>";
+                                            echo "<td>".$oneName["first_name"]."</td>";
 
+                                            // Pull from USER_ASSESSMENT table all records for student for this course.
+                                            $pullUserAssessments = $conn->prepare("SELECT ua.* FROM USER_ASSESSMENT ua INNER JOIN ASSESSMENT a ON ua.assessment_id = a.assessment_id WHERE a.course_id = ? AND ua.user_id = ?");
+                                            $pullUserAssessments->execute([$course_id, $oneStudent["user_id"]]);
 
-
-                                        // Pull from USER_ASSESSMENT table all records for student for this course.
-                                        $pullUserAssessments = $conn->prepare("SELECT ua.* FROM USER_ASSESSMENT ua INNER JOIN ASSESSMENT a ON ua.assessment_id = a.assessment_id WHERE a.course_id = ? AND ua.user_id = ?");
-                                        $pullUserAssessments->execute([$course_id, $oneStudent["user_id"]]);
-
-                                        $userAssessments = array();
-                                        while ($oneUserAssessment = $pullUserAssessments->fetch(PDO::FETCH_ASSOC)) {
-                                            $userAssessments[$oneUserAssessment["assessment_id"]] = $oneUserAssessment;
-                                        }
-                                        // Display grades with EDIT button.
-                                        foreach ($assessmentsList as $assessment) {
-                                            $assessment_id = $assessment["assessment_id"];
-                                            if (isset($userAssessments[$assessment_id])) {
-                                                $score = $userAssessments[$assessment_id]["assessment_score"];
-                                            } else {
-                                                $score = "N/A";
+                                            $userAssessments = array();
+                                            while ($oneUserAssessment = $pullUserAssessments->fetch(PDO::FETCH_ASSOC)) {
+                                                $userAssessments[$oneUserAssessment["assessment_id"]] = $oneUserAssessment;
                                             }
-                                            echo "<td>";
-                                            echo $score;
-                                            echo "&nbsp;<button class='edit-grade-button' data-assessment-id='".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".$score."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
-                                            echo "</td>";
+                                            // Display grades with EDIT button.
+                                            foreach ($assessmentsList as $assessment) {
+                                                $assessment_id = $assessment["assessment_id"];
+                                                if (isset($userAssessments[$assessment_id])) {
+                                                    $score = $userAssessments[$assessment_id]["assessment_score"];
+                                                } else {
+                                                    $score = "N/A";
+                                                }
+                                                echo "<td>";
+                                                echo $score;
+                                                echo "&nbsp;<button class='edit-grade-button' data-assessment-id='".$assessment_id."' data-user-id='".$oneStudent["user_id"]."' data-score='".$score."' style='background: transparent; display: inline; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                                echo "</td>";
+                                            }
                                         }
+                                        echo "</tr>";
+                                    }
+                                }
+                            }
+                        } else {
+                            // STUDENT gradebook.
+                            echo "<tr>";
+                            if ($numAssessments < 1) {
+                                echo "<td><b>No assessment grades available.</b></td>";
+                                echo "</tr>";
+                            } else {
+                                // Table headers.
+                                echo "<th onclick='sortTable(0)'><b>Assessment Name</b></th>";
+                                echo "<th onclick='sortTable(1)'><b>Assessment Type</b></th>";
+                                echo "<th onclick='sortTable(2)'><b>Due Date</b></th>";
+                                echo "<th onclick='sortTable(3)'><b>Grade</b></th>";
+                                echo "</tr>";
+                                // Pull student grade information for each assessment in the course.
+                                $assessmentNames = $conn->prepare("SELECT * FROM `ASSESSMENT` WHERE `course_id` = ? ORDER BY assessment_type, due_date");
+                                $assessmentNames->execute([$course_id]);
+                                while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<tr>";
+                                    echo "<td bgcolor='gray'>".$oneAssessment["assessment_description"]."</td>";
+                                    echo "<td bgcolor='gray'>".$oneAssessment["assessment_type"]."</td>";
+                                    echo "<td bgcolor='gray'>".$oneAssessment["due_date"]."</td>";
+                                    $pullGradeQuery = $conn->prepare("SELECT `assessment_score` FROM `USER_ASSESSMENT` WHERE `user_id` = ? AND `assessment_id` = ?");
+                                    $pullGradeQuery->execute([$user_id, $oneAssessment["assessment_id"]]);
+                                    while ($oneGrade = $pullGradeQuery->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<td>".$oneGrade["assessment_score"]."</td>";
                                     }
                                     echo "</tr>";
                                 }
@@ -161,13 +201,19 @@
     <!-- Sidebar. -->
     <div class="sidebar">
         <!-- Course edit options, etc., will go here. -->
-        <a href="course.php?course_id=<?php echo $course_id; ?>">COURSE HOME</a>
-        <a href="course_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE</a>
-        <a href="assessment_create.php?course_id=<?php echo $course_id; ?>">CREATE ASSESSMENT</a>
-        <a href="assessment_view.php?course_id=<?php echo $course_id; ?>">VIEW/EDIT ASSESSMENTS</a>
-        <a href="section_edit.php?course_id=<?php echo $course_id; ?>">EDIT COURSE CONTENT</a>
-        <a href="gradebook.php?course_id=<?php echo $course_id; ?>">GRADEBOOK</a>
         <?php
+        if ($user_type < 2) {
+            // User is an instructor.
+            echo '<a href="course_edit.php?course_id=' . $course_id . '">EDIT COURSE</a>';
+            echo '<a href="assessment_create.php?course_id=' . $course_id . '">CREATE ASSESSMENT</a>';
+            echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW/EDIT ASSESSMENTS</a>';
+            echo '<a href="section_edit.php?course_id=' . $course_id . '">EDIT COURSE CONTENT</a>';
+            echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
+        } else {
+            // User is a student.
+            echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW ASSESSMENTS</a>';
+            echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
+        }
         // Pull all sections created by instructor.
         try {
             $sectionQuery = $conn->prepare("SELECT * FROM SECTION WHERE `course_id` = ?");
