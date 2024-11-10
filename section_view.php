@@ -19,6 +19,7 @@
     $courseQuery->execute([$section_id]);
     while ($course = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
         $course_id = $course["course_id"];
+        $course_num = $course["course_num"];
     }
 
     // Check whether an instructor has uploaded a new course item for the section.
@@ -34,10 +35,15 @@
                     try {
 
                         //Upload course item to server.
+                        $directory = "course_items/".$course_num;
+                        if (!is_dir($directory)) {
+                            mkdir($directory, 0777, true);
+                        }
+
                         $temp_filename = $item_filepath['tmp_name'];
                         $file_extension = pathinfo($item_filepath['name'], PATHINFO_EXTENSION);
                         $new_filename= "USERID_".$instructor_id."_SECTIONID_".$section_id."_".time().".".$file_extension;
-                        $upload_path = "course_items/".$new_filename;
+                        $upload_path = $directory."/".$new_filename;
                         move_uploaded_file($temp_filename, $upload_path);
 
                         $date = date('Y-m-d');
@@ -95,7 +101,7 @@
                     <button type="submit" name="submit">Upload</button>
                 </form>
             </section>
-    
+
             <section class="uploaded-items">
                 <!-- Pull any items for the section. -->
                  <table>
@@ -118,7 +124,7 @@
                                 $name = $oneItem["item_name"];
                                 $upload_date = $oneItem["upload_date"];
                                 $instructor = $oneItem["user_id"];
-                                
+
                                 echo "<tr>";
                                 echo "<td><a href='".$item_path."'>".$name."</a></td>";
 
