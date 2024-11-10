@@ -210,6 +210,7 @@
     <!-- Sidebar. -->
     <div class="sidebar">
         <!-- Course edit options, etc., will go here. -->
+        <a href="course.php?course_id=<?php echo $course_id; ?>">COURSE HOME</a>
         <?php
         if ($user_type < 2) {
             // User is an instructor.
@@ -220,7 +221,6 @@
             echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
         } else {
             // User is a student.
-            echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW ASSESSMENTS</a>';
             echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
         }
         // Pull all sections created by instructor.
