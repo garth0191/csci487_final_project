@@ -23,7 +23,7 @@
 
     // Check whether an instructor has uploaded a new course item for the section.
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if ( (isset($_FILES["course_item"]) && $_FILES["course_item"]["error"] === UPLOAD_ERR_OK ) && (isset($_POST["user_id"]) && $_POST["user_id"] !== "") && (isset($_POST["item_name"]) && $_POST["item_name"] !== "") ) {
+        if ( (isset($_FILES["course_item"]) && $_FILES["course_item"]["error"] === UPLOAD_ERR_OK ) && (isset($_POST["user_id"]) && $_POST["user_id"] !== "") ) {
             $item_name = $_POST["item_name"];
             $instructor_id = $_POST["user_id"];
 
@@ -87,7 +87,7 @@
             <section class="upload-items-form">
                 <h2>Upload Course Items</h2>
                 <form action='section_view.php?section_id=<?php echo $section_id; ?>' enctype='multipart/form-data' method='post'>
-                    <input type="file" id="student-file" name="student-file" accept=".pdf, .txt"></input>
+                    <input type="file" id="course_item" name="course_item" accept=".pdf, .txt"></input>
                     <input type='hidden' id='user_id' name='user_id' value='<?php echo $user_id; ?>'></input>
                     <input type='hidden' id='section_id' name='section_id' value='<?php echo $section_id; ?>'></input>
                     <button type="submit" name="submit">Upload</button>
