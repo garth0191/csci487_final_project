@@ -180,20 +180,28 @@
                                 $assessmentNames->execute([$course_id]);
                                 while ($oneAssessment = $assessmentNames->fetch(PDO::FETCH_ASSOC)) {
                                     echo "<tr>";
-                                    echo "<td>".$oneAssessment["assessment_description"]."</td>";
-                                    echo "<td>".$oneAssessment["assessment_type"]."</td>";
-                                    echo "<td>".$oneAssessment["due_date"]."</td>";
+                                    echo "<td>".htmlspecialchars($oneAssessment["assessment_description"], ENT_QUOTES, 'UTF-8')."</td>";
+                                    echo "<td>".htmlspecialchars($oneAssessment["assessment_type"], ENT_QUOTES, 'UTF-8')."</td>";
+                                    echo "<td>".htmlspecialchars($oneAssessment["due_date"], ENT_QUOTES, 'UTF-8')."</td>";
+
+                                    // Pull the grade for the student and assessment
                                     $pullGradeQuery = $conn->prepare("SELECT * FROM `USER_ASSESSMENT` WHERE `user_id` = ? AND `assessment_id` = ?");
                                     $pullGradeQuery->execute([$user_id, $oneAssessment["assessment_id"]]);
-                                    while ($oneGrade = $pullGradeQuery->fetch(PDO::FETCH_ASSOC)) {
+
+                                    // Check if a grade record exists
+                                    if ($oneGrade = $pullGradeQuery->fetch(PDO::FETCH_ASSOC)) {
                                         if ($oneGrade["assessment_score"] !== NULL) {
-                                            echo "<td>".$oneGrade["assessment_score"]."</td>";
+                                            echo "<td>".htmlspecialchars($oneGrade["assessment_score"], ENT_QUOTES, 'UTF-8')."</td>";
                                         } else {
                                             echo "<td><em>N/A</em></td>";
                                         }
+                                    } else {
+                                        // No grade record exists
+                                        echo "<td><em>N/A</em></td>";
                                     }
                                     echo "</tr>";
                                 }
+
                             }
                         }
                     ?>
