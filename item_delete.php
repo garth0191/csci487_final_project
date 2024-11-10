@@ -35,4 +35,4 @@ try {
     echo "ERROR: Could not delete item.".$e->getMessage();
 }
 
-header("Location: section_view.php?course_id=$section_id");
+header("Location: section_view.php?section_id=$section_id");
