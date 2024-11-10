@@ -15,7 +15,7 @@
     }
 
     // Pull assistant_id for the course, if there is one.
-    $pullAssistant = $conn->prepare("SELECT `assisstant_id` FROM COURSE WHERE `course_id` = ?");
+    $pullAssistant = $conn->prepare("SELECT `assistant_id` FROM COURSE WHERE `course_id` = ?");
     $pullAssistant->execute([$course_id]);
     $assistant_id = $pullAssistant->fetchColumn();
 
