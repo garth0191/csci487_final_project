@@ -15,11 +15,12 @@
         $section_id = $_GET["section_id"];
     }
 
-    //Grab corresponding course ID.
+    // Grab corresponding course ID.
     $courseQuery = $conn->prepare("SELECT * FROM SECTION WHERE `section_id` = ?");
     $courseQuery->execute([$section_id]);
     while ($course = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
         $course_id = $course["course_id"];
+        $section_name = $course["section_name"];
         $pullCourseNum = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
         $pullCourseNum->execute([$course_id]);
         $pullCourse = $pullCourseNum->fetch(PDO::FETCH_ASSOC);
@@ -98,9 +99,19 @@
     <!-- Container to hold any items assigned to this section. -->
     <div class="container">
         <div class="main-section">
+            <?php
+            $pullCourseName = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
+            $pullCourseName->execute([$course_id]);
+            while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
+                echo "<h1>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</h1>";
+                echo "<h2>Section ".$oneCourse["course_sec_num"].", ".$oneCourse["semester"]."</h2>";
+                echo "<h3>".$section_name."</h3><br>";
+            }
+
+            ?>
             <!-- INSTRUCTORS ONLY: upload new course materials. -->
             <section class="upload-items-form">
-                <h2>Upload Course Items</h2>
+                <h3>Upload Course Items</h3>
                 <?php
                 if ($user_type < 2) {
                     echo "<form action='section_view.php?section_id=".$section_id."' enctype='multipart/form-data' method='post'>";
@@ -109,7 +120,7 @@
                     echo "<input type='text' id='item_name' name='item_name'>";
                     echo "<input type='hidden' id='user_id' name='user_id' value='".$user_id."'></input>";
                     echo "<input type='hidden' id='section_id' name='section_id' value='".$section_id."'></input>";
-                    echo "<button type='submit' name='submit'>Upload</button>";
+                    echo "&nbsp;<button type='submit' name='submit'>Upload</button>";
                     echo "</form>";
                 }
                 ?>

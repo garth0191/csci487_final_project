@@ -44,6 +44,15 @@
 
 <div class="container">
     <div class="main-section">
+        <?php
+        $pullCourseName = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
+        $pullCourseName->execute([$course_id]);
+        while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
+            echo "<h1>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</h1>";
+            echo "<h2>Section ".$oneCourse["course_sec_num"].", ".$oneCourse["semester"]."</h2>";
+        }
+        ?>
+        <br>
         <section class="all-assessments">
             <h2>Assessment List</h2>
             <div class="all-assessments-container">
