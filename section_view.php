@@ -158,15 +158,20 @@
                                 $nameQuery = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
                                 $nameQuery->execute([$instructor]);
                                 while ($nameRow = $nameQuery->fetch(PDO::FETCH_ASSOC)) {
-                                    $instructor_email = $nameRow["user_email"];
+                                    $last_name = $nameRow["last_name"];
+                                    $first_name = $nameRow["first_name"];
                                 }
-                                echo "<td>".$instructor_email."</td>";
+                                echo "<td>".$first_name." ".$last_name."</td>";
                                 echo "<td>".$upload_date."&nbsp;";
-                                echo "<form action='item_delete.php?item_id=".$oneItem["item_id"]."' method='post' style='display: inline; padding: 5px;'>";
-                                echo "<input type='hidden' name='section_id' value='".$section_id."'></input>";
-                                echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
-                                echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
-                                echo "</form>";
+
+                                //Delete option ONLY available for instructors.
+                                if ($user_type < 2) {
+                                    echo "<form action='item_delete.php?item_id=".$oneItem["item_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                    echo "<input type='hidden' name='section_id' value='".$section_id."'></input>";
+                                    echo "<input type='hidden' name='course_id' value='".$course_id."'></input>";
+                                    echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
+                                    echo "</form>";
+                                }
                                 echo "</td>";
                                 echo "</tr>";
                             }
