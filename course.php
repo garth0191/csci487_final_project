@@ -215,7 +215,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         echo "<tr>";
                                         echo "<td>" . $oneItem["assessment_description"] . "</td>";
                                         echo "<td>" . $oneItem["assessment_type"] . "</td>";
-                                        echo "<td>" . $assessmentsReadyToGrade . "</td>";
+                                        echo "<td>";
+                                        echo '<a href="gradebook.php?course_id=' . $course_id . '">'.$assessmentsReadyToGrade.'</a></td>';
                                         echo "</tr>";
                                     }
                                 }
