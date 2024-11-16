@@ -19,5 +19,5 @@ try {
     echo "ERROR: Could not delete user account.".$e->getMessage();
 }
 
-header("Location: home.php");
+header("Location: admin_dashboard.php");
 ?>

@@ -175,8 +175,6 @@ try {
                     </div>
                 </section>
 
-                <!-- Delete account. -->
-                <div class="delete-account" id="delete-account">Delete Account</div>
                 <?php if($error) {echo "<center><div class='error'>".$message."</div></center>";} ?>
                 <?php if(!$empty) {echo "<center><div class='error'>".$message."</div></center>";} ?>
             </div>

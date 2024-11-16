@@ -3,7 +3,10 @@
 require '/home/gnmcclur/connections/connect.php';
 session_start();
 
-$user_id = $_SESSION['user_id'];
+// Grab user ID that has been passed to this page.
+if (isset($_GET["user_id"]) && $_GET["user_id"] !== "") {
+    $user_id = $_GET["user_id"];
+}
 
 try {
     //Remove user from the database.
@@ -14,9 +17,5 @@ try {
     echo "ERROR: Could not delete user account.".$e->getMessage();
 }
 
-//Destroy session.
-unset($_SESSION['user_email']);
-unset($_SESSION['user_id']);
-session_destroy();
-header("Location: index.php");
+header("Location: admin_dashboard.php");
 ?>

@@ -98,10 +98,47 @@ if($user_type != 0){
         <h3>User Roster</h3>
         <section class="user-list">
             <table id="user-list-table">
-                <th onclick="sortTable(0, 'user-list-table')">Last Name</th>
-                <th onclick="sortTable(1, 'user-list-table')">First Name</th>
-                <th onclick="sortTable(2, 'user-list-table')"></th>
-                <th></th>
+                <tr>
+                    <th onclick="sortTable(0, 'user-list-table')">Last Name</th>
+                    <th onclick="sortTable(1, 'user-list-table')">First Name</th>
+                    <th onclick="sortTable(2, 'user-list-table')">E-Mail Address</th>
+                    <th onclick="sortTable(3, 'user-list-table')">User Type</th>
+                    <th></th>
+                </tr>
+                <?php
+                    try {
+                        // Pull all users who are not administrators.
+                        $usersQuery = $conn->prepare("SELECT * FROM USER WHERE `user_type` <> 0");
+                        $usersQuery->execute();
+                        if ($usersQuery->rowCount() < 1) {
+                            echo "<tr><td colspan='5'><i><b>No users exist.</b></i></td></tr>";
+                        } else {
+                            while ($oneUser = $usersQuery->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<tr>";
+                                echo "<td>".$oneUser['last_name']."</td>";
+                                echo "<td>".$oneUser['first_name']."</td>";
+                                echo "<td>".$oneUser['user_email']."</td>";
+                                // Pull user types to display instead of the type_id.
+                                $userTypes = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` = ?");
+                                $userTypes->execute([$oneUser['user_type']]);
+                                while ($oneUserType = $userTypes->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<td>".$oneUserType['type_description']."</td>";
+                                }
+                                echo "<td>";
+                                    echo "&nbsp;<form action='admin_user_edit?user_id=".$oneUser["user_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                    echo "<button type='submit' name='submit' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
+                                    echo "</form>&nbsp;";
+                                    echo "<form action='account_delete.php?user_id=".$oneUser["user_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                    echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
+                                    echo "</form>";
+                                echo "</td>";
+                                echo "</tr>";
+                            }
+                        }
+                    } catch (PDOException $e) {
+                        echo "ERROR: Could not pull user list from database. ".$e->getMessage();
+                    }
+                ?>
             </table>
         </section>
     </div>

@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const courseCreateButton = document.querySelector('.create');
     const homeButton = document.querySelector('.home');
     const accountButton = document.querySelector('.account');
-    const deleteAccount = document.querySelector('.delete-account');
 
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {
@@ -35,16 +34,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     } else {
         console.error('Could not redirect to account page.');
-    }
-
-    if (deleteAccount) {
-        deleteAccount.addEventListener('click', function() {
-            const confirmDelete = confirm('Are you sure you want to delete your account? This action cannot be reversed.');
-            if (confirmDelete) {
-                window.location.href = 'account_delete.php';
-            }
-        });
-    } else {
-        console.error('Could not delete account.');
     }
 });
