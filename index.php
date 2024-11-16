@@ -168,7 +168,7 @@
                         Account type: <select name="type">
                             <option value="" disabled selected>Select desired account type.</option>
                             <?php
-                                $user_types = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` IN (1, 3)");
+                                $user_types = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` IN (0, 1, 3)");
                                 $user_types->execute();
                                 while ($row = $user_types->fetch(PDO::FETCH_ASSOC)){
                                     echo "<option value='".$row['type_id']."'>".$row["type_description"]."</option>";
