@@ -30,6 +30,9 @@ $current_courses = [];
             <!-- Display 'Create Course' option ONLY for instructors. -->
             <?php
                 if ($user_type < 2) {
+                    if ($user_type == 0) {
+                        echo "<div class='button admin' id='admin-button'>Admin Dashboard</div>";
+                    }
                     echo "<div class='button create' id='create-button'>Create Course</div>";
                 }
             ?>

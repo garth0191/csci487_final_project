@@ -43,12 +43,8 @@
                     $empty = true;
                     $message = "";
 
-                    //Check if user is an administrator.
-                    if ($isUser["user_type"] == 0) {
-                        header("Location: admin_home.php");
-                    } else {
-                        header("Location: home.php");
-                    }
+                    header("Location: home.php");
+
                 } else {
                     //Password is incorrect.
                     $empty = false;

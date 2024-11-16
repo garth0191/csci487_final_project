@@ -5,6 +5,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const accountButton = document.querySelector('.account');
     const courseContainer = document.querySelector('.course-container');
     const tileContainer = document.querySelector('.tile-container');
+    const adminButton = document.querySelector('.admin');
+
+    if (adminButton) {
+        adminButton.addEventListener('click', function() {
+            window.location.href = 'admin_dashboard.php';
+        });
+    } else {
+        console.error('No ADMIN DASHBOARD button is present on the page.');
+    }
 
     if (logoutButton) {
         logoutButton.addEventListener('click', function() {

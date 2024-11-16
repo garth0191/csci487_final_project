@@ -73,6 +73,11 @@
             echo "<div class='button create' id='create-button'>Create Course</div>";
         }
         ?>
+        <?php
+        if ($user_type == 0) {
+            echo "<div class='button admin' id='admin-button'>Admin Dashboard</div>";
+        }
+        ?>
         <div class="button account" id="account-button">Profile</div>
         <div class="button logout" id="logout-button">Logout</div>
     </div>

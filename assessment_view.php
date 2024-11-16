@@ -12,6 +12,11 @@
     }
     
     $user_id = $_SESSION['user_id'];
+    $user_type = $_SESSION['user_type'];
+
+    if ($user_type > 1) {
+        header('Location: home.php');
+    }
     
     $message = "";
     $error = false;
@@ -32,6 +37,11 @@
     <!-- Will appear on left side of nav bar. -->
     <div class="navbar-buttons">
         <div class="button home" id="home-button">Home</div>
+        <?php
+        if ($user_type == 0) {
+            echo "<div class='button admin' id='admin-button'>Admin Dashboard</div>";
+        }
+        ?>
         <div class="button create" id="create-button">Create Course</div>
         <div class="button account" id="account-button">Profile</div>
         <div class="button logout" id="logout-button">Logout</div>

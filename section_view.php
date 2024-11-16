@@ -86,6 +86,9 @@
             if ($user_type < 2) {
                 echo "<div class='button create' id='create-button'>Create Course</div>";
             }
+            if ($user_type == 0) {
+                echo "<div class='button admin' id='admin-button'>Admin Dashboard</div>";
+            }
             ?>
             <div class="button account" id="account-button">Profile</div>
             <div class="button logout" id="logout-button">Logout</div>
@@ -111,9 +114,9 @@
             ?>
             <!-- INSTRUCTORS ONLY: upload new course materials. -->
             <section class="upload-items-form">
-                <h3>Upload Course Items</h3>
                 <?php
                 if ($user_type < 2) {
+                    echo "<h3>Uploaded New Course Item</h3>";
                     echo "<form action='section_view.php?section_id=".$section_id."' enctype='multipart/form-data' method='post'>";
                     echo "<input type='file' id='course_item' name='course_item' accept='.pdf, .txt'></input>";
                     echo "<label for='item_name'>Input name for course item: </label>";
@@ -187,6 +190,7 @@
         <!-- Sidebar. -->
         <div class="sidebar">
             <!-- Course edit options, etc., will go here. -->
+            <a href="course.php?course_id=<?php echo $course_id; ?>">COURSE HOME</a>
             <?php
             if ($user_type < 2) {
                 // User is an instructor.
@@ -197,7 +201,6 @@
                 echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
             } else {
                 // User is a student.
-                echo '<a href="assessment_view.php?course_id=' . $course_id . '">VIEW ASSESSMENTS</a>';
                 echo '<a href="gradebook.php?course_id=' . $course_id . '">GRADEBOOK</a>';
             }
                 // Pull all sections created by instructor.

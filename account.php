@@ -97,6 +97,9 @@ try {
                 <div class="button home" id="home-button">Home</div>
                 <?php
                 if ($user_type < 2) {
+                    if ($user_type == 0) {
+                        echo "<div class='button admin' id='admin-button'>Admin Dashboard</div>";
+                    }
                     echo "<div class='button create' id='create-button'>Create Course</div>";
                 }
                 ?>
