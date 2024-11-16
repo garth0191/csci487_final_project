@@ -130,7 +130,7 @@
                         $coursesQuery = $conn->prepare("SELECT * FROM COURSE");
                         $coursesQuery->execute();
                         if ($coursesQuery->rowCount() < 1) {
-                            echo "<tr><td colspan='5'><i><b>No created courses exist.</b></i></td></tr>";
+                            echo "<tr><td colspan='6'><i><b>No created courses exist.</b></i></td></tr>";
                         } else {
                             while ($oneCourse = $coursesQuery->fetch(PDO::FETCH_ASSOC)) {
                                 echo "<tr>";
