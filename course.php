@@ -87,7 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $pullCourseName->execute([$course_id]);
                 while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
                     echo "<h1>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</h1>";
-                    echo "<h2>Section ".$oneCourse["course_sec_num"].", ".$oneCourse["semester"]."</h2>";
+                    $pullSemester  = $conn->prepare("SELECT * FROM SEMESTER WHERE `semester_id` = ?");
+                    $pullSemester->execute([$oneCourse["semester"]]);
+                    while ($oneSemester = $pullSemester->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<h3>Section ".$oneCourse["course_sec_num"].", ".$oneSemester["semester_name"]."</h3>";
+                    }
                 }
             ?>
             <!-- Upcoming assessments section. -->
