@@ -21,7 +21,7 @@
         $user_email = trim($_POST['user_email']);
         $user_password = $_POST['user_password'];
 
-        // Check that none of the required fields are empty.
+        // Check that none of the required fields are empty and that the e-mail address is valid.
         if (empty($first_name) || empty($last_name) || empty($user_email) || empty($user_password)) {
             $error_message = "All fields are required. Please try again.";
             $show_modal = true;
