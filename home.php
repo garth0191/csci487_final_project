@@ -60,13 +60,16 @@ $current_courses = [];
                                 $courseQuery = $conn->prepare("SELECT * FROM COURSE WHERE `instructor_id` = ?");
                                 $courseQuery->execute([$user_id]);
                                 while ($oneCourse = $courseQuery->fetch(PDO::FETCH_ASSOC)) {
+                                    $pullSemester = $conn->prepare("SELECT * FROM SEMESTER WHERE `semester_id` = ?");
+                                    $pullSemester->execute([$oneCourse['semester']]);
+                                    $semester_name = $pullSemester->fetch(PDO::FETCH_ASSOC);
                                     $current_courses[] = array (
                                         "course_id" => $oneCourse["course_id"],
                                         "course_num" => $oneCourse["course_num"],
                                         "course_name" => $oneCourse["course_name"],
                                         "course_description" => $oneCourse["course_description"],
                                         "instructor_name" => $oneCourse["professor_name"],
-                                        "semester" => $oneCourse["semester"],
+                                        "semester" => $semester_name,
                                         "course_sec_num" => $oneCourse["course_sec_num"]
                                     );
                                 }
