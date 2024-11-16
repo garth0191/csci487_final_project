@@ -14,6 +14,30 @@
         header("Location: home.php");
     }
 
+    $empty = true;
+    $message = "";
+
+    // Add new semester to database.
+    if ((isset($_POST["semester-kind"]) && $_POST["semester-kind"] !== "") && (isset($_POST["semester-year"]) && $_POST["semester-year"] !== "")) {
+        try {
+            // Check that semester is not already in the database.
+            $semester_string = $_POST["semester-kind"]." ".$_POST["semester-year"];
+            $semesterCheck = $conn->prepare("SELECT * FROM SEMESTER WHERE `semester_name` = ?");
+            $semesterCheck->execute([$semester_string]);
+            if ($semesterCheck->rowCount() > 0) {
+                $empty = false;
+                $message = "The semester already exists.";
+            } else {
+                $semesterAdd = $conn->prepare("INSERT INTO `SEMESTER` (semester_name) VALUES (?)");
+                $semesterAdd->execute([$semester_string]);
+                $empty = false;
+                $message = "The semester has been successfully created.";
+            }
+        } catch (PDOException $e) {
+            echo "ERROR: Could not create new semester. ".$e->getMessage();
+        }
+    }
+
     // Create a new Instructor user.
     if (isset($_POST['create_instructor'])) {
         $first_name = trim($_POST['first_name']);
@@ -88,6 +112,7 @@
 
 <div class="container">
     <div class="main-section">
+        <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
         <!-- Complete roster of all created courses. -->
         <h3>Course Listing</h3>
         <section class="course-list">
@@ -180,6 +205,32 @@
             </table>
             <!-- Create a new instructor. -->
             <button id="add-instructor-button">Add Instructor</button>
+        </section>
+        <br>
+        <!-- Add a new semester to database. -->
+        <h3>Create New Semester</h3>
+        <section class="add-semester">
+            <form action="admin_dashboard.php" method="post">
+                <label for="semester-kind">Semester:</label>
+                <select name="semester-kind" required>
+                    <option style="display:none"></option>
+                    <option name="semester-kind" value="Fall">Fall</option>
+                    <option name="semester-kind" value="First Fall">First Fall</option>
+                    <option name="semester-kind" value="Second Fall">Second Fall</option>
+                    <option name="semester-kind" value="Winter Intersession">Winter Intersession</option>
+                    <option name="semester-kind" value="Spring">Spring</option>
+                    <option name="semester-kind" value="First Spring">First Spring</option>
+                    <option name="semester-kind" value="Second Spring">Second Spring</option>
+                    <option name="semester-kind" value="May Intersession">May Intersession</option>
+                    <option name="semester-kind" value="Full Summer">Full Summer</option>
+                    <option name="semester-kind" value="First Summer">First Summer</option>
+                    <option name="semester-kind" value="Second Summer">Second Summer</option>
+                    <option name="semester-kind" value="August Intersession">August Intersession</option>
+                </select>
+                <label for="semester-year">Year ('YYYY'):</label>
+                <input type="text" pattern="\d{4}" name="semester-year" required>
+                <input type="submit" name="submit" value="Add Semester">
+            </form>
         </section>
     </div>
 </div>
