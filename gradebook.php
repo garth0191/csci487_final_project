@@ -89,14 +89,18 @@
 
 <div class="container">
     <div class="main-section">
-            <?php
-            $pullCourseName = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
-            $pullCourseName->execute([$course_id]);
-            while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
-                echo "<h1>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</h1>";
-                echo "<h2>Section ".$oneCourse["course_sec_num"].", ".$oneCourse["semester"]."</h2>";
+        <?php
+        $pullCourseName = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
+        $pullCourseName->execute([$course_id]);
+        while ($oneCourse = $pullCourseName->fetch(PDO::FETCH_ASSOC)) {
+            echo "<h1>".$oneCourse["course_num"]." ".$oneCourse["course_name"]."</h1>";
+            $pullSemester  = $conn->prepare("SELECT * FROM SEMESTER WHERE `semester_id` = ?");
+            $pullSemester->execute([$oneCourse["semester"]]);
+            while ($oneSemester = $pullSemester->fetch(PDO::FETCH_ASSOC)) {
+                echo "<h3>Section ".$oneCourse["course_sec_num"].", ".$oneSemester["semester_name"]."</h3>";
             }
-            ?>
+        }
+        ?>
         <!-- Gradebook section. -->
         <section class="gradebook">
             <h3>Course Assessments</h3>
