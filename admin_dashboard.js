@@ -4,6 +4,31 @@ document.addEventListener('DOMContentLoaded', function () {
     const homeButton = document.querySelector('.home');
     const accountButton = document.querySelector('.account');
     const adminButton = document.querySelector('.admin');
+    const addInstructorButton = document.getElementById('add-instructor-button');
+    const addInstructorModal = document.getElementById('add-instructor-modal');
+    const closeButton = addInstructorModal.querySelector('.close-button');
+
+    if (addInstructorButton) {
+        addInstructorButton.addEventListener('click', function() {
+            addInstructorModal.style.display = 'block';
+        });
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            addInstructorModal.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == addInstructorModal) {
+            addInstructorModal.style.display = 'none';
+        }
+    });
+
+    if (typeof showModal !== 'undefined' && showModal) {
+        addInstructorModal.style.display = 'block';
+    }
 
     if (adminButton) {
         adminButton.addEventListener('click', function() {

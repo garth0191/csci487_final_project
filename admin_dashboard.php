@@ -2,17 +2,55 @@
     require '/home/gnmcclur/connections/connect.php';
     session_start();
 
-if(!isset($_SESSION['user_id'])){
-    header("Location: index.php");
-}
+    if(!isset($_SESSION['user_id'])){
+        header("Location: index.php");
+    }
 
-$user_id = $_SESSION['user_id'];
-$user_type = $_SESSION['user_type'];
+    $user_id = $_SESSION['user_id'];
+    $user_type = $_SESSION['user_type'];
 
-// ONLY administrators have access to this page.
-if($user_type != 0){
-    header("Location: home.php");
-}
+    // ONLY administrators have access to this page.
+    if($user_type != 0){
+        header("Location: home.php");
+    }
+
+    // Create a new Instructor user.
+    if (isset($_POST['create_instructor'])) {
+        $first_name = trim($_POST['first_name']);
+        $last_name = trim($_POST['last_name']);
+        $user_email = trim($_POST['user_email']);
+        $user_password = $_POST['user_password'];
+
+        // Check that none of the required fields are empty.
+        if (empty($first_name) || empty($last_name) || empty($user_email) || empty($user_password)) {
+            $error_message = "All fields are required. Please try again.";
+            $show_modal = true;
+        } elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+            $error_message = "Invalid e-mail format. Please try again.";
+            $show_modal = true;
+        } else {
+            // Hash password.
+            $hashed_password = password_hash($user_password, PASSWORD_DEFAULT);
+
+            // Check if user e-mail already exists.
+            $emailCheck = $conn->prepare("SELECT * FROM USER WHERE `user_email` = ?");
+            $emailCheck->execute([$user_email]);
+            if ($emailCheck->rowCount() > 0) {
+                $error_message = "A user with this email already exists. Please choose a different e-mail.";
+                $show_modal = true;
+            } else {
+                // Add new instructor to database.
+                try {
+                    $insertUser = $conn->prepare("INSERT INTO USER (user_email, user_password, user_type, first_name, last_name) VALUES (?, ?, ?, ?, ?)");
+                    $insertUser->execute([$user_email, $hashed_password, 1, $first_name, $last_name]);
+
+                    header("Location: admin_dashboard.php");
+                } catch (PDOException $e) {
+                    $error_message = "ERROR: Could not create new instructor. " . $e->getMessage();
+                }
+            }
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -140,16 +178,46 @@ if($user_type != 0){
                     }
                 ?>
             </table>
+            <!-- Create a new instructor. -->
+            <button id="add-instructor-button">Add Instructor</button>
         </section>
     </div>
 </div>
 
+<?php
+if (isset($error_message)) {
+    echo "<p style='color:red;'>" . htmlspecialchars($error_message) . "</p>";
+}
+?>
 
 <footer class="footer">
     <p>© Garth McClure. All rights reserved.</p>
 </footer>
 
+<div id="add-instructor-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Add New Instructor</h2>
+        <form id="add-instructor-form" method="post" action="">
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" required><br>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" required><br>
+
+            <label for="user_email">Email:</label>
+            <input type="email" name="user_email" required><br>
+
+            <label for="user_password">Password:</label>
+            <input type="password" name="user_password" required><br>
+
+            <button type="submit" name="create_instructor">Create New Instructor</button>
+        </form>
+    </div>
+</div>
+
 <script src="admin_dashboard.js"></script>
+<script>var showModal = <?php echo (isset($show_modal) && $show_modal) ? 'true' : 'false'; ?>;</script>
 </body>
 </html>
 
