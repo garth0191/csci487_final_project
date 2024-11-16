@@ -132,10 +132,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
-
-    function confirmDelete(event) {
-        if (!confirm('Are you sure you want to delete this record? This action cannot be undone.')) {
-            event.preventDefault();
-        }
-    }
 });
+
+function confirmDelete(event) {
+    if (!confirm('Are you sure you want to delete this record? This action cannot be undone.')) {
+        event.preventDefault();
+    }
+}
