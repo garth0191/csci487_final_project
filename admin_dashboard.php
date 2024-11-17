@@ -137,7 +137,11 @@
                                 echo "<td>".$oneCourse['course_num']."</td>";
                                 echo "<td>".$oneCourse['course_name']."</td>";
                                 echo "<td>".$oneCourse['course_sec_num']."</td>";
-                                echo "<td>".$oneCourse['semester']."</td>";
+                                $pullSemester = $conn->prepare("SELECT * FROM SEMESTER WHERE `semester_id` = ?");
+                                $pullSemester -> execute([$oneCourse['semester']]);
+                                while ($oneSemester = $pullSemester->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<td>".$oneSemester['semester_name']."</td>";
+                                }
                                 echo "<td>".$oneCourse['professor_name']."</td>";
                                 echo "<td>";
                                     echo "&nbsp;<form action='admin_course_edit?course_id=".$oneCourse["course_id"]."' method='post' style='display: inline; padding: 5px;'>";
