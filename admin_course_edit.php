@@ -204,8 +204,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <!-- Pull all available users to assign a new assistant. -->
                     Course Teaching Assistant:
                     <?php
-                        $allUsers = $conn->prepare("SELECT * FROM USER WHERE `user_type` = 3");
-                        $allUsers->execute();
+                        $allUsers = $conn->prepare("SELECT * FROM USER WHERE `user_type` = 3 AND user_id IN (SELECT `user_id` FROM USER_COURSE WHERE `course_id` = ?)");
+                        $allUsers->execute([$course_id]);
                         echo "<select name='new_assistant'>";
                         echo '<option style="display:none"></option>';
                         while ($allUsersRow = $allUsers->fetch(PDO::FETCH_ASSOC)) {
