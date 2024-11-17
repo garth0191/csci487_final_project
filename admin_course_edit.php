@@ -15,7 +15,7 @@
     }
 
     // Pull course details.
-    $courseDetails = $conn->query("SELECT * FROM COURSE WHERE `course_id` = ?");
+    $courseDetails = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
     $courseDetails->execute([$course_id]);
     while ($courseDetail = $courseDetails->fetch(PDO::FETCH_ASSOC)) {
         $course_name = $courseDetail['course_name'];
