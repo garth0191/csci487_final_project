@@ -144,7 +144,7 @@
                                 }
                                 echo "<td>".$oneCourse['professor_name']."</td>";
                                 echo "<td>";
-                                    echo "&nbsp;<form action='admin_course_edit?course_id=".$oneCourse["course_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                    echo "&nbsp;<form action='admin_course_edit.php?course_id=".$oneCourse["course_id"]."' method='post' style='display: inline; padding: 5px;'>";
                                     echo "<button type='submit' name='submit' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
                                     echo "</form>&nbsp;";
                                     echo "<form action='course_delete.php?course_id=".$oneCourse["course_id"]."' method='post' style='display: inline; padding: 5px;'>";
@@ -192,7 +192,7 @@
                                     echo "<td>".$oneUserType['type_description']."</td>";
                                 }
                                 echo "<td>";
-                                    echo "&nbsp;<form action='admin_user_edit?user_id=".$oneUser["user_id"]."' method='post' style='display: inline; padding: 5px;'>";
+                                    echo "&nbsp;<form action='admin_user_edit.php?user_id=".$oneUser["user_id"]."' method='post' style='display: inline; padding: 5px;'>";
                                     echo "<button type='submit' name='submit' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
                                     echo "</form>&nbsp;";
                                     echo "<form action='account_delete.php?user_id=".$oneUser["user_id"]."' method='post' style='display: inline; padding: 5px;'>";
