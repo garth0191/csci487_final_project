@@ -367,11 +367,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </form>
                 </div>
             </section>
-
-            <!-- Delete course. -->
-            <div class="delete-course" id="delete-course">
-                <button type="submit" onclick="if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) window.location.href='course_delete.php?course_id=<?php echo $course_id; ?>';">&nbsp;Delete Course&nbsp;</button>
-            </div>
         </div>
 
         <!-- Sidebar. -->
