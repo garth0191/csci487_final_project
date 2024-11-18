@@ -18,16 +18,6 @@ if (isset($_GET["user_id"]) && $_GET["user_id"] !== "") {
     $user_id = $_GET["user_id"];
 }
 
-// Pull selected user's details.
-$userInfo = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
-$userInfo->execute([$user_id]);
-while ($oneUser = $userInfo->fetch(PDO::FETCH_ASSOC)) {
-    $user_email = $oneUser['user_email'];
-    $user_type_id = $oneUser['user_type'];
-    $first_name = $oneUser['first_name'];
-    $last_name = $oneUser['last_name'];
-}
-
 $empty = true;
 $message = "";
 
@@ -72,6 +62,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "ERROR: Could not add student to course. " . $e->getMessage();
         }
     }
+}
+
+
+// Pull selected user's details.
+$userInfo = $conn->prepare("SELECT * FROM USER WHERE `user_id` = ?");
+$userInfo->execute([$user_id]);
+while ($oneUser = $userInfo->fetch(PDO::FETCH_ASSOC)) {
+    $user_email = $oneUser['user_email'];
+    $user_type_id = $oneUser['user_type'];
+    $first_name = $oneUser['first_name'];
+    $last_name = $oneUser['last_name'];
 }
 ?>
 
