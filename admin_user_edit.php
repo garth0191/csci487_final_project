@@ -30,6 +30,49 @@ while ($oneUser = $userInfo->fetch(PDO::FETCH_ASSOC)) {
 
 $empty = true;
 $message = "";
+
+// Edit user details.
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Change user last name.
+    if ((isset($_POST["last_name"]) && $_POST["last_name"] !== "")) {
+        try {
+            $changeLastName = $conn->prepare("UPDATE USER SET `last_name` = ? WHERE user_id = ?");
+            $changeLastName->execute([$_POST["last_name"], $user_id]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not change course name. " . $e->getMessage();
+        }
+    }
+
+    // Change user first name.
+    if ((isset($_POST["first_name"]) && $_POST["first_name"] !== "")) {
+        try {
+            $changeFirstName = $conn->prepare("UPDATE USER SET `first_name` = ? WHERE user_id = ?");
+            $changeFirstName->execute([$_POST["first_name"], $user_id]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not change course description. " . $e->getMessage();
+        }
+    }
+
+    // Change user e-mail.
+    if ((isset($_POST["user_email"]) && $_POST["user_email"] !== "")) {
+        try {
+            $changeEmail = $conn->prepare("UPDATE USER SET `user_email` = ? WHERE user_id = ?");
+            $changeEmail->execute([$_POST["user_email"], $user_id]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not add TA to course. " . $e->getMessage();
+        }
+    }
+
+    // Change user type.
+    if ((isset($_POST["new_type"]) && $_POST["new_type"] !== "")) {
+        try {
+            $changeUserType = $conn->prepare("UPDATE USER SET `user_type` = ? WHERE user_id = ?");
+            $changeUserType->execute([$_POST["new_type"], $user_id]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not add student to course. " . $e->getMessage();
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
