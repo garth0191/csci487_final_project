@@ -143,7 +143,7 @@ while ($oneUser = $userInfo->fetch(PDO::FETCH_ASSOC)) {
                     <?php
                     $pullUserTypes = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` <> ?");
                     $pullUserTypes->execute([$user_type_id]);
-                    echo "<select name='new_assistant'>";
+                    echo "<select name='new_type'>";
                     echo '<option style="display:none"></option>';
                     while ($aType = $pullUserTypes->fetch(PDO::FETCH_ASSOC)) {
                         echo "<option name='new_type' value='".$aType["type_id"]."'>".$aType["type_description"]."</option>";
