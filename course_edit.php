@@ -397,7 +397,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "ERROR: Could not retrieve weights. ".$e->getMessage();
                         }
                         ?>
-                        <input type="submit" name="submit" value="&nbsp;Add Student&nbsp;">
+                        <input type="submit" name="submit" value="&nbsp;Remove Student&nbsp; onclick='confirmDelete(event)'">
                     </form>
                 </div>
             </section>

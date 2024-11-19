@@ -45,3 +45,9 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Could not redirect to account page.');
     }
 });
+
+function confirmDelete(event) {
+    if (!confirm('Are you sure you want to remove this student from the course?')) {
+        event.preventDefault();
+    }
+}
