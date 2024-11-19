@@ -121,7 +121,7 @@
             <section class="upload-items-form">
                 <?php
                 if ($user_type < 2) {
-                    echo "<h3>Uploaded New Course Item</h3>";
+                    echo "<h3>Upload New Course Item</h3>";
                     echo "<form action='section_view.php?section_id=".$section_id."' enctype='multipart/form-data' method='post'>";
                     echo "<input type='file' id='course_item' name='course_item' accept='.pdf, .txt'></input>";
                     echo "<label for='item_name'>Input name for course item: </label>";
