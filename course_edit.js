@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function confirmDelete(event) {
-    if (!confirm('Are you sure you want to remove this student from the course?')) {
+    if (!confirm('Are you sure you want to remove this student from the course? All student submissions and assessment grades will be deleted -- this cannot be reversed.')) {
         event.preventDefault();
     }
 }

@@ -107,6 +107,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Remove USER_COURSE bridge record.
             $removeBridge = $conn->prepare("DELETE FROM USER_COURSE WHERE `course_id` = ? AND `user_id` = ?");
             $removeBridge->execute([$course_id, $_POST["remove_student"]]);
+            // Remove USER_ASSESSMENT bridge records.
+            $removeUserAssessments = $conn->prepare("DELETE ua FROM USER_ASSESSMENT ua INNER JOIN ASSESSMENT a ON ua.assessment_id = a.assessment_id WHERE a.course_id = ? AND ua.user_id = ?");
+            $removeUserAssessments->execute([$course_id, $_POST["remove_student"]]);
         } catch (PDOException $e) {
             echo "ERROR: Could not add student to course. ".$e->getMessage();
         }
