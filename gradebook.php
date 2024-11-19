@@ -51,10 +51,10 @@
         }
 
         // Delete student's grade.
-        if ((isset($_POST["delete_assessment_id"]) && $_POST["delete_assessment_id"] !== "") && (isset($_POST["delete_user_id"]) && $_POST["delete_user_id"] !== "")) {
+        if ((isset($_POST["delete_assessment_id"]) && $_POST["delete_assessment_id"] !== "") && (isset($_POST["delete_student_id"]) && $_POST["delete_student_id"] !== "")) {
             try {
                 $deleteGrade = $conn->prepare("UPDATE USER_ASSESSMENT SET `assessment_score` = null WHERE user_id = ? AND assessment_id = ?");
-                $deleteGrade->execute([$_POST["delete_user_id"], $_POST["delete_assessment_id"]]);
+                $deleteGrade->execute([$_POST["delete_student_id"], $_POST["delete_assessment_id"]]);
 
                 header("Location: gradebook.php?course_id=".$course_id);
                 exit();
