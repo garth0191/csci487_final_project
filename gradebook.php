@@ -28,8 +28,8 @@
         echo "ERROR: Could not pull total number of assessments for courses. ".$e->getMessage();
     }
 
-    // Update student grade.
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Update student grade.
         if (isset($_POST['new_grade'], $_POST['assessment_id'], $_POST['user_id'])) {
             $new_grade = $_POST['new_grade'];
             $assessment_id = $_POST['assessment_id'];
@@ -47,6 +47,19 @@
                 }
             } else {
                 echo "Invalid grade value.";
+            }
+        }
+
+        // Delete student's grade.
+        if ((isset($_POST["delete_assessment_id"]) && $_POST["delete_assessment_id"] !== "") && (isset($_POST["delete_user_id"]) && $_POST["delete_user_id"] !== "")) {
+            try {
+                $deleteGrade = $conn->prepare("UPDATE USER_ASSESSMENT SET `assessment_score` = null WHERE user_id = ? AND assessment_id = ?");
+                $deleteGrade->execute([$_POST["delete_user_id"], $_POST["delete_assessment_id"]]);
+
+                header("Location: gradebook.php?course_id=".$course_id);
+                exit();
+            } catch (PDOException $e) {
+                echo "ERROR: Could not delete USER_ASSESSMENT record. ".$e->getMessage();
             }
         }
     }
@@ -108,7 +121,7 @@
                 <table id="gradebook-table">
                     <?php
                         // INSTRUCTOR and ASSISTANT gradebook.
-                        if ($user_type == 1 || ($user_type == 2 && $assistant_id == $user_id)) {
+                        if ($user_type == 1 || $user_type == 0 || ($user_type == 2 && $assistant_id == $user_id)) {
                             echo "<tr>";
                             if ($numAssessments < 1) {
                                 echo "<td><b>No assessments created yet.</b></td>";
@@ -163,6 +176,13 @@
                                             echo "<td>";
 
                                             echo htmlspecialchars($score, ENT_QUOTES, 'UTF-8');
+                                            if ($score != null) {
+                                                echo "<form action='gradebook.php?course_id=".$course_id."' method='post' style='display: inline; padding: 5px;'>";
+                                                echo "<input type='hidden' name='delete_assessment_id' value='".$assessment_id."'></input>";
+                                                echo "<input type='hidden' name='delete_student_id' value='".$oneStudent["user_id"]."'></input>";
+                                                echo "<button type='submit' name='submit' onclick='confirmDelete(event)' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/trash.svg' alt='Delete'></button>";
+                                                echo "</form>";
+                                            }
                                             echo "&nbsp;<button class='edit-grade-button' data-assessment-id='" . $assessment_id . "' data-user-id='" . $oneStudent["user_id"] . "' data-score='" . htmlspecialchars($score, ENT_QUOTES, 'UTF-8') . "' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit' style='width:20px; height:auto;'></button>";
 
                                             if ($has_submissions == 1 && !empty($submission_filepath)) {
