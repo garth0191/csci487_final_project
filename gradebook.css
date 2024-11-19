@@ -109,6 +109,7 @@ th {
 td {
     padding: 5px;
     border: 1px solid dimgray;
+    max-width: 45px;
 }
 
 tr:nth-child(even) {
