@@ -161,14 +161,11 @@
                                                 $submission_filepath = null;
                                             }
                                             echo "<td>";
-                                            if ($has_submissions == 1 && !empty($submission_filepath)) {
-                                                echo "<a href='" . htmlspecialchars($submission_filepath, ENT_QUOTES, 'UTF-8') . "' target='_blank'>Submission</a>";
-                                            }
                                             echo htmlspecialchars($score, ENT_QUOTES, 'UTF-8');
-
+                                            if ($has_submissions == 1 && !empty($submission_filepath)) {
+                                                echo "&nbsp;<a href='" . htmlspecialchars($submission_filepath, ENT_QUOTES, 'UTF-8') . "' target='_blank'>Submission</a>";
+                                            }
                                             echo "&nbsp;<button class='edit-grade-button' data-assessment-id='" . $assessment_id . "' data-user-id='" . $oneStudent["user_id"] . "' data-score='" . htmlspecialchars($score, ENT_QUOTES, 'UTF-8') . "' style='background: transparent; border: none; padding: 0; cursor: pointer;'><img src='./images/pencil-square.svg' alt='Edit'></button>";
-
-
                                             echo "</td>";
                                         }
                                         echo "</tr>";
