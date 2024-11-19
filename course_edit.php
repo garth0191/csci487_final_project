@@ -101,6 +101,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    // Remove a student from the course.
+    if ((isset($_POST["remove_student"]) && $_POST["remove_student"] !== "")) {
+        try {
+            // Remove USER_COURSE bridge record.
+            $removeBridge = $conn->prepare("DELETE FROM USER_COURSE WHERE `course_id` = ? AND `user_id` = ?");
+            $removeBridge->execute([$course_id, $_POST["remove_student"]]);
+        } catch (PDOException $e) {
+            echo "ERROR: Could not add student to course. ".$e->getMessage();
+        }
+    }
+
     // Change assessment weights.
     if ((isset($_POST["weight_0"]) && $_POST["weight_0"] !== "")) {
         // Extra Credit
@@ -357,6 +368,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo '<option style="display:none"></option>';
                             while ($allStudentsRow = $allStudents->fetch(PDO::FETCH_ASSOC)) {
                                 echo "<option name='new_student' value='".$allStudentsRow["user_id"]."'>".$allStudentsRow["last_name"].", ".$allStudentsRow["first_name"]."</option>";
+                            }
+                            echo "</select>";
+                        } catch (PDOException $e) {
+                            echo "ERROR: Could not retrieve weights. ".$e->getMessage();
+                        }
+                        ?>
+                        <input type="submit" name="submit" value="&nbsp;Add Student&nbsp;">
+                    </form>
+                </div>
+            </section>
+
+            <section class="course-delete-students">
+                <h2>Remove Student from Course</h2>
+                <div class="course-delete-students-container">
+                    <form action='course_edit.php?course_id=<?php echo $course_id; ?>' method='post'>
+                        <?php
+                        try {
+                            $allStudentsDelete = $conn->prepare("SELECT * FROM USER WHERE `user_type` > 1 AND user_id IN (SELECT `user_id` FROM USER_COURSE WHERE `course_id` = ?)");
+                            $allStudentsDelete->execute([$course_id]);
+                            echo "<select name='remove_student'>";
+                            echo '<option style="display:none"></option>';
+                            while ($deleteRow = $allStudentsDelete->fetch(PDO::FETCH_ASSOC)) {
+                                echo "<option name='remove_student' value='".$deleteRow["user_id"]."'>".$deleteRow["last_name"].", ".$deleteRow["first_name"]."</option>";
                             }
                             echo "</select>";
                         } catch (PDOException $e) {
