@@ -91,25 +91,25 @@ html, body {
     padding: 5px;
 }
 
+.gradebook-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 500px;
+}
+
 table {
-    width: 100%;
-    max-width: 1000px;
+    width: auto;
     border-collapse: collapse;
     margin: 10px 0;
-    /* Add background colors, etc., later. */
+    table-layout: fixed;
 }
 
-th {
-    padding: 5px;
-    font-weight: bold;
-    text-align: center;
-    border: 1px solid;
-}
-
-td {
+th, td {
+    min-width: 100px;
+    word-wrap: break-word;
     padding: 5px;
     border: 1px solid dimgray;
-    max-width: 45px;
+    text-align: center;
 }
 
 tr:nth-child(even) {
