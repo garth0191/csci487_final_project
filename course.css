@@ -195,6 +195,7 @@ tr:hover {
     right: -20px;
     opacity: 0;
     transition: opacity 0.3s ease-in-out, right 0.3s ease-in-out;
+    font-weight: bold;
 }
 
 .sidebar a:hover::after {
