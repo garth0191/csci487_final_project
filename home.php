@@ -87,15 +87,19 @@ $current_courses = [];
                                     $studentCourses = $conn->prepare("SELECT * FROM COURSE WHERE `course_id` = ?");
                                     $studentCourses->execute([$oneCourse["course_id"]]);
                                     while ($oneStudentCourse = $studentCourses->fetch(PDO::FETCH_ASSOC)) {
-                                        $current_courses[] = array (
-                                            "course_id" => $oneStudentCourse["course_id"],
-                                            "course_num" => $oneStudentCourse["course_num"],
-                                            "course_name" => $oneStudentCourse["course_name"],
-                                            "course_description" => $oneStudentCourse["course_description"],
-                                            "instructor_name" => $oneStudentCourse["professor_name"],
-                                            "semester" => $oneStudentCourse["semester"],
-                                            "course_sec_num" => $oneStudentCourse["course_sec_num"]
-                                        );
+                                        $pullSemester = $conn->prepare("SELECT * FROM SEMESTER WHERE `semester_id` = ?");
+                                        $pullSemester->execute([$oneStudentCourse['semester']]);
+                                        while ($oneSemester = $pullSemester->fetch(PDO::FETCH_ASSOC)) {
+                                            $current_courses[] = array (
+                                                "course_id" => $oneStudentCourse["course_id"],
+                                                "course_num" => $oneStudentCourse["course_num"],
+                                                "course_name" => $oneStudentCourse["course_name"],
+                                                "course_description" => $oneStudentCourse["course_description"],
+                                                "instructor_name" => $oneStudentCourse["professor_name"],
+                                                "semester" => $oneSemester["semester_name"],
+                                                "course_sec_num" => $oneStudentCourse["course_sec_num"]
+                                            );
+                                        }
                                     }
                                 }
                             } catch (PDOException $e) {
