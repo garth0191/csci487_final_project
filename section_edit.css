@@ -166,6 +166,34 @@ tr:hover {
     order: 1;
 }
 
+
+.sidebar a,
+.sidebar a:visited,
+.sidebar a:hover,
+.sidebar a:active {
+    text-decoration: none;
+    color: black;
+}
+
+.sidebar a {
+    position: relative;
+    display: inline-block;
+}
+
+.sidebar a::after {
+    content: '<<';
+    position: absolute;
+    right: -20px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, right 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+.sidebar a:hover::after {
+    opacity: 1;
+    right: 0;
+}
+
 .button {
     padding: 20px;
     margin: 0 10px;
