@@ -18,6 +18,9 @@ if ($user_type > 1) {
     header('Location: home.php');
 }
 
+$message = "";
+$empty = true;
+
 // Edit course details.
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Change course name.
@@ -96,6 +99,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $UA_Records = $conn->prepare("INSERT INTO USER_ASSESSMENT(user_id, assessment_id) VALUES (?, ?)");
                 $UA_Records->execute([$_POST["new_student"], $assessment_id]);
             }
+
+            $empty = false;
+            $message = "Successfully added student to course.";
         } catch (PDOException $e) {
             echo "ERROR: Could not add student to course. ".$e->getMessage();
         }
@@ -110,6 +116,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Remove USER_ASSESSMENT bridge records.
             $removeUserAssessments = $conn->prepare("DELETE ua FROM USER_ASSESSMENT ua INNER JOIN ASSESSMENT a ON ua.assessment_id = a.assessment_id WHERE a.course_id = ? AND ua.user_id = ?");
             $removeUserAssessments->execute([$course_id, $_POST["remove_student"]]);
+
+            $empty = false;
+            $message = "Successfully removed student from course.";
         } catch (PDOException $e) {
             echo "ERROR: Could not add student to course. ".$e->getMessage();
         }
@@ -221,6 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <div class="main-section">
             <section class="current-course-details">
+                <?php if(!$empty) {echo "<div class='error' style='text-decoration-color: lightcoral'><center><em><strong>".$message."</strong></em></center></div><br>";} ?>
                 <h2>Course Summary</h2>
                     <!-- Display current course details. -->
                 <table>
