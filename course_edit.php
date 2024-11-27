@@ -230,7 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <div class="main-section">
             <section class="current-course-details">
-                <?php if(!$empty) {echo "<div class='error' style='color: lightcoral; text-shadow: 2px 2px #000000;'><center><em><strong>".$message."</strong></em></center></div><br>";} ?>
+                <?php if(!$empty) {echo "<div class='error'><center><em><strong>".$message."</strong></em></center></div><br>";} ?>
                 <h2>Course Summary</h2>
                     <!-- Display current course details. -->
                 <table>
