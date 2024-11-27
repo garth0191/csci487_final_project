@@ -114,7 +114,7 @@
     <div class="main-section">
         <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
         <!-- Complete roster of all created courses. -->
-        <h3>Course Listing</h3>
+        <h3>All Courses</h3>
         <section class="course-list">
             <table id="course-list-table">
                 <tr>
@@ -162,7 +162,7 @@
         </section>
         <br>
         <!-- Roster of all users. -->
-        <h3>User Roster</h3>
+        <h3>All Users</h3>
         <section class="user-list">
             <table id="user-list-table">
                 <tr>
@@ -175,7 +175,7 @@
                 <?php
                     try {
                         // Pull all users who are not administrators.
-                        $usersQuery = $conn->prepare("SELECT * FROM USER WHERE `user_type` <> 0");
+                        $usersQuery = $conn->prepare("SELECT * FROM USER WHERE `user_type` <> 0 ORDER BY user_type ASC");
                         $usersQuery->execute();
                         if ($usersQuery->rowCount() < 1) {
                             echo "<tr><td colspan='5'><i><b>No users exist.</b></i></td></tr>";

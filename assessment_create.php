@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             echo "ERROR: Could not pull assessment types. ".$e->getMessage();
                         }
                     ?>
-                    Points Possible: <input type="number" name="points-possible" placeholder="Leave blank if PASS/FAIL." style="width: 200px;"></input><br>
+                    Points Possible: <input type="number" name="points-possible" placeholder="" style="width: 200px;"></input><br>
                     Will this assessment require user submissions?&nbsp;
                     <select name="submissions">
                         <option style="display:none"></option>
