@@ -69,7 +69,6 @@
 <div class="container">
     <div class="main-section">
         <section class="section-list">
-            <center>
             <h2>Current Course Content Categories</h2>
             <table>
                 <th>Content Name</th>
@@ -92,7 +91,6 @@
                     }
                 ?>
             </table>
-            </center>
         </section>
 
         <section class="add-section">
