@@ -177,7 +177,8 @@
                       </div>
                 </form>
             </div>
-            <br><?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?><br>
+            <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
+            <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
         </div>
         <script src="index.js"></script>
     </body>
