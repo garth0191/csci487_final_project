@@ -128,6 +128,8 @@
 
         <!-- Container div. -->
         <div class="container">
+            <?php if($error) {echo "<div class='error'><center>".$message."</center></div>";} ?>
+            <?php if(!$empty) {echo "<div class='error'><center>".$message."</div></center>";} ?>
             <!-- Login/Sign-up buttons. -->
             <div class="slider"></div>
             <div class="button">
@@ -137,10 +139,7 @@
 
             <!-- Form div. -->
             <div class="form-section">
-                <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
-                <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
                 <!-- Login form. -->
-
                 <div class="login-container">
                     <center>
                     <form action="index.php" method="post">
