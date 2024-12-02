@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let loginSlider = document.querySelector(".login-slider-button");
     let slider = document.querySelector(".slider");
     let formSection = document.querySelector(".form-section");
-    // let loginSubmit = document.querySelector(".login-submit");
-    // let signupSubmit = document.querySelector(".signup-submit");
+    let loginSubmit = document.querySelector(".login-submit");
+    let signupSubmit = document.querySelector(".signup-submit");
 
     //Slide to display sign-up options.
     signupSlider.addEventListener("click", () => {
@@ -20,31 +20,31 @@ document.addEventListener('DOMContentLoaded', function() {
         formSection.classList.remove("form-section-move");
     });
 
-    // loginSubmit.addEventListener("click", () => {
-    //     //Check whether user clicked the "sign-up" button instead.
-    //     const isSignup = loginSubmit.innerText === "Signup";
-    //     if (isSignup) {
-    //         //Display response to user.
-    //         const notification = document.querySelector(".notification");
-    //         notification.innerText = "Thank you for signing up! Please log in."
-    //         notification.style.display = "block";
-    //         setTimeout(() => {
-    //             notification.style.display = "none";
-    //         }, 3000);
-    //     } else {
-    //         //Redirect to home page.
-    //         window.location.href = "home.html";
-    //     }
-    // });
+    loginSubmit.addEventListener("click", () => {
+        //Check whether user clicked the "sign-up" button instead.
+        const isSignup = loginSubmit.innerText === "Signup";
+        if (isSignup) {
+            //Display response to user.
+            const notification = document.querySelector(".notification");
+            notification.innerText = "Thank you for signing up! Please log in."
+            notification.style.display = "block";
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 3000);
+        } else {
+            //Redirect to home page.
+            window.location.href = "home.html";
+        }
+    });
 
-    // signupSubmit.addEventListener("click", () => {
-    //     const notification = document.querySelector(".notification");
-    //     notification.innerText = "Thank you for signing up! Please log in.";
-    //     notification.style.display = "block";
-    //     setTimeout(() => {
-    //         notification.style.display = "none";
-    //     }, 3000);
-    // });
+    signupSubmit.addEventListener("click", () => {
+        const notification = document.querySelector(".notification");
+        notification.innerText = "Thank you for signing up! Please log in.";
+        notification.style.display = "block";
+        setTimeout(() => {
+            notification.style.display = "none";
+        }, 3000);
+    });
 
     loginSlider.addEventListener("click", function() {
         setTimeout(function() {

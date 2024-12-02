@@ -152,7 +152,6 @@
                         E-mail: <input type="email" class="email element" placeholder="Input e-mail associated with account." name="password_reset_email" required></input>
                         <button type="submit" name="reset_password" class="password-reset-submit">Reset Password</button>
                     </form>
-                    <br><?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?><br>
                     </center>
                 </div>
 
@@ -164,7 +163,6 @@
                         Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm" required>
                         First Name: <input type="text" class="fname element" placeholder="Input First name." name="fname" required>
                         Last Name: <input type="text" class="lname element" placeholder="Input last name." name="lname" required>
-                          <br><?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?><br>
                         Account type: <select name="type" required>
                             <option value="" disabled selected>Select desired account type.</option>
                             <?php
@@ -179,6 +177,7 @@
                       </div>
                 </form>
             </div>
+            <br><?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?><br>
         </div>
         <script src="index.js"></script>
     </body>
