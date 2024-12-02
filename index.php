@@ -164,7 +164,7 @@
                         Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm">
                         First Name: <input type="text" class="fname element" placeholder="Input First name." name="fname">
                         Last Name: <input type="text" class="lname element" placeholder="Input last name." name="lname">
-                        <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
+                          <br><?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?><br>
                         Account type: <select name="type">
                             <option value="" disabled selected>Select desired account type.</option>
                             <?php
