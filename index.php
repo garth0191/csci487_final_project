@@ -143,13 +143,13 @@
                 <div class="login-container">
                     <center>
                     <form action="index.php" method="post">
-                        E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email">
-                        Password: <input type="password" class="password element" placeholder="Input password." name="login_password">
+                        E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email" required>
+                        Password: <input type="password" class="password element" placeholder="Input password." name="login_password" required>
                         <button class="login-submit">Login</button>
                     </form>
                     <br><h3>Reset Password</h3><br>
                     <form action="reset_password_send.php" method="post">
-                        E-mail: <input type="email" class="email element" placeholder="Input e-mail associated with account." name="password_reset_email"></input>
+                        E-mail: <input type="email" class="email element" placeholder="Input e-mail associated with account." name="password_reset_email" required></input>
                         <button type="submit" name="reset_password" class="password-reset-submit">Reset Password</button>
                     </form>
                     <br><?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?><br>
@@ -159,13 +159,13 @@
                  <!-- Sign-up form. -->
                   <form action="index.php" method="post">
                       <div class="signup-container">
-                        E-mail: <input type="email" class="email element" placeholder="Input desired e-mail address." name="signup_email">
-                        Password: <input type="password" class="password element" placeholder="Input desired password." name="signup_password">
-                        Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm">
-                        First Name: <input type="text" class="fname element" placeholder="Input First name." name="fname">
-                        Last Name: <input type="text" class="lname element" placeholder="Input last name." name="lname">
+                        E-mail: <input type="email" class="email element" placeholder="Input desired e-mail address." name="signup_email" required>
+                        Password: <input type="password" class="password element" placeholder="Input desired password." name="signup_password" required>
+                        Confirm password: <input type="password" class="password element" placeholder="" name="signup_password_confirm" required>
+                        First Name: <input type="text" class="fname element" placeholder="Input First name." name="fname" required>
+                        Last Name: <input type="text" class="lname element" placeholder="Input last name." name="lname" required>
                           <br><?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?><br>
-                        Account type: <select name="type">
+                        Account type: <select name="type" required>
                             <option value="" disabled selected>Select desired account type.</option>
                             <?php
                                 $user_types = $conn->prepare("SELECT * FROM USER_TYPE WHERE `type_id` IN (3)");
