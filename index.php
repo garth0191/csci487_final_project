@@ -63,41 +63,39 @@
                 if ($stmt->rowCount() >= 1) {
                     $error = true;
                     $message = "This e-mail is already taken. Please choose a different e-mail, or login.";
-                    header("Location: index.php");
-                }
-
-                $desiredEmail = $_POST["signup_email"];
-                $desiredPassword = $_POST["signup_password"];
-                $desiredUserType = $_POST["type"];
-                $lastName = $_POST["lname"];
-                $firstName = $_POST["fname"];
-
-                //Check that submitted passwords match.
-                if ($_POST["signup_password"] !== $_POST["signup_password_confirm"]) {
-                    //Passwords do not match.
-                    $error = true;
-                    $message = "Submitted passwords do not match.";
-                    header("Location: index.php");
                 } else {
-                    $error = false;
-                    $message = "";
+                    $desiredEmail = $_POST["signup_email"];
+                    $desiredPassword = $_POST["signup_password"];
+                    $desiredUserType = $_POST["type"];
+                    $lastName = $_POST["lname"];
+                    $firstName = $_POST["fname"];
 
-                    try {
-                        //Prepare to add user to the database.
-                        $addUserStmt = "INSERT INTO USER (user_email, user_password, user_type, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
-                        $addUser = $conn->prepare($addUserStmt);
-
-                        //Encrypt password.
-                        $hash = password_hash($desiredPassword, PASSWORD_DEFAULT);
-                        $addUser->execute([$desiredEmail, $hash, $desiredUserType, $firstName, $lastName]);
-
-                        $error = false;
-                        $empty = false;
-                        $message = "Registration successful! Please log in.";
-                    } catch (PDOException $e) {
+                    //Check that submitted passwords match.
+                    if ($_POST["signup_password"] !== $_POST["signup_password_confirm"]) {
+                        //Passwords do not match.
                         $error = true;
-                        $message = $e->getMessage();
-                        echo "Could not add user to database: " . $e->getMessage();
+                        $message = "Submitted passwords do not match.";
+                    } else {
+                        $error = false;
+                        $message = "";
+
+                        try {
+                            //Prepare to add user to the database.
+                            $addUserStmt = "INSERT INTO USER (user_email, user_password, user_type, first_name, last_name) VALUES (?, ?, ?, ?, ?)";
+                            $addUser = $conn->prepare($addUserStmt);
+
+                            //Encrypt password.
+                            $hash = password_hash($desiredPassword, PASSWORD_DEFAULT);
+                            $addUser->execute([$desiredEmail, $hash, $desiredUserType, $firstName, $lastName]);
+
+                            $error = false;
+                            $empty = false;
+                            $message = "Registration successful! Please log in.";
+                        } catch (PDOException $e) {
+                            $error = true;
+                            $message = $e->getMessage();
+                            echo "Could not add user to database: " . $e->getMessage();
+                        }
                     }
                 }
             } catch (PDOException $e) {
