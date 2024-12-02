@@ -126,10 +126,11 @@
             <h3 class="title">Login or sign-up below!</h3>
         </header>
 
+        <?php if($error) {echo "<div class='error'><center>".$message."</center></div>";} ?>
+        <?php if(!$empty) {echo "<div class='error'><center>".$message."</center></div>";} ?>
+
         <!-- Container div. -->
         <div class="container">
-            <?php if($error) {echo "<div class='error'><center>".$message."</center></div>";} ?>
-            <?php if(!$empty) {echo "<div class='error'><center>".$message."</div></center>";} ?>
             <!-- Login/Sign-up buttons. -->
             <div class="slider"></div>
             <div class="button">
