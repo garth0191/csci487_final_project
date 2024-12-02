@@ -53,6 +53,7 @@
             } catch (PDOException $e) {
                 echo "Connection failed: " . $e->getMessage();
             }
+            //Sign-up.
         } elseif ((isset($_POST["signup_email"]) && $_POST["signup_email"] !== "") && (isset($_POST["signup_password"]) && $_POST["signup_password"] !== "") &&
             (isset($_POST["lname"]) && $_POST["lname"] !== "") && (isset($_POST["fname"]) && $_POST["fname"] !== "")) {
             try {
@@ -136,6 +137,8 @@
 
             <!-- Form div. -->
             <div class="form-section">
+                <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
+                <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
                 <!-- Login form. -->
 
                 <div class="login-container">
@@ -175,8 +178,6 @@
                       </div>
                 </form>
             </div>
-            <?php if($error) {echo "<div class='error'>".$message."</div>";} ?>
-            <?php if(!$empty) {echo "<div class='error'>".$message."</div>";} ?>
         </div>
         <script src="index.js"></script>
     </body>
