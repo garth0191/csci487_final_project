@@ -216,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $dueDate = new DateTime($oneItem["due_date"]);
                                 if ($dueDate <= $currentTime) {
                                     // Check to see if there are any USER_ASSESSMENT items to grade for each ASSESSMENT item.
-                                    $pullAssessments = $conn->prepare("SELECT * FROM USER_ASSESSMENT WHERE `assessment_id` = ? AND `assessment_score` = NULL");
+                                    $pullAssessments = $conn->prepare("SELECT * FROM USER_ASSESSMENT WHERE `assessment_id` = ? AND `assessment_score` IS NULL");
                                     $pullAssessments->execute([$oneItem["assessment_id"]]);
                                     if ($pullAssessments->rowCount() >= 1) {
                                         $assessmentCounter++;
