@@ -72,68 +72,66 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function sortTable(n, tableName) {
-    let table = document.getElementById(tableName);
-    let switching = true;
-    let rows, shouldSwitch, i, x, y, direction, switchCount = 0;
+    let table, rows, switching, i, x, y, shouldSwitch, direction;
+    let switchCount = 0;
 
-    // Get all header elements
-    let headers = table.getElementsByTagName("th");
-    let header = headers[n];
+    table = document.getElementById(tableName);
+    let header = table.getElementsByTagName("th")[n];
+    switching = true;
 
-    // Get current direction and toggle
-    direction = header.getAttribute('data-sort-direction') === 'asc' ? 'desc' : 'asc';
-    header.setAttribute('data-sort-direction', direction);
-
-    // Remove sort indicators and sort direction from other headers
-    for (let j = 0; j < headers.length; j++) {
-        if (j !== n) {
-            headers[j].removeAttribute('data-sort-direction');
-            headers[j].classList.remove('sort-asc', 'sort-desc');
-        }
+    const indicators = table.getElementsByClassName("sort-indicator");
+    for (let j = 0; j < indicators.length; j++) {
+        indicators[j].style.display = 'none';
     }
 
-    // Sorting loop
+    // Sorting direction set to ASCENDING.
+    direction = "asc";
+
+    // Loops until no switching has been done.
     while (switching) {
         switching = false;
         rows = table.rows;
-
-        // Loop through all table rows (except the header)
+        // Loop through all table rows (except the headers).
         for (i = 1; i < (rows.length - 1); i++) {
             shouldSwitch = false;
-            // Get the two elements to compare
+            // Comparisons.
             x = rows[i].getElementsByTagName("td")[n];
             y = rows[i + 1].getElementsByTagName("td")[n];
-
-            // Get the content to compare
-            let xContent = x.textContent || x.innerText;
-            let yContent = y.textContent || y.innerText;
-
-            // Compare based on direction
             if (direction == "asc") {
-                if (xContent.toLowerCase() > yContent.toLowerCase()) {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
                     shouldSwitch = true;
                     break;
                 }
-            } else {
-                if (xContent.toLowerCase() < yContent.toLowerCase()) {
+            } else if (direction == "desc") {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
                     shouldSwitch = true;
                     break;
                 }
             }
         }
         if (shouldSwitch) {
-            // Swap the rows
             rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
             switching = true;
             switchCount++;
+        } else {
+            if (switchCount == 0 && direction == "asc") {
+                direction = "desc";
+                switching = true;
+            }
+        }
+
+        // Show ascending/descending indicator.
+        const indicatorAsc = header.querySelectorAll(".sort-indicator")[0];
+        const indicatorDesc = header.querySelectorAll(".sort-indicator")[1];
+        if (direction === "asc") {
+            indicatorAsc.style.display = 'inline';
+            indicatorDesc.style.display = 'none';
+        } else {
+            indicatorAsc.style.display = 'none';
+            indicatorDesc.style.display = 'inline';
         }
     }
-
-    // Update sort indicator
-    header.classList.remove('sort-asc', 'sort-desc');
-    header.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
 }
-
 
 function confirmDelete(event) {
     if (!confirm('Are you sure you want to delete this record? This action cannot be undone.')) {
