@@ -3,21 +3,6 @@
     $empty = true;
     $message = "";
 
-    //REDIRECTED from 'reset_password_home'. Result of password reset request with given e-mail.
-    if (isset($_GET["result"]) && $_GET["result"] !== "") {
-        $result = $_GET["result"];
-        if ($result == 01) {
-            $empty = false;
-            $message = "An email has been sent to the provided e-mail with instructions to reset your password.";
-        } else if ($result == 02) {
-            $empty = false;
-            $message = "No account associated with that email.";
-        } else {
-            $empty = false;
-            $message = "Required field cannot be left blank.";
-        }
-    }
-
     //Get username and password from login form.
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -147,11 +132,6 @@
                         E-mail: <input type="email" class="email element" placeholder="Input registered e-mail." name="login_email" required>
                         Password: <input type="password" class="password element" placeholder="Input password." name="login_password" required>
                         <button class="login-submit">Login</button>
-                    </form>
-                    <br><h3>Reset Password</h3><br>
-                    <form action="reset_password_send.php" method="post">
-                        E-mail: <input type="email" class="email element" placeholder="Input e-mail associated with account." name="password_reset_email" required></input>
-                        <button type="submit" name="reset_password" class="password-reset-submit">Reset Password</button>
                     </form>
                     </center>
                 </div>
