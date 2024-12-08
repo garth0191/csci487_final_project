@@ -91,6 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="main-section">
             <section class="course-creation-form">
                 <form action="course_create.php" method="post">
+                    <!-- Course creation options. -->
                     <div class="create-container">
                         Course Code: <input type="text" class="text element" placeholder="Input course department code, e.g., 'CSCI 487'." name="course_code"><br>
                         Course Name: <input type="text" class="text element" placeholder="Input course name." name="course_name"></input><br>

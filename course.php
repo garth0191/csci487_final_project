@@ -330,6 +330,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <p>© Garth McClure. All rights reserved.</p>
     </footer>
 
+    <!-- MODAL: STUDENT ASSIGNMENT SUBMISSION. -->
     <div id="student-submit-modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>

@@ -150,7 +150,7 @@ try {
                     </table>
                 </section>
 
-                <!-- Change name -->
+                <!-- Change name. -->
                 <section class="change-name">
                     <h2>Change Profile Name</h2>
                     <div class="change-name-container">

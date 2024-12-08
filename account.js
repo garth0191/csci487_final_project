@@ -1,3 +1,5 @@
+// JS for account profile page.
+
 document.addEventListener('DOMContentLoaded', function () {
     const logoutButton = document.querySelector('.logout');
     const courseCreateButton = document.querySelector('.create');

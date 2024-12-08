@@ -1,4 +1,4 @@
-/* Stylesheet for individual course page. */
+/* Stylesheet for admin course edit page. */
 
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Arsenal+SC:ital,wght@0,400;0,700;1,400;1,700&display=swap');
@@ -96,7 +96,6 @@ table {
     max-width: 1000px;
     border-collapse: collapse;
     margin: 10px 0;
-    /* Add background colors, etc., later. */
 }
 
 th {
@@ -151,7 +150,6 @@ tr:hover {
     overflow: hidden;
     padding-left: 20px;
     order: 2;
-    /* Should there be a max width? Try first without. */
 }
 
 .upcoming, .ready-to-grade {
